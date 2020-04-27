@@ -3,11 +3,13 @@ import * as Phaser from 'phaser'
 var sprite
 var keys
 var animating 
+var footsteps
+var background
 
 var config = {
   type: Phaser.AUTO,
-  width: 80,
-  height: 60,
+  width: 160,
+  height: 120,
   pixelArt: true,
   zoom: 8,
   physics: {
@@ -25,10 +27,31 @@ var game = new Phaser.Game(config)
 
 function preload() {
   this.load.spritesheet('player', '../assets/player.png', { frameWidth: 8, frameHeight: 9})
+  this.load.audio('footstep', '../assets/footstep.wav')
+  this.load.image('background', '../assets/background.jpg')
 }
 
 function create() {
   this.physics.world.setFPS(8)
+  this.sound.audioPlayDelay = 0.1;
+  this.sound.loopEndOffset = 0.05;
+
+  footsteps = this.sound.add('footstep')
+
+  var loopMarker = {
+    name: 'loop',
+    start: 0,
+    duration: 0.25,
+    config: {
+        loop: true
+    }
+  }
+
+  footsteps.addMarker(loopMarker)
+
+  background = this.add.tileSprite(0, 0, 2650, 1720, 'background')
+  this.physics.world.setBounds(0, 0, 400, 300)
+  background.fixedToCamera = true
 
   this.anims.create({
     key: 'walk-down',
@@ -60,8 +83,11 @@ function create() {
 
   keys = this.input.keyboard.createCursorKeys()
 
-  sprite = this.physics.add.sprite(20, 20, 'player')
+  sprite = this.physics.add.sprite(200, 200, 'player')
   sprite.setCollideWorldBounds(true)
+
+  this.cameras.main.setBounds(0, 0, 400, 300)
+  this.cameras.main.startFollow(sprite)
 }
 
 function update() {
@@ -76,6 +102,7 @@ function update() {
     sprite.setVelocityY(velocity)
     if (!animating) {
       sprite.anims.play('walk-down')
+      footsteps.play('loop')
     }
     walking = true
   } 
@@ -84,6 +111,7 @@ function update() {
     sprite.setVelocityX(-velocity)
     if (!animating) {
       sprite.play('walk-left')
+      footsteps.play('loop')
     }
     walking = true
   }
@@ -92,6 +120,7 @@ function update() {
     sprite.setVelocityY(-velocity)
     if (!animating) {
       sprite.play('walk-up')
+      footsteps.play('loop')
     }
     walking = true
   } 
@@ -100,6 +129,7 @@ function update() {
     sprite.setVelocityX(velocity)
     if (!animating) {
       sprite.play('walk-right')
+      footsteps.play('loop')
     }
     walking = true
   } 
@@ -107,7 +137,10 @@ function update() {
   if (!walking) {
     sprite.setVelocity(0) 
     sprite.anims.stop()
+    footsteps.stop()
   }
+
+  console.log(sprite.x)
 
   animating = walking
 }

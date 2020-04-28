@@ -4,12 +4,14 @@ var sprite
 var keys
 var animating 
 var footsteps
-var background
+var map
+var layer
+var tiles
 
 var config = {
   type: Phaser.AUTO,
-  width: 160,
-  height: 120,
+  width: 100,
+  height: 100,
   pixelArt: true,
   zoom: 8,
   physics: {
@@ -29,10 +31,29 @@ function preload() {
   this.load.spritesheet('player', '../assets/player.png', { frameWidth: 8, frameHeight: 9})
   this.load.audio('footstep', '../assets/footstep.wav')
   this.load.image('background', '../assets/background.jpg')
+  this.load.tilemapCSV('map', '../data/redhall.csv')
+  this.load.image('tiles', '../assets/tilemap.png')
 }
 
 function create() {
   this.physics.world.setFPS(8)
+
+  map = this.make.tilemap({key: 'map', tileWidth: 8, tileHeight: 8})
+
+  tiles = map.addTilesetImage('tiles')
+  layer = map.createStaticLayer('layer', tiles)
+
+  layer.setCollisionBetween(0, 8);
+  layer.setCollisionBetween(14, 15);
+
+  sprite = this.physics.add.sprite(48, 96, 'player')
+  sprite.setCollideWorldBounds(true)
+
+  this.physics.add.collider(sprite, layer)
+  this.physics.world.setBounds(0, 0, 128, 128)
+
+
+
   this.sound.audioPlayDelay = 0.1;
   this.sound.loopEndOffset = 0.05;
 
@@ -49,9 +70,8 @@ function create() {
 
   footsteps.addMarker(loopMarker)
 
-  background = this.add.tileSprite(0, 0, 2650, 1720, 'background')
-  this.physics.world.setBounds(0, 0, 400, 300)
-  background.fixedToCamera = true
+  //background = this.add.tileSprite(0, 0, 2650, 1720, 'background')
+  //background.fixedToCamera = true
 
   this.anims.create({
     key: 'walk-down',
@@ -83,10 +103,7 @@ function create() {
 
   keys = this.input.keyboard.createCursorKeys()
 
-  sprite = this.physics.add.sprite(200, 200, 'player')
-  sprite.setCollideWorldBounds(true)
-
-  this.cameras.main.setBounds(0, 0, 400, 300)
+  this.cameras.main.setBounds(0, 0, 128, 128)
   this.cameras.main.startFollow(sprite)
 }
 
@@ -139,8 +156,6 @@ function update() {
     sprite.anims.stop()
     footsteps.stop()
   }
-
-  console.log(sprite.x)
 
   animating = walking
 }

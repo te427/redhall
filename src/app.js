@@ -13,6 +13,7 @@ const dirMap = {
 }
 
 var game
+var music
 var scene
 var player
 var dwarf
@@ -53,6 +54,7 @@ function preload() {
   this.load.spritesheet('dwarf', '../assets/dwarf.png', { frameWidth: 16, frameHeight: 16})
   this.load.audio('footstep', '../assets/footstep.wav')
   this.load.audio('dwarf', '../assets/dwarf.wav')
+  this.load.audio('music', '../assets/music.wav')
   this.load.tilemapCSV('map', '../assets/map.csv')
   this.load.image('tiles', '../assets/tiles.png')
   this.load.image('menu', '../assets/menu.png')
@@ -60,7 +62,7 @@ function preload() {
 
 function create() {
   scene = this
-  this.physics.world.setFPS(8)
+  this.physics.world.setFPS(16)
 
   map = this.make.tilemap({key: 'map', tileWidth: 16, tileHeight: 16})
 
@@ -84,12 +86,14 @@ function create() {
 
   footsteps = this.sound.add('footstep')
   yak = this.sound.add('dwarf')
+  music = this.sound.add('music')
 
   var footstepsMarker = {
     name: 'walking',
     start: 0,
     duration: 0.25,
     config: {
+      volume: 0.1,
       loop: true
     }
   }
@@ -99,12 +103,24 @@ function create() {
     start: 0,
     duration: 2,
     config: {
+      volume: 0.5,
       loop: false 
+    }
+  }
+
+  var musicMarker = {
+    name: 'music',
+    start: 0, 
+    duration: 23,
+    config: {
+      volume: 0.1,
+      loop: true
     }
   }
 
   footsteps.addMarker(footstepsMarker)
   yak.addMarker(yakMarker)
+  music.addMarker(musicMarker)
 
   this.anims.create({
     key: 'walk-down',
@@ -151,6 +167,8 @@ function create() {
   var keyObj = this.input.keyboard.addKey('A')
 
   keyObj.on('down', interact)
+
+  music.play('music')
 }
 
 function update() {

@@ -154,6 +154,7 @@ function create() {
 }
 
 function update() {
+  if (talking) return
   var walking
   var velocity = 32
 
@@ -224,7 +225,7 @@ function interact() {
       // do this with a different scene
       menu = scene.physics.add.sprite(8 * 16, (9 * 16) + 8, 'menu')
       menu.setScrollFactor(0, 0)
-      var topLine = 'Hewwo.. \n\nI am Bwett!!'
+      var topLine = 'What\'s a dwarf to do with a rock in his shoe,\n\na knot in his beard and some cold turnip stew?'
 
       text = scene.add.text(16, 8 * 16, topLine, { font: '"PressStart2P"' });
       text.setScrollFactor(0, 0)

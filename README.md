@@ -6,4 +6,4 @@ to run:
 
 `npm run start`
 
-navigate to [localhost:8085](localhost:8085) when the server is running.
+navigate to [localhost:8085](http://localhost:8085) when the server is running.

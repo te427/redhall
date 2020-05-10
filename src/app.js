@@ -111,7 +111,7 @@ function create() {
   var musicMarker = {
     name: 'music',
     start: 0, 
-    duration: 23,
+    duration: 164,
     config: {
       volume: 0.1,
       loop: true

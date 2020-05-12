@@ -1,0 +1,25 @@
+{
+  "name": "Pond of the Child",
+  "map": "pondOfTheChild",
+  "music": "music",
+  "chars": [
+
+  ],
+  "objs": [
+
+  ],
+  "entrances": [
+    {
+      "name": "yarnrodPoint",
+      "x": 8,
+      "y": 22
+    }
+  ],
+  "exits": [
+    {
+      "name": "yarnrodPoint",
+      "x": 8,
+      "y": 23
+    }
+  ]
+}

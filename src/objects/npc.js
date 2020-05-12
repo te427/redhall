@@ -1,3 +1,4 @@
+import { TILE_SIZE } from 'constants/cfg'
 import Sprite from 'objects/sprite'
 
 class NPC extends Sprite {
@@ -5,13 +6,15 @@ class NPC extends Sprite {
   constructor(scene, char) {
     super()
     // get this from JSON
-    this.sprite = scene.physics.add.sprite(24 * 16, 20 * 16, 'dwarf')
-    this.sprite.setImmovable(true)
-
-
+    this.initSprite(scene, char)
     this.initState(char)
     this.initAnims(scene)
     this.initSfx(scene)
+  }
+
+  initSprite(scene, char) {
+    this.sprite = scene.physics.add.sprite(char.x * TILE_SIZE, char.y * TILE_SIZE, char.name)
+    this.sprite.setImmovable(true)
   }
 
   initState(char) {

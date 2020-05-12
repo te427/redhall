@@ -1,7 +1,7 @@
 import Sprite from 'objects/sprite'
 
 import { VELOCITY, SFX_MOVING } from 'constants/player'
-import { PLAYER_KEY } from 'constants/cfg'
+import { PLAYER_KEY, TILE_SIZE } from 'constants/cfg'
 import { ANIM_WALK_DOWN, ANIM_WALK_UP, ANIM_WALK_LEFT, ANIM_WALK_RIGHT } from 'constants/sprites'
 import { DIR_DOWN, DIR_LEFT, DIR_RIGHT, DIR_UP } from 'constants/game'
 
@@ -10,22 +10,17 @@ class Player extends Sprite {
     super()
 
     this.initSprite(scene)
-    this.initPhysics(scene)
     this.initState()
     this.initAnims(scene)
     this.initSfx(scene)
   }
 
   initSprite(scene) {
-    this.sprite = scene.physics.add.sprite(16 * 16, 16 * 16, PLAYER_KEY)
+    var pos = scene.cellManager.getSpawn()
+    // get this pos from data
+    this.sprite = scene.physics.add.sprite(pos.x * TILE_SIZE, pos.y * TILE_SIZE, PLAYER_KEY)
     scene.cameras.main.startFollow(this.sprite)
   } 
-
-  initPhysics(scene) {
-    this.sprite.setCollideWorldBounds(true)
-    scene.physics.add.collider(this.sprite, scene.bg)
-    scene.npcs.forEach(npc => scene.physics.add.collider(this.sprite, npc.sprite))
-  }
 
   initState() {
     this.walking = false
@@ -128,7 +123,7 @@ class Player extends Sprite {
     if (!this.animating & moving) {
       var animation = this.animationDirectionMap[this.dir]
       this.sprite.play(animation)
-      this.sfx.moving.play(SFX_MOVING)
+      //this.sfx.moving.play(SFX_MOVING)
     }
 
     if (!moving) {
@@ -149,19 +144,19 @@ class Player extends Sprite {
   }
 
   checkLeft(scene, x, y) {
-    return scene.npcs.find(npc => npc.getBounds().contains(x - 8, y))
+    return scene.spriteManager.getNPCs().find(npc => npc.getBounds().contains(x - 8, y))
   }
 
   checkRight(scene, x, y) {
-    return scene.npcs.find(npc => npc.getBounds().contains(x + 8, y))
+    return scene.spriteManager.getNPCs().find(npc => npc.getBounds().contains(x + 8, y))
   }
 
   checkUp(scene, x, y) {
-    return scene.npcs.find(npc => npc.getBounds().contains(x, y - 8))
+    return scene.spriteManager.getNPCs().find(npc => npc.getBounds().contains(x, y - 8))
   }
 
   checkDown(scene, x, y) {
-    return scene.npcs.find(npc => npc.getBounds().contains(x, y + 8))
+    return scene.spriteManager.getNPCs().find(npc => npc.getBounds().contains(x, y + 8))
   }
 
 

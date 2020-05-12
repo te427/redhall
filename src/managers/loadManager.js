@@ -42,7 +42,7 @@ function loadNPCs(scene, data) {
 }
 
 function loadMap(scene, data) {
-  scene.load.tilemapCSV(MAP_KEY, `../data/maps/${data.map}.csv`)
+  scene.load.tilemapCSV(data.map + MAP_KEY, `../data/maps/${data.map}.csv`)
 }
 
 function loadMusic(scene, data) {
@@ -50,16 +50,12 @@ function loadMusic(scene, data) {
 }
 
 var manager 
-var cell = STARTING_CELL
 var preloadInitialized = false
 var loadInitialized = false
 
 function LoadManager() {
   if (!manager) {
     manager = {
-      setCell(newCell) {
-        cell = newCell
-      },
       preload(scene) {
         if (!preloadInitialized) {
           preloadInitialized = true

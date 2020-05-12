@@ -20,6 +20,7 @@ navigate to [localhost:8085](http://localhost:8085) when the server is running.
 - ~~create a cell manager to load sprites from static files~~
 - ~~break the assets folder into music, sprite and font folders~~
 - ~~remove old files from the assets folder (csv)~~
+- convert json data files to yaml
 - get the phaser animated tiles plugin
 - create interactable non-NPC objects
 - give branching text options to menus

@@ -1,65 +1,50 @@
 import * as Phaser from 'phaser'
-import Player from 'objects/player'
-import NPC from 'objects/npc'
 import CellManager from 'managers/cellManager'
-import CharManager from 'managers/charManager'
+import CollisionManager from 'managers/collisionManager'
 import DialogueManager from 'managers/dialogueManager'
-import { MAP_KEY, TILE_KEY, BG_KEY, TILE_SIZE, FPS } from 'constants/cfg'
+import SpriteManager from 'managers/spriteManager'
+import { FPS } from 'constants/cfg'
 import { SCENE_GAME, SCENE_DIALOGUE } from 'constants/scenes'
 
 class GameScene extends Phaser.Scene {
   constructor() {
     super(SCENE_GAME)
 
-    this.initState()
+    // move these to a screen manager
+    this.loading = false
+    this.dialogue = false
+
+    this.cellManager = CellManager()
+    this.collisionManager = CollisionManager()
+    this.dialogueManager = DialogueManager()
+    this.spriteManager = SpriteManager()
   }
 
   create() {
     this.physics.world.setFPS(FPS)
 
-    this.initMap()
+    this.cellManager.init(this)
+    this.spriteManager.init(this)
     this.initMusic()
     this.initKeys()
 
-    this.npcs = this.charManager.getAll().map(c => (new NPC(this, c)))
-    this.player = new Player(this)
+
+    this.collisionManager.init(
+      this,
+      this.spriteManager.getPlayer(),
+      this.spriteManager.getNPCs(),
+      this.cellManager.getBackground())
   }
 
   update() {
     if (this.dialogue) return
-    this.player.update(this.keys)
+    // change this to update the player based on the keys in keymanager
+    this.spriteManager.getPlayer().update(this.keys)
     // update objects if needed
   }
 
-  initState() {
-    this.loading = false
-    this.dialogue = false
-
-    this.cellManager = CellManager()
-    this.charManager = CharManager()
-    this.dialogueManager = DialogueManager()
-  }
-
-  initMap() {
-    this.map = this.make.tilemap({
-      key: MAP_KEY, 
-      tileWidth: TILE_SIZE, 
-      tileHeight: TILE_SIZE
-    })
-
-    this.tiles = this.map.addTilesetImage(TILE_KEY)
-    this.bg = this.map.createStaticLayer(BG_KEY, this.tiles)
-
-    // define collision ranges for the tilemap used
-    this.bg.setCollisionBetween(0, 14);
-
-    var size = this.cellManager.getSize()
-
-    this.physics.world.setBounds(0, 0, size.x * TILE_SIZE, size.y * TILE_SIZE)
-    this.cameras.main.setBounds(0, 0, size.x * TILE_SIZE, size.y * TILE_SIZE)
-  }
-
   initMusic() {
+    // move to MusicManager
     this.sound.audioPlayDelay = 0.1;
     this.sound.loopEndOffset = 0.05;
 
@@ -82,6 +67,7 @@ class GameScene extends Phaser.Scene {
   }
 
   initKeys() {
+    // move to KeyManager
     this.keys = this.input.keyboard.createCursorKeys()
 
     var keyObj = this.input.keyboard.addKey('A')
@@ -91,7 +77,7 @@ class GameScene extends Phaser.Scene {
   // move into keypress class
   interact() {
     // move into sprite manager
-    var target = this.player.interact(this)
+    var target = this.spriteManager.getPlayer().interact(this)
 
     if (target) {
       this.dialogueManager.set(target.getName())

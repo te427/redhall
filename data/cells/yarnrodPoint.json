@@ -1,0 +1,34 @@
+{
+  "name": "Yarnrod Point",
+  "map": "yarnrodPoint",
+  "music": "music",
+  "chars": [
+    {
+      "name": "dwarf",
+      "x": 24,
+      "y": 20
+    }
+  ],
+  "objs": [
+
+  ],
+  "entrances": [
+    {
+      "name": "spawn",
+      "x": 16,
+      "y": 16
+    },
+    {
+      "name": "pondOfTheChild",
+      "x": 9,
+      "y": 5
+    }
+  ],
+  "exits": [
+    {
+      "name": "pondOfTheChild",
+      "x": 9,
+      "y": 3
+    }
+  ]
+}

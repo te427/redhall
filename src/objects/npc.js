@@ -2,19 +2,20 @@ import Sprite from 'objects/sprite'
 
 class NPC extends Sprite {
   // TODO: make a class that can build npc's out of JSON data and manage their own state
-  constructor(scene) {
+  constructor(scene, char) {
     super()
     // get this from JSON
     this.sprite = scene.physics.add.sprite(24 * 16, 20 * 16, 'dwarf')
     this.sprite.setImmovable(true)
 
-    this.initState()
+
+    this.initState(char)
     this.initAnims(scene)
     this.initSfx(scene)
   }
 
-  initState() {
-
+  initState(char) {
+    this.char = char
   }
 
   initAnims(scene) {
@@ -40,6 +41,14 @@ class NPC extends Sprite {
         loop: false 
       }
     })
+  }
+
+  getName() {
+    return this.char.name
+  }
+
+  getDialogue() {
+    return this.char.dialogue
   }
 
   interact() {

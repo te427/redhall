@@ -1,33 +1,23 @@
 import * as Phaser from 'phaser'
+import DialogueManager from 'managers/dialogueManager'
 import { SCENE_DIALOGUE } from 'constants/scenes'
 
 class DialogueScene extends Phaser.Scene {
   constructor() {
     super(SCENE_DIALOGUE)
+
+    this.initState()
   }
 
   create() {
     this.physics.add.sprite(8 * 16, (9 * 16) + 8, 'menu')
-    var line = 'What\'s a dwarf to do with a rock in his shoe, a knot in his beard and some cold turnip stew?'
+    var line = this.dialogueManager.getGreeting()
 
-    this.add.bitmapText(16, 8 * 16, 'pressstart8', this.split(line))
+    this.add.bitmapText(16, 8 * 16, 'pressstart8', line)
   }
 
-  split(text) {
-    var words = text.split(' ')
-    var fit = ''
-    var index = 0
-    var length = 0
-    while (index < words.length) {
-      var word = words[index++]
-      length += word.length + 1
-      if (length > 30) {
-        fit += '\n\n'
-        length = 0
-      }
-      fit += word + ' '
-    }
-    return fit
+  initState() {
+    this.dialogueManager = DialogueManager()
   }
 }
 

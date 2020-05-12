@@ -49,13 +49,12 @@ function loadMusic(scene, data) {
   //this.load.audio(MUSIC_KEY, '../assets/music.wav')
 }
 
+var manager 
+var cell = STARTING_CELL
+var preloadInitialized = false
+var loadInitialized = false
 
 function LoadManager() {
-  var manager 
-  var cell = STARTING_CELL
-  var preloadInitialized = false
-  var loadInitialized = false
-
   if (!manager) {
     manager = {
       setCell(newCell) {

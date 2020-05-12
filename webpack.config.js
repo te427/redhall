@@ -2,7 +2,7 @@ const path = require('path');
 module.exports = {
   entry: './src/app.js',
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
         use: [
@@ -17,7 +17,12 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js' ]
+    extensions: ['.js' ],
+    alias: {
+      constants: path.resolve(__dirname, 'src/constants/'),
+      objects: path.resolve(__dirname, 'src/objects/'),
+      scenes: path.resolve(__dirname, 'src/scenes/')
+    }
   },
   output: {
     filename: 'app.js',

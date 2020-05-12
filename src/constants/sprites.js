@@ -1,0 +1,5 @@
+export const ANIM_WALK_DOWN = 'walk-down'
+export const ANIM_WALK_UP = 'walk-up'
+export const ANIM_WALK_LEFT = 'walk-left'
+export const ANIM_WALK_RIGHT = 'walk-right'
+export const ANIM_STANT = 'stand'

@@ -1,0 +1,22 @@
+{
+  "id": 1,
+  "name": "yarnrod_point",
+  "map": "yarnrod_point",
+  "music": "music",
+  "chars": [
+    {
+      "char": "dwarf",
+      "x": 24,
+      "y": 20
+    }
+  ],
+  "objs": [
+
+  ],
+  "entrances": {
+    "spawn" : {
+      "x": 16,
+      "y": 16
+    }
+  }
+}

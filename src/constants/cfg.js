@@ -21,3 +21,13 @@ export const BG_KEY = 'layer'
 export const MUSIC_KEY = 'music'
 export const PLAYER_KEY = 'player'
 export const MENU_KEY = 'menu'
+
+export const ASSET_PATH = 'assets/'
+
+export const DATA_PATH = 'data/'
+export const CELL_PATH = DATA_PATH + 'cells/'
+export const CHAR_PATH = DATA_PATH + 'characters/'
+export const MAP_PATH = DATA_PATH + 'maps/'
+
+export const ADDR = 'http://localhost:8085/'
+export const SCHEME = 'http'

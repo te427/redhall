@@ -5,7 +5,7 @@
   "music": "music",
   "chars": [
     {
-      "char": "dwarf",
+      "name": "dwarf",
       "x": 24,
       "y": 20
     }

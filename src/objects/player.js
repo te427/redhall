@@ -5,6 +5,8 @@ import { PLAYER_KEY, TILE_SIZE } from 'constants/cfg'
 import { ANIM_WALK_DOWN, ANIM_WALK_UP, ANIM_WALK_LEFT, ANIM_WALK_RIGHT } from 'constants/sprites'
 import { DIR_DOWN, DIR_LEFT, DIR_RIGHT, DIR_UP } from 'constants/game'
 
+var velocity = VELOCITY
+
 class Player extends Sprite {
   constructor(scene) {
     super()
@@ -117,7 +119,7 @@ class Player extends Sprite {
     if (!this.animating & moving) {
       var animation = this.animationDirectionMap[this.dir]
       this.sprite.play(animation)
-      //this.sfx.moving.play(SFX_MOVING)
+      this.sfx.moving.play(SFX_MOVING)
     }
 
     if (!moving) {
@@ -145,6 +147,80 @@ class Player extends Sprite {
 
     // have this return any object that is at x/y
     return scene.spriteManager.getNPCs().find(npc => npc.getBounds().contains(x, y))
+  }
+
+  startMoveLeft() {
+    this.sprite.setVelocityX(-velocity)
+    this.dir = DIR_LEFT
+    this.startAnimation()
+  }
+
+  stopMoveLeft() {
+    if (this.sprite.body.velocity.x === -velocity) {
+      this.sprite.setVelocityX(0)
+      this.stopAnimationIfAtRest()
+    }
+  }
+
+  startMoveRight() {
+    this.sprite.setVelocityX(velocity)
+    this.dir = DIR_RIGHT
+    this.startAnimation()
+  }
+
+  stopMoveRight() {
+    if (this.sprite.body.velocity.x === velocity) {
+      this.sprite.setVelocityX(0)
+      this.stopAnimationIfAtRest()
+    }
+  }
+
+  startMoveUp() {
+    this.sprite.setVelocityY(-velocity)
+    this.dir = DIR_UP
+    this.startAnimation()
+  }
+
+  stopMoveUp() {
+    if (this.sprite.body.velocity.y === -velocity) {
+      this.sprite.setVelocityY(0)
+      this.stopAnimationIfAtRest()
+    }
+  }
+
+  startMoveDown() {
+    this.sprite.setVelocityY(velocity)
+    this.dir = DIR_DOWN
+    this.startAnimation()
+  }
+
+  stopMoveDown() {
+    if (this.sprite.body.velocity.y === velocity) {
+      this.sprite.setVelocityY(0)
+      this.stopAnimationIfAtRest()
+    }
+  }
+
+  startInteract() {
+    console.log('pretty flowers')
+  }
+
+  stopInteract() {
+    console.log('so pretty')
+  }
+  
+  startAnimation() {
+    var animation = this.animationDirectionMap[this.dir]
+    this.sprite.play(animation)
+    this.sfx.moving.play(SFX_MOVING)
+  }
+
+  stopAnimationIfAtRest() {
+    var velocity = this.sprite.body.velocity
+    if (!velocity.x && !velocity.y) {
+      this.sprite.anims.stop()
+      this.sfx.moving.stop()
+    }
   }
 }
 

@@ -20,7 +20,7 @@ function SpriteManager() {
       },
       init(scene) {
         npcs = chars.map(c => (new NPC(scene, c)))
-        player = new Player(scene)
+        //player = new Player(scene)
       }
     }
   }

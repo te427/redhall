@@ -2,10 +2,13 @@ import * as Phaser from 'phaser'
 
 import { GAME_KEY, REAL_WIDTH, REAL_HEIGHT } from 'constants/cfg'
 
+import { ZOOM_FACTOR } from 'constants/cfg'
+import EventManager from 'events/manager'
+import ContextManager from 'managers/contextManager'
+import KeyManager from 'managers/keyManager'
 import GameScene from 'scenes/game/game'
 import LoadingScene from 'scenes/loading/loading'
 import DialogueScene from 'scenes/dialogue/dialogue'
-import { ZOOM_FACTOR } from './constants/cfg'
 
 var config = {
   key: GAME_KEY,
@@ -22,5 +25,9 @@ var config = {
 }
 
 const game = new Phaser.Game(config)
+
+const events = EventManager()
+const context = ContextManager()
+const keys = KeyManager(game)
 
 

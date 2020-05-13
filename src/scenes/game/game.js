@@ -2,6 +2,8 @@ import * as Phaser from 'phaser'
 import CellManager from 'managers/cellManager'
 import CollisionManager from 'managers/collisionManager'
 import DialogueManager from 'managers/dialogueManager'
+import KeyManager from 'managers/keyManager'
+import PlayerManager from 'managers/playerManager'
 import SpriteManager from 'managers/spriteManager'
 import { FPS } from 'constants/cfg'
 import { SCENE_GAME, SCENE_DIALOGUE } from 'constants/scenes'
@@ -17,6 +19,8 @@ class GameScene extends Phaser.Scene {
     this.cellManager = CellManager()
     this.collisionManager = CollisionManager()
     this.dialogueManager = DialogueManager()
+    this.keyManager = KeyManager()
+    this.playerManager = PlayerManager()
     this.spriteManager = SpriteManager()
   }
 
@@ -28,6 +32,8 @@ class GameScene extends Phaser.Scene {
     this.initMusic()
     this.initKeys()
 
+    this.keyManager.load(this)
+    this.playerManager.load(this)
 
     this.collisionManager.init(
       this,
@@ -39,7 +45,7 @@ class GameScene extends Phaser.Scene {
   update() {
     if (this.dialogue) return
     // change this to update the player based on the keys in keymanager
-    this.spriteManager.getPlayer().update(this.keys)
+    // this.spriteManager.getPlayer().update(this.keys)
     // update objects if needed
   }
 
@@ -70,8 +76,8 @@ class GameScene extends Phaser.Scene {
     // move to KeyManager
     this.keys = this.input.keyboard.createCursorKeys()
 
-    var keyObj = this.input.keyboard.addKey('A')
-    keyObj.on('down', this.interact, this)
+    //var keyObj = this.input.keyboard.addKey('A')
+    //keyObj.on('down', this.interact, this)
   }
 
   // move into keypress class

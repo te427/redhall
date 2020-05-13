@@ -6,10 +6,10 @@ function CollisionManager() {
       init(scene, player, npcs, bg) {
         bg.setCollisionBetween(0, 14);
 
-        player.sprite.setCollideWorldBounds(true)
-        scene.physics.add.collider(player.sprite, bg)
+        //player.sprite.setCollideWorldBounds(true)
+        //scene.physics.add.collider(player.sprite, bg)
 
-        npcs.forEach(npc => scene.physics.add.collider(player.sprite, npc.sprite))
+        //npcs.forEach(npc => scene.physics.add.collider(player.sprite, npc.sprite))
       }
     }
   }

@@ -21,6 +21,7 @@ module.exports = {
     extensions: ['.js' ],
     alias: {
       constants: path.resolve(__dirname, 'src/constants/'),
+      events: path.resolve  (__dirname, 'src/events/'),
       managers: path.resolve(__dirname, 'src/managers/'),
       objects: path.resolve(__dirname, 'src/objects/'),
       scenes: path.resolve(__dirname, 'src/scenes/')

@@ -1,0 +1,23 @@
+// key events
+export const E_DOWN_KEYDOWN = 'eventDownKeydown'
+export const E_DOWN_KEYUP= 'eventDownKeyup'
+export const E_UP_KEYDOWN = 'eventUpKeydown'
+export const E_UP_KEYUP = 'eventUpKeyup'
+export const E_LEFT_KEYDOWN = 'eventLeftKeydown'
+export const E_LEFT_KEYUP = 'eventLeftKeyup'
+export const E_RIGHT_KEYDOWN = 'eventRightKeydown'
+export const E_RIGHT_KEYUP = 'eventRightKeyup'
+export const E_INTERACT_KEYDOWN = 'eventInteractKeydown'
+export const E_INTERACT_KEYUP = 'eventInteractKeyup'
+
+// player events
+export const E_PLAYER_MOVE_LEFT_START = 'eventPlayerMoveLeftStart'
+export const E_PLAYER_MOVE_LEFT_END = 'eventPlayerMoveLeftEnd'
+export const E_PLAYER_MOVE_RIGHT_START = 'eventPlayerMoveRightStart'
+export const E_PLAYER_MOVE_RIGHT_END = 'eventPlayerMoveRightEnd'
+export const E_PLAYER_MOVE_UP_START = 'eventPlayerMoveUpStart'
+export const E_PLAYER_MOVE_UP_END = 'eventPlayerMoveUpEnd'
+export const E_PLAYER_MOVE_DOWN_START = 'eventPlayerMoveDownStart'
+export const E_PLAYER_MOVE_DOWN_END = 'eventPlayerMoveDownEnd'
+export const E_PLAYER_INTERACT_START = 'eventPlayerInteractStart'
+export const E_PLAYER_INTERACT_END = 'eventPlayerInteractEnd'

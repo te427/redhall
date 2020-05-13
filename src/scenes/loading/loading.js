@@ -1,8 +1,8 @@
 import * as Phaser from 'phaser'
 import CellManager from 'managers/cellManager'
-import SpriteManager from 'managers/spriteManager'
 import DialogueManager from 'managers/dialogueManager'
 import LoadManager from 'managers/loadManager'
+import SpriteManager from 'managers/spriteManager'
 import { SCENE_LOADING } from 'constants/scenes'
 
 class LoadingScene extends Phaser.Scene {

@@ -25,13 +25,19 @@ navigate to [localhost:8085](http://localhost:8085) when the server is running.
 - ~~create interactable non-NPC objects~~
 - give branching text options to menus
 - figure out how to make text smaller
+  - change scaling order (setScale?)
 - convert interaction detect to sprite group
 - fix the npc collision boxes
 
 ### Larger Items
-- create a second cell and navigation between the two
+- ~~create a second cell and navigation between the two~~
+- ~~make maps/sprites entirely data file driven~~
+- create state manager and saved state
+  - should diff base state against saved state
+  - should implement functions to reload/update game when run
+- implement ~ command console
+  - should allow for state manipulation
 - add a combat system
 - add enemies and simple AI
 - create an inventory 
 - create a crafting system
-- implement state saving

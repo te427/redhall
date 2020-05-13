@@ -1,10 +1,6 @@
-import { MAP_KEY, TILE_KEY, BG_KEY, TILE_SIZE, ADDR, CELL_PATH, CHAR_PATH, MAP_PATH } from 'constants/cfg'
+import { MAP_KEY, ITEM_KEY, WORLD_TILE_KEY, ITEM_TILE_KEY, BG_KEY, FG_KEY, TILE_SIZE, ADDR, CELL_PATH, CHAR_PATH, MAP_PATH } from 'constants/cfg'
 import { STARTING_CELL, STARTING_ENTRANCE } from 'constants/game'
 import { SCENE_LOADING } from 'constants/scenes'
-
-function getCsvPath(path) {
-  return path + '.csv'
-}
 
 function getJsonPath(path) {
   return path + '.json'
@@ -19,7 +15,7 @@ function getCharPath(char) {
 }
 
 function getMapPath(cell) {
-  return getCsvPath(MAP_PATH + cell)
+  return getJsonPath(MAP_PATH + cell)
 }
 
 async function getObj(path) {
@@ -38,11 +34,10 @@ async function getMap(cell) {
   return getObj(getMapPath(cell))
 }
 
-async function getDimensions(csv) {
-  var text = await csv.text()
-  var array = text.split(/\r?\n|\r/);
-  var y = array.length - 1
-  var x = y > 0 ? array[0].split(',').length : 0
+async function getDimensions(mapRes) {
+  var obj = await mapRes.json()
+  var y = obj.height
+  var x = obj.width
   return { x, y }
 }
 async function loadChars(cell) {
@@ -60,9 +55,12 @@ var spawn
 var cell
 var data
 var dimensions
-var tilemap
-var tileset
-var bg
+var worldMap
+var bgSet
+var bgLayer
+var fgMap
+var fgSet
+var fgLayer
 
 function CellManager() {
   if (!manager) {
@@ -71,7 +69,10 @@ function CellManager() {
         return dimensions
       },
       getBackground() {
-        return bg
+        return bgLayer
+      },
+      getForeground() {
+        return fgLayer
       },
       getSpawn() {
         return spawn
@@ -83,11 +84,11 @@ function CellManager() {
         cell = newCell
       },
       async loadCell() {
-        var json = await getCell(cell)
-        data = await json.json()
+        var cellRes = await getCell(cell)
+        data = await cellRes.json()
 
-        var csv = await getMap(cell)
-        dimensions = await getDimensions(csv)
+        var mapRes = await getMap(cell)
+        dimensions = await getDimensions(mapRes)
 
         spawn = data.entrances.find(p => p.name === entrance)
 
@@ -95,34 +96,36 @@ function CellManager() {
         return data
       },
       init(scene) {
-        tilemap = scene.make.tilemap({
+        worldMap = scene.make.tilemap({
           key: cell + MAP_KEY, 
           tileWidth: TILE_SIZE, 
           tileHeight: TILE_SIZE
         })
 
-        tileset = tilemap.addTilesetImage(TILE_KEY)
-
-        bg = tilemap.createStaticLayer(BG_KEY, tileset)
+        bgSet = worldMap.addTilesetImage(WORLD_TILE_KEY)
+        bgLayer = worldMap.createStaticLayer(BG_KEY, bgSet)
 
         data.exits.forEach(tile => {
-          bg.setTileLocationCallback(tile.x, tile.y, 1, 1, () => {
+          bgLayer.setTileLocationCallback(tile.x, tile.y, 1, 1, () => {
             this.setEntrance(cell)
             this.setCell(tile.name)
             scene.scene.start(SCENE_LOADING)
           })
         })
 
+        fgSet = worldMap.addTilesetImage(ITEM_TILE_KEY)
+        fgLayer = worldMap.createDynamicLayer(FG_KEY, fgSet)
+
         scene.physics.world.setBounds(0, 0, dimensions.x * TILE_SIZE, dimensions.y * TILE_SIZE)
         scene.cameras.main.setBounds(0, 0, dimensions.x * TILE_SIZE, dimensions.y * TILE_SIZE)
       },
       destroy() {
-        if (tilemap) {
-          tilemap.destroy()
+        if (worldMap) {
+          worldMap.destroy()
         }
 
-        if (bg) {
-          bg.destroy()
+        if (bgLayer) {
+          bgLayer.destroy()
         }
       }
     }

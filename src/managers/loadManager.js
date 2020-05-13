@@ -1,4 +1,4 @@
-import { CELL_PATH, MAP_KEY, TILE_KEY, BG_KEY, MUSIC_KEY, PLAYER_KEY, MENU_KEY, CELL_KEY } from 'constants/cfg'
+import { MAP_KEY, WORLD_TILE_KEY, ITEM_TILE_KEY, PLAYER_KEY, MENU_KEY, ITEM_KEY } from 'constants/cfg'
 import { STARTING_CELL } from 'constants/game'
 import { SCENE_GAME } from 'constants/scenes'
 
@@ -26,7 +26,8 @@ function initPreload(scene) {
 
 function initLoad(scene) {
   // load general things (should only do once)
-  scene.load.image(TILE_KEY, '../assets/tiles/tiles.png')
+  scene.load.image(WORLD_TILE_KEY, '../assets/tiles/tiles.png')
+  scene.load.image(ITEM_TILE_KEY, '../assets/tiles/items.png')
   scene.load.image(MENU_KEY, '../assets/sprites/menu.png')
 
   // load player info
@@ -36,13 +37,13 @@ function initLoad(scene) {
 
 function loadNPCs(scene, data) {
   data.chars.forEach(function(char) {
-    scene.load.audio(char.name, `../assets/sfx/${char.sfx.talk}.wav`)
-    scene.load.spritesheet(char.name, `../assets/sprites/${char.anims.stand}.png`, { frameWidth: 16, frameHeight: 16})
+    scene.load.audio(char.sfx.talk, `../assets/sfx/${char.sfx.talk}.wav`)
+    scene.load.spritesheet(char.sprite, `../assets/sprites/${char.sprite}.png`, { frameWidth: 16, frameHeight: 16})
   })
 }
 
 function loadMap(scene, data) {
-  scene.load.tilemapCSV(data.map + MAP_KEY, `../data/maps/${data.map}.csv`)
+  scene.load.tilemapTiledJSON(data.map + MAP_KEY, `../data/maps/${data.map}.json`)
 }
 
 function loadMusic(scene, data) {

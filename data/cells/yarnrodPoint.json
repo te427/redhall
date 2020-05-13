@@ -4,13 +4,10 @@
   "music": "music",
   "chars": [
     {
-      "name": "dwarf",
+      "name": "ruricHcvungylr",
       "x": 24,
       "y": 20
     }
-  ],
-  "objs": [
-
   ],
   "entrances": [
     {
@@ -20,15 +17,15 @@
     },
     {
       "name": "pondOfTheChild",
-      "x": 9,
-      "y": 5
+      "x": 10,
+      "y": 2
     }
   ],
   "exits": [
     {
       "name": "pondOfTheChild",
-      "x": 9,
-      "y": 3
+      "x": 10,
+      "y": 0
     }
   ]
 }

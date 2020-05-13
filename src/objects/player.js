@@ -33,12 +33,6 @@ class Player extends Sprite {
       [DIR_RIGHT]: ANIM_WALK_RIGHT,
       [DIR_UP]: ANIM_WALK_UP,
     }
-    this.checkMap = {
-        [DIR_LEFT]: this.checkLeft,
-        [DIR_RIGHT]: this.checkRight,
-        [DIR_UP]: this.checkUp,
-        [DIR_DOWN]: this.checkDown,
-    }
   }
 
   initAnims(scene) {
@@ -136,30 +130,22 @@ class Player extends Sprite {
   }
 
   interact(scene) {
-    const x = this.sprite.x
-    const y = this.sprite.y
+    const x = this.sprite.x + (this.dir === DIR_RIGHT ? 8 : this.dir === DIR_LEFT ? -8 : 0)
+    const y = this.sprite.y + (this.dir === DIR_DOWN? 8 : this.dir === DIR_UP ? -8 : 0)
+
+    // this should go in a tile manager
+    var tile = scene.cellManager.getForeground().getTileAtWorldXY(x, y)
+    if (tile) {
+      var index = tile.index
+      // use index in scene itemManager to see if exists (isn't used)
+      var tx = tile.x
+      var ty = tile.y
+      tile.tilemap.fill(index + 1, tx, ty, 1, 1)
+    }
 
     // have this return any object that is at x/y
-    return this.checkMap[this.dir](scene, x, y)
+    return scene.spriteManager.getNPCs().find(npc => npc.getBounds().contains(x, y))
   }
-
-  checkLeft(scene, x, y) {
-    return scene.spriteManager.getNPCs().find(npc => npc.getBounds().contains(x - 8, y))
-  }
-
-  checkRight(scene, x, y) {
-    return scene.spriteManager.getNPCs().find(npc => npc.getBounds().contains(x + 8, y))
-  }
-
-  checkUp(scene, x, y) {
-    return scene.spriteManager.getNPCs().find(npc => npc.getBounds().contains(x, y - 8))
-  }
-
-  checkDown(scene, x, y) {
-    return scene.spriteManager.getNPCs().find(npc => npc.getBounds().contains(x, y + 8))
-  }
-
-
 }
 
 export default Player

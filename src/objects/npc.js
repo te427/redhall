@@ -26,14 +26,14 @@ class NPC extends Sprite {
       key: 'stand',
       repeat: -1,
       frameRate: 2,
-      frames: scene.anims.generateFrameNames('dwarf', {start: 0, end: 1}) 
+      frames: scene.anims.generateFrameNames(this.char.sprite, {start: 0, end: 1}) 
     })
 
     this.sprite.play('stand')
   }
 
   initSfx(scene) {
-    this.sfx.talk = scene.sound.add('dwarf')
+    this.sfx.talk = scene.sound.add(this.char.sfx.talk)
 
     this.sfx.talk.addMarker({
       name: 'talk',

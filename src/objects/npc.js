@@ -1,34 +1,41 @@
 import { TILE_SIZE } from 'constants/cfg'
 
-function NPC(scene, data) {
+var data
+var sprite
+var anims
+var sfx
+
+function NPC(scene, npcData) {
   // get this from JSON
   var npc = {
     initSprite(scene, npcData) {
       // Check if this width/height box is correct
-      this.sprite = scene.physics.add.sprite(npcData.x * TILE_SIZE, npcData.y * TILE_SIZE, npcData.name)
-      this.sprite.setImmovable(true)
+      sprite = scene.physics.add.sprite(npcData.x * TILE_SIZE, npcData.y * TILE_SIZE, npcData.name)
+      sprite.body.setSize(16, 16)
+      sprite.body.setOffset(0, 0)
+      sprite.setImmovable(true)
     },
     initState(npcData) {
-      this.npc = npcData
+      data = npcData
     },
     initAnims(scene) {
-      this.anims = {}
+      anims = {}
 
-      this.anims.stand = scene.anims.create({
+      anims.stand = scene.anims.create({
         key: 'stand',
         repeat: -1,
         frameRate: 2,
-        frames: scene.anims.generateFrameNames(this.npc.sprite, {start: 0, end: 1}) 
+        frames: scene.anims.generateFrameNames(data.sprite, {start: 0, end: 1}) 
       })
 
-      this.sprite.play('stand')
+      sprite.play('stand')
     },
     initSfx(scene) {
-      this.sfx = {} 
+      sfx = {} 
 
-      this.sfx.talk = scene.sound.add(this.npc.sfx.talk)
+      sfx.talk = scene.sound.add(data.sfx.talk)
 
-      this.sfx.talk.addMarker({
+      sfx.talk.addMarker({
         name: 'talk',
         start: 0,
         duration: 2,
@@ -39,15 +46,21 @@ function NPC(scene, data) {
       })
     },
     getNPC() {
-      return this.npc
+      return data
+    },
+    getSprite() {
+      return sprite
+    },
+    getBounds() {
+      return sprite.getBounds()
     },
     interact() {
-      this.sfx.talk.play('talk')
+      sfx.talk.play('talk')
     }
   }
 
-  npc.initSprite(scene, data)
-  npc.initState(data)
+  npc.initSprite(scene, npcData)
+  npc.initState(npcData)
   npc.initAnims(scene)
   npc.initSfx(scene)
 

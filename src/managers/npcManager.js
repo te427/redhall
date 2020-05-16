@@ -7,7 +7,7 @@ function setNPCs(cell) {
 }
 
 function interact(pos) {
-  var target = npcs.find(npc => npc.sprite.getBounds().contains(pos.x, pos.y))
+  var target = npcs.find(npc => npc.getBounds().contains(pos.x, pos.y))
   if (target) {
     target.interact()
     manager.emit(E_SET_DIALOGUE, target.getNPC())
@@ -25,7 +25,7 @@ function NPCManager() {
       init(scene) {
         npcs = npcs.map(c => (new NPC(scene, c)))
 
-        this.emit(E_INIT_NPCS, npcs.map(npc => npc.sprite))
+        this.emit(E_INIT_NPCS, npcs.map(npc => npc.getSprite()))
       }
     }
 

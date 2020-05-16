@@ -2,7 +2,6 @@ import { VELOCITY, SFX_MOVING } from 'constants/player'
 import { PLAYER_KEY, TILE_SIZE } from 'constants/cfg'
 import { ANIM_WALK_DOWN, ANIM_WALK_UP, ANIM_WALK_LEFT, ANIM_WALK_RIGHT } from 'constants/sprites'
 import { DIR_DOWN, DIR_LEFT, DIR_RIGHT, DIR_UP } from 'constants/game'
-import { E_INTERACT } from 'events/types'
 
 const animationDirectionMap = {
   [DIR_DOWN]: ANIM_WALK_DOWN,
@@ -10,41 +9,59 @@ const animationDirectionMap = {
   [DIR_RIGHT]: ANIM_WALK_RIGHT,
   [DIR_UP]: ANIM_WALK_UP,
 }
+function startAnimation() {
+  var animation = animationDirectionMap[dir]
+  sprite.play(animation)
+  sfx.moving.play(SFX_MOVING)
+}
+
+function stopAnimationIfAtRest() {
+  // need to check if butted against something
+  var v = sprite.body.velocity
+  if (!v.x && !v.y) {
+    sprite.anims.stop()
+    sfx.moving.stop()
+  }
+}
 
 var velocity = VELOCITY
 var player
+var dir
+var sprite
+var anims
+var sfx
 
 function Player (scene, pos) {
   player = {
     initSprite(scene) {
-      this.dir = DIR_DOWN
-      this.sprite = scene.physics.add.sprite(pos.x * TILE_SIZE, pos.y * TILE_SIZE, PLAYER_KEY)
+      dir = DIR_DOWN
+      sprite = scene.physics.add.sprite(pos.x * TILE_SIZE, pos.y * TILE_SIZE, PLAYER_KEY)
     }, 
     initAnims(scene) {
-      this.anims = {}
+      anims = {}
 
-      this.anims.walkDown = scene.anims.create({
+      anims.walkDown = scene.anims.create({
         key: ANIM_WALK_DOWN,
         repeat: -1,
         frameRate: 8,
         frames: scene.anims.generateFrameNames(PLAYER_KEY, {start: 0, end: 3}) 
       })
 
-      this.anims.walkUp = scene.anims.create({
+      anims.walkUp = scene.anims.create({
         key: ANIM_WALK_UP,
         repeat: -1,
         frameRate: 8,
         frames: scene.anims.generateFrameNames(PLAYER_KEY, {start: 4, end: 7}) 
       })
 
-      this.anims.walkLeft = scene.anims.create({
+      anims.walkLeft = scene.anims.create({
         key: ANIM_WALK_LEFT,
         repeat: -1,
         frameRate: 8,
         frames: scene.anims.generateFrameNames(PLAYER_KEY, {start: 8, end: 11}) 
       })
 
-      this.anims.walkRight = scene.anims.create({
+      anims.walkRight = scene.anims.create({
         key: ANIM_WALK_RIGHT,
         repeat: -1,
         frameRate: 8,
@@ -52,11 +69,11 @@ function Player (scene, pos) {
       })
     },
     initSfx(scene) {
-      this.sfx = {}
+      sfx = {}
 
-      this.sfx.moving = scene.sound.add('footstep')
+      sfx.moving = scene.sound.add('footstep')
 
-      this.sfx.moving.addMarker({
+      sfx.moving.addMarker({
         name: SFX_MOVING,
         start: 0,
         duration: 0.25,
@@ -66,72 +83,66 @@ function Player (scene, pos) {
         }
       })
     },
+    getInteraction() {
+      const x = sprite.x + (dir === DIR_RIGHT ? 8 : dir === DIR_LEFT ? -8 : 0)
+      const y = sprite.y + (dir === DIR_DOWN? 8 : dir === DIR_UP ? -8 : 0)
+
+      return { x, y }
+    },
+    getSprite() {
+      return sprite
+    },
     startMoveLeft() {
-      this.sprite.setVelocityX(-velocity)
-      this.dir = DIR_LEFT
-      this.startAnimation()
+      sprite.setVelocityX(-velocity)
+      dir = DIR_LEFT
+      startAnimation()
     },
     stopMoveLeft() {
-      var v = this.sprite.body.velocity.x
+      var v = sprite.body.velocity.x
       if (!v || v === -velocity) {
-        this.sprite.setVelocityX(0)
-        this.stopAnimationIfAtRest()
+        sprite.setVelocityX(0)
+        stopAnimationIfAtRest()
       }
     },
     startMoveRight() {
-      this.sprite.setVelocityX(velocity)
-      this.dir = DIR_RIGHT
-      this.startAnimation()
+      sprite.setVelocityX(velocity)
+      dir = DIR_RIGHT
+      startAnimation()
     },
     stopMoveRight() {
-      var v = this.sprite.body.velocity.x
+      var v = sprite.body.velocity.x
       if (!v || v === velocity) {
-        this.sprite.setVelocityX(0)
-        this.stopAnimationIfAtRest()
+        sprite.setVelocityX(0)
+        stopAnimationIfAtRest()
       }
     },
     startMoveUp() {
-      this.sprite.setVelocityY(-velocity)
-      this.dir = DIR_UP
-      this.startAnimation()
+      sprite.setVelocityY(-velocity)
+      dir = DIR_UP
+      startAnimation()
     },
     stopMoveUp() {
-      var v = this.sprite.body.velocity.y
+      var v = sprite.body.velocity.y
       if (!v || v === -velocity) {
-        this.sprite.setVelocityY(0)
-        this.stopAnimationIfAtRest()
+        sprite.setVelocityY(0)
+        stopAnimationIfAtRest()
       }
     },
     startMoveDown() {
-      this.sprite.setVelocityY(velocity)
-      this.dir = DIR_DOWN
-      this.startAnimation()
+      sprite.setVelocityY(velocity)
+      dir = DIR_DOWN
+      startAnimation()
     },
     stopMoveDown() {
-      var v = this.sprite.body.velocity.y
+      var v = sprite.body.velocity.y
       if (!v || v === velocity) {
-        this.sprite.setVelocityY(0)
-        this.stopAnimationIfAtRest()
+        sprite.setVelocityY(0)
+        stopAnimationIfAtRest()
       }
     },
-    startAnimation() {
-      var animation = animationDirectionMap[this.dir]
-      this.sprite.play(animation)
-      this.sfx.moving.play(SFX_MOVING)
-    },
-    stopAnimationIfAtRest() {
-      // need to check if butted against something
-      var v = this.sprite.body.velocity
-      if (!v.x && !v.y) {
-        this.sprite.anims.stop()
-        this.sfx.moving.stop()
-      }
-    },
-    getInteraction() {
-      const x = this.sprite.x + (this.dir === DIR_RIGHT ? 8 : this.dir === DIR_LEFT ? -8 : 0)
-      const y = this.sprite.y + (this.dir === DIR_DOWN? 8 : this.dir === DIR_UP ? -8 : 0)
-
-      return { x, y }
+    halt() {
+      sprite.anims.stop()
+      sfx.moving.stop()
     }
   }
 

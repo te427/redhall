@@ -34,7 +34,9 @@ function initConfig() {
     pixelArt: true,
     physics: {
       default: 'arcade',
-      arcade: {},
+      arcade: {
+        //debug: true
+      },
     },
     scene: [LoadingScene, GameScene, DialogueScene],
   }
@@ -42,6 +44,7 @@ function initConfig() {
 
 function initManagers(game) {
   managers = {
+    ai: null,
     camera: CameraManager(),
     cell: CellManager(),
     collision: CollisionManager(),
@@ -50,6 +53,7 @@ function initManagers(game) {
     dialogue: DialogueManager(),
     enemies: null, // TODO
     events: EventManager(),
+    inventory: null,
     items: ItemManager(),
     keys: KeyManager(game),
     loading: LoadManager(),
@@ -61,6 +65,7 @@ function initManagers(game) {
     scene: SceneManager(),
     sfx: SFXManager(),
     state: StateManager(),
+    ui: null
   }
 }
 

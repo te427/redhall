@@ -1,4 +1,4 @@
- import { E_INTERACT, E_INIT_SPAWN, E_INIT_PLAYER, E_PLAYER_MOVE_LEFT_START, E_PLAYER_MOVE_LEFT_END, E_PLAYER_MOVE_RIGHT_START, E_PLAYER_MOVE_RIGHT_END, E_PLAYER_MOVE_UP_START, E_PLAYER_MOVE_UP_END, E_PLAYER_MOVE_DOWN_START, E_PLAYER_MOVE_DOWN_END, E_PLAYER_INTERACT_START, E_PLAYER_INTERACT_END } from 'events/types'
+ import { E_INTERACT, E_INIT_SPAWN, E_INIT_PLAYER, E_PLAYER_MOVE_LEFT_START, E_PLAYER_MOVE_LEFT_END, E_PLAYER_MOVE_RIGHT_START, E_PLAYER_MOVE_RIGHT_END, E_PLAYER_MOVE_UP_START, E_PLAYER_MOVE_UP_END, E_PLAYER_MOVE_DOWN_START, E_PLAYER_MOVE_DOWN_END, E_PLAYER_INTERACT_START, E_PLAYER_INTERACT_END, E_CHANGE_SCENE, E_OPEN_DIALOGUE } from 'events/types'
 import handler from 'events/handler'
 import Player from 'objects/player'
 
@@ -46,6 +46,10 @@ function setSpawn(pos) {
   spawn = pos
 }
 
+function haltSFXAndAnimations() {
+  player.halt()
+}
+
 var manager
 var player
 var spawn
@@ -57,7 +61,7 @@ function PlayerManager() {
       init(scene) {
         player = new Player(scene, spawn)
 
-        this.emit(E_INIT_PLAYER, player.sprite)
+        this.emit(E_INIT_PLAYER, player.getSprite())
       }
     }
 
@@ -73,6 +77,8 @@ function PlayerManager() {
       [E_PLAYER_INTERACT_START]: startPlayerInteract,
       [E_PLAYER_INTERACT_END]: stopPlayerInteract,
       [E_INIT_SPAWN]: setSpawn,
+      [E_CHANGE_SCENE]: haltSFXAndAnimations,
+      [E_OPEN_DIALOGUE]: haltSFXAndAnimations,
     })
   }
   return manager

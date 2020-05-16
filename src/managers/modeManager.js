@@ -1,6 +1,6 @@
 var manager
 
-function SFXManager() {
+function ModeManager() {
   if (!manager) {
     manager = {
 
@@ -9,4 +9,4 @@ function SFXManager() {
   return manager
 }
 
-export default SFXManager
+export default ModeManager

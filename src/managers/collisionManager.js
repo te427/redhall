@@ -1,18 +1,49 @@
+import { E_INIT_TERRAIN, E_INIT_NPCS, E_INIT_PLAYER } from 'events/types';
+import { FPS } from 'constants/cfg'
+import handler from 'events/handler'
+
+function setTerrain(terrainLayer) {
+  terrain = terrainLayer
+}
+
+function setPlayer(playerSprite) {
+  player = playerSprite
+}
+
+function setNPCs(npcSprites) {
+  npcs = npcSprites
+}
+
 var manager
+var player
+var npcs
+var terrain
 
 function CollisionManager() {
   if(!manager) {
     manager = {
-      init(scene, player, npcs, bg) {
-        bg.setCollisionBetween(0, 14);
+      ...handler,
+      init(scene) {
+        scene.physics.world.setFPS(FPS)
 
-        //player.sprite.setCollideWorldBounds(true)
-        //scene.physics.add.collider(player.sprite, bg)
+        if (terrain && player && npcs) {
+          terrain.setCollisionBetween(0, 14);
 
-        //npcs.forEach(npc => scene.physics.add.collider(player.sprite, npc.sprite))
+          player.setCollideWorldBounds(true)
+          scene.physics.add.collider(player, terrain)
+
+          npcs.forEach(npc => scene.physics.add.collider(player, npc))
+        }
       }
     }
   }
+
+  manager.on({
+    [E_INIT_TERRAIN]: setTerrain,
+    [E_INIT_NPCS]: setNPCs,
+    [E_INIT_PLAYER]: setPlayer
+  })
+
   return manager
 }
 

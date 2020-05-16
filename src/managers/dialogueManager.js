@@ -1,4 +1,5 @@
-import { DIALOGUE_KEY } from 'constants/game'
+import { E_SET_DIALOGUE } from 'events/types'
+import handler from 'events/handler'
 
 function split(text) {
   var words = text.split(' ')
@@ -17,27 +18,24 @@ function split(text) {
   return fit
 }
 
-var manager
-var conversations 
-var curr
+function setTarget(targetNPC) {
+  npc = targetNPC
+}
 
-function DialogueManager(scene) {
+var manager
+var npc 
+
+function DialogueManager() {
   if (!manager) {
     manager = {
-      load(data) {
-        conversations = {}
-        data.chars.forEach(function(char) {
-          conversations[char.name] = char[DIALOGUE_KEY]
-        })
-      },
-      set(char) {
-        curr = conversations[char]
-      },
+      ...handler,
       getGreeting() {
-        return split(curr.greeting)
+        return split(npc.dialogue.greeting)
       }
     }
   }
+
+  manager.on(E_SET_DIALOGUE, setTarget)
 
   return manager
 }

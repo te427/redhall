@@ -1,8 +1,10 @@
 import * as Phaser from 'phaser'
 import CellManager from 'managers/cellManager'
+import DataManager from 'managers/dataManager'
 import DialogueManager from 'managers/dialogueManager'
 import LoadManager from 'managers/loadManager'
-import SpriteManager from 'managers/spriteManager'
+import NPCManager from 'managers/npcManager'
+import SceneManager from 'managers/sceneManager'
 import { SCENE_LOADING } from 'constants/scenes'
 
 class LoadingScene extends Phaser.Scene {
@@ -10,9 +12,9 @@ class LoadingScene extends Phaser.Scene {
     super(SCENE_LOADING)
 
     this.cellManager = CellManager()
-    this.dialogueManager = DialogueManager()
+    this.dataManager = DataManager()
     this.loadManager = LoadManager()
-    this.spriteManager = SpriteManager()
+    this.sceneManager = SceneManager()
   }
 
   preload() {
@@ -20,15 +22,14 @@ class LoadingScene extends Phaser.Scene {
   }
 
   create() {
-    this.add.bitmapText(20, 20, 'pressstart8', 'Loading Game...')
-
     this.cellManager.destroy()
-    this.cellManager.loadCell()
-      .then(data => { 
-        this.dialogueManager.load(data)
-        this.loadManager.load(this, data)
-        this.spriteManager.load(data)
-      })
+
+    this.loadManager.init(this)
+    this.sceneManager.init(this)
+
+    this.cellManager.load()
+
+    this.add.bitmapText(20, 20, 'pressstart8', 'Loading Game...')
   }
 }
 

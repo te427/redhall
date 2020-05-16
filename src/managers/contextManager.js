@@ -1,95 +1,113 @@
-import { E_INTERACT_KEYDOWN, E_INTERACT_KEYUP, E_DOWN_KEYDOWN, E_DOWN_KEYUP, E_UP_KEYDOWN, E_UP_KEYUP, E_LEFT_KEYDOWN, E_LEFT_KEYUP, E_RIGHT_KEYDOWN, E_RIGHT_KEYUP, E_PLAYER_MOVE_DOWN_START, E_PLAYER_MOVE_DOWN_END, E_PLAYER_INTERACT_END, E_PLAYER_INTERACT_START, E_PLAYER_MOVE_UP_START, E_PLAYER_MOVE_UP_END, E_PLAYER_MOVE_LEFT_START, E_PLAYER_MOVE_LEFT_END, E_PLAYER_MOVE_RIGHT_START, E_PLAYER_MOVE_RIGHT_END } from 'events/types'
+import * as context from 'constants/context'
+import *  as events from 'events/types'
 import handler from 'events/handler'
 
 function playerInteractDown() {
-  manager.emit(E_PLAYER_INTERACT_START)
+  manager.emit(events.E_PLAYER_INTERACT_START)
 }
 
 function playerInteractUp() {
-  manager.emit(E_PLAYER_INTERACT_END)
+  manager.emit(events.E_PLAYER_INTERACT_END)
 }
 
 function playerDownDown() {
-  manager.emit(E_PLAYER_MOVE_DOWN_START)
+  manager.emit(events.E_PLAYER_MOVE_DOWN_START)
 }
 
 function playerDownUp() {
-  manager.emit(E_PLAYER_MOVE_DOWN_END)
+  manager.emit(events.E_PLAYER_MOVE_DOWN_END)
 }
 
 function playerUpDown() {
-  manager.emit(E_PLAYER_MOVE_UP_START)
+  manager.emit(events.E_PLAYER_MOVE_UP_START)
 }
 
 function playerUpUp() {
-  manager.emit(E_PLAYER_MOVE_UP_END)
+  manager.emit(events.E_PLAYER_MOVE_UP_END)
 }
 
 function playerLeftDown() {
-  manager.emit(E_PLAYER_MOVE_LEFT_START)
+  manager.emit(events.E_PLAYER_MOVE_LEFT_START)
 }
 
 function playerLeftUp() {
-  manager.emit(E_PLAYER_MOVE_LEFT_END)
+  manager.emit(events.E_PLAYER_MOVE_LEFT_END)
 }
 
 function playerRightDown() {
-  manager.emit(E_PLAYER_MOVE_RIGHT_START)
+  manager.emit(events.E_PLAYER_MOVE_RIGHT_START)
 }
 
 function playerRightUp() {
-  manager.emit(E_PLAYER_MOVE_RIGHT_END)
+  manager.emit(events.E_PLAYER_MOVE_RIGHT_END)
 }
 
-function translate(event) {
+function openDialogue() {
+  ctx = context.CTX_DIALOGUE
+}
+
+function closeDialogue() {
+  manager.emit(events.E_CLOSE_DIALOGUE)
+  ctx = context.CTX_EXPLORE
+}
+
+function translate(_, event) {
+  var fn = contextDict[ctx][event]
+  if (!fn) {
+    console.debug(`No function handler for event ${event}`)
+    return
+  }
   try {
-    context[ctx][event]()
+    fn()
   } catch (err) {
-    console.error('Context is unimplemented for event!')
+    console.error(`Event ${event} has errors for context ${ctx}`)
     console.error(err)
   }
 }
 
 var manager
-var ctx = 'explore'
-var context = {
-  // make these constants
-  ['explore']: {
-    [E_RIGHT_KEYDOWN]: playerRightDown,
-    [E_RIGHT_KEYUP]: playerRightUp,
-    [E_LEFT_KEYDOWN]: playerLeftDown,
-    [E_LEFT_KEYUP]: playerLeftUp,
-    [E_UP_KEYDOWN]: playerUpDown,
-    [E_UP_KEYUP]: playerUpUp,
-    [E_DOWN_KEYDOWN]: playerDownDown,
-    [E_DOWN_KEYUP]: playerDownUp,
-    [E_INTERACT_KEYDOWN]: playerInteractDown,
-    [E_INTERACT_KEYUP]: playerInteractUp
+var ctx = context.CTX_EXPLORE
+var contextDict = {
+  // add loading context
+  [context.CTX_EXPLORE]: {
+    [events.E_RIGHT_KEYDOWN]: playerRightDown,
+    [events.E_RIGHT_KEYUP]: playerRightUp,
+    [events.E_LEFT_KEYDOWN]: playerLeftDown,
+    [events.E_LEFT_KEYUP]: playerLeftUp,
+    [events.E_UP_KEYDOWN]: playerUpDown,
+    [events.E_UP_KEYUP]: playerUpUp,
+    [events.E_DOWN_KEYDOWN]: playerDownDown,
+    [events.E_DOWN_KEYUP]: playerDownUp,
+    [events.E_INTERACT_KEYDOWN]: playerInteractDown,
+    [events.E_INTERACT_KEYUP]: playerInteractUp
   },
-  ['dialogue']: {}
+  [context.CTX_DIALOGUE]: {
+    [events.E_INTERACT_KEYDOWN]: closeDialogue,
+  }
 }
 
 function ContextManager() {
   if (!manager) {
     manager = {
-      ...handler,
-      setContext(c) {
-        ctx = c
-      }
+      ...handler
     }
 
+    manager.on({
+      [events.E_OPEN_DIALOGUE]: openDialogue
+    })
+
     manager.on([
-      E_RIGHT_KEYDOWN,
-      E_RIGHT_KEYUP,
-      E_LEFT_KEYDOWN,
-      E_LEFT_KEYUP,
-      E_UP_KEYDOWN,
-      E_UP_KEYUP,
-      E_DOWN_KEYDOWN,
-      E_DOWN_KEYUP,
-      E_INTERACT_KEYDOWN,
-      E_INTERACT_KEYUP
-    ], translate.bind(manager))
+      events.E_RIGHT_KEYDOWN,
+      events.E_RIGHT_KEYUP,
+      events.E_LEFT_KEYDOWN,
+      events.E_LEFT_KEYUP,
+      events.E_UP_KEYDOWN,
+      events.E_UP_KEYUP,
+      events.E_DOWN_KEYDOWN,
+      events.E_DOWN_KEYUP,
+      events.E_INTERACT_KEYDOWN,
+      events.E_INTERACT_KEYUP
+    ], translate)
   }
 
 

@@ -41,7 +41,7 @@ function rightKeyup() {
   this.emit(E_RIGHT_KEYUP)  
 }
 
-function load(scene) {
+function init(scene) {
   var a = scene.input.keyboard.addKey('A')
   a.on('down', interactKeydown, this)
   a.on('up', interactKeyup, this)
@@ -69,7 +69,7 @@ function KeyManager() {
   if (!manager) {
     manager = {
       ...handler,
-      load,
+      init,
     }
   }
   return manager

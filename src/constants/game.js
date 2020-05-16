@@ -1,7 +1,7 @@
-export const DIR_LEFT = 'l'
-export const DIR_RIGHT = 'r'
-export const DIR_UP = 'u'
-export const DIR_DOWN = 'd'
+export const DIR_LEFT = 'left'
+export const DIR_RIGHT = 'right'
+export const DIR_UP = 'up'
+export const DIR_DOWN = 'down'
 
 export const STARTING_CELL = 'yarnrodPoint'
 export const STARTING_ENTRANCE = 'spawn'

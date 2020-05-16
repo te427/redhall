@@ -6,8 +6,8 @@ const handler = {
   emit(type, data) {
     events.emit(type, data)
   },
-  on(type, callback) {
-    events.on(type, callback)
+  on(typeOrDictOrArray, callback) {
+    events.on(typeOrDictOrArray, callback)
   },
 }
 

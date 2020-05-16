@@ -6,18 +6,14 @@ class DialogueScene extends Phaser.Scene {
   constructor() {
     super(SCENE_DIALOGUE)
 
-    this.initState()
+    this.dialogueManager = DialogueManager()
   }
 
   create() {
-    this.physics.add.sprite(8 * 16, (9 * 16) + 8, 'menu')
     var line = this.dialogueManager.getGreeting()
 
+    this.physics.add.sprite(8 * 16, (9 * 16) + 8, 'menu')
     this.add.bitmapText(16, 8 * 16, 'pressstart8', line)
-  }
-
-  initState() {
-    this.dialogueManager = DialogueManager()
   }
 }
 

@@ -1,0 +1,18 @@
+name: Yarnrod Point
+map: yarnrodPoint
+music: music
+npcs:
+  - key: ruricHcvungylr
+    x: 24
+    y: 20
+entrances:
+  - name: spawn
+    x: 16
+    y: 16
+  - name: pondOfTheChild
+    x: 10
+    y: 2
+exits:
+  - name: pondOfTheChild
+    x: 10
+    y: 0

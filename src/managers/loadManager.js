@@ -1,6 +1,6 @@
-import { MAP_KEY, WORLD_TILE_KEY, ITEM_TILE_KEY, PLAYER_KEY, MENU_KEY, ITEM_KEY } from 'constants/cfg'
-import { STARTING_CELL } from 'constants/game'
-import { SCENE_GAME } from 'constants/scenes'
+import { MAP_KEY, WORLD_TILE_KEY, ITEM_TILE_KEY, PLAYER_KEY, MENU_KEY, MUSIC_KEY } from 'constants/cfg'
+import { E_LOAD_DATA, E_LOAD_SCENE } from 'events/types'
+import handler from 'events/handler'
 
 function progress(value) {
   console.log(value)
@@ -10,14 +10,14 @@ function fileProgress(file) {
   console.log(file.src)
 }
 
-function complete(scene) {
-  return () => scene.scene.start(SCENE_GAME)
+function complete() {
+  manager.emit(E_LOAD_SCENE)
 }
 
 function registerCallbacks(scene) {
   scene.load.on('progress', progress)
   scene.load.on('fileprogress', fileProgress) 
-  scene.load.once('complete', complete(scene)) 
+  scene.load.once('complete', complete) 
 }
 
 function initPreload(scene) {
@@ -36,9 +36,9 @@ function initLoad(scene) {
 }
 
 function loadNPCs(scene, data) {
-  data.chars.forEach(function(char) {
-    scene.load.audio(char.sfx.talk, `../assets/sfx/${char.sfx.talk}.wav`)
-    scene.load.spritesheet(char.sprite, `../assets/sprites/${char.sprite}.png`, { frameWidth: 16, frameHeight: 16})
+  data.npcs.forEach(function(npc) {
+    scene.load.audio(npc.sfx.talk, `../assets/sfx/${npc.sfx.talk}.wav`)
+    scene.load.spritesheet(npc.sprite, `../assets/sprites/${npc.sprite}.png`, { frameWidth: 16, frameHeight: 16})
   })
 }
 
@@ -47,41 +47,45 @@ function loadMap(scene, data) {
 }
 
 function loadMusic(scene, data) {
-  //this.load.audio(MUSIC_KEY, '../assets/music.wav')
+  scene.load.audio(MUSIC_KEY, `../assets/${data.music}.wav`)
+}
+
+function loadCell(data) {
+  if (!loadInitialized) {
+    initLoad(scene)
+    loadInitialized = true
+  }
+
+  loadMap(scene, data)
+  loadMusic(scene, data)
+  loadNPCs(scene, data)
+
+  scene.load.start()
 }
 
 var manager 
+var scene 
 var preloadInitialized = false
 var loadInitialized = false
 
 function LoadManager() {
   if (!manager) {
     manager = {
+      ...handler,
       preload(scene) {
         if (!preloadInitialized) {
           preloadInitialized = true
           initPreload(scene)
         }
       },
-      async load(scene, data) {
+      async init(newScene) {
+        scene = newScene
+        
         registerCallbacks(scene)
-
-        if (!loadInitialized) {
-          initLoad(scene)
-          loadInitialized = true
-        }
-        // load the map
-        loadMap(scene, data)
-
-        // lad music
-        loadMusic(scene, data)
-
-        // load all npcs
-        loadNPCs(scene, data)
-
-        scene.load.start()
       },
     }
+
+    manager.on(E_LOAD_DATA, loadCell)
   }
   
   return manager

@@ -2,6 +2,9 @@ var manager
 var callbacks = {}
 
 function register(type, callback){
+  if (typeof callback !== 'function') {
+    throw new Error('Callback is not a function!')
+  }
   var listeners = callbacks[type]
   if (!listeners) {
     listeners = [] 
@@ -22,9 +25,10 @@ function EventManager() {
         }
       },
       emit(type, data) {
+        console.log(`Emitting event: ${type}`)
         var listeners = callbacks[type]
         if (listeners) {
-          listeners.forEach(callback => callback(type, data))
+          listeners.forEach(callback => callback(data, type))
         }
       }
     }

@@ -1,137 +1,125 @@
-import { MAP_KEY, ITEM_KEY, WORLD_TILE_KEY, ITEM_TILE_KEY, BG_KEY, FG_KEY, TILE_SIZE, ADDR, CELL_PATH, CHAR_PATH, MAP_PATH } from 'constants/cfg'
+import { MAP_KEY, WORLD_TILE_KEY, ITEM_TILE_KEY, BG_KEY, FG_KEY, TILE_SIZE } from 'constants/cfg'
 import { STARTING_CELL, STARTING_ENTRANCE } from 'constants/game'
-import { SCENE_LOADING } from 'constants/scenes'
+import { E_INTERACT, E_INIT_SPAWN, E_SET_CELL, E_LOAD_DATA, E_INIT_TERRAIN, E_CHANGE_SCENE } from 'events/types'
+import handler from 'events/handler'
 
-function getJsonPath(path) {
-  return path + '.json'
+function setEntrance(name) {
+  entrance = name
 }
 
-function getCellPath(cell) {
-  return getJsonPath(CELL_PATH + cell)
+function setCell(newCell) {
+  name = newCell
 }
 
-function getCharPath(char) {
-  return getJsonPath(CHAR_PATH + char)
+function initWorld() {
+  worldMap = scene.make.tilemap({
+    key: name + MAP_KEY, 
+    tileWidth: TILE_SIZE, 
+    tileHeight: TILE_SIZE
+  })
 }
 
-function getMapPath(cell) {
-  return getJsonPath(MAP_PATH + cell)
+function initTerrain() {
+  terrainSet = worldMap.addTilesetImage(WORLD_TILE_KEY)
+  terrainLayer = worldMap.createStaticLayer(BG_KEY, terrainSet)
+
+  data.exits.forEach(function(tile) {
+    terrainLayer.setTileLocationCallback(tile.x, tile.y, 1, 1, () => changeCell(tile.name))
+  })
+
+  manager.emit(E_INIT_TERRAIN, terrainLayer)
 }
 
-async function getObj(path) {
-  return fetch(ADDR + path)
+function initItems() {
+  itemSet = worldMap.addTilesetImage(ITEM_TILE_KEY)
+  itemLayer = worldMap.createDynamicLayer(FG_KEY, itemSet)
 }
 
-async function getCell(cell) {
-  return getObj(getCellPath(cell))
+function initBounds() {
+  scene.physics.world.setBounds(0, 0, data.dimensions.x * TILE_SIZE, data.dimensions.y * TILE_SIZE)
+  scene.cameras.main.setBounds(0, 0, data.dimensions.x * TILE_SIZE, data.dimensions.y * TILE_SIZE)
 }
 
-async function getChar(char) {
-  return getObj(getCharPath(char))
+function initSpawn() {
+  var spawn = data.entrances.find(e => e.name === entrance)
+  manager.emit(E_INIT_SPAWN, spawn)
 }
 
-async function getMap(cell) {
-  return getObj(getMapPath(cell))
+function interact(pos) {
+  var tile = itemLayer.getTileAtWorldXY(pos.x, pos.y)
+  if (tile) {
+    var index = tile.index
+    // use index in scene itemManager to see if exists (isn't used)
+    var tx = tile.x
+    var ty = tile.y
+    tile.tilemap.fill(index + 1, tx, ty, 1, 1)
+  }
 }
 
-async function getDimensions(mapRes) {
-  var obj = await mapRes.json()
-  var y = obj.height
-  var x = obj.width
-  return { x, y }
-}
-async function loadChars(cell) {
-  cell.chars = await Promise.all(cell.chars.map(mergeChar))
+function renderCell() {
+  initWorld()
+  initTerrain()
+  initItems()
+  initBounds()
+  initSpawn()
 }
 
-async function mergeChar(char) {
-  var full = await (await getChar(char.name)).json()
-  return { ...full, ...char }
+function setCellData(cellData) {
+  data = cellData
+}
+
+function changeCell(newCell) {
+  setEntrance(name)
+  setCell(newCell)
+  manager.emit(E_CHANGE_SCENE, newCell)
+}
+
+function loadCell(cell) {
+  manager.emit(E_SET_CELL, cell)
 }
 
 var manager
-var entrance
-var spawn
-var cell
+var entrance 
+var name
 var data
-var dimensions
+var scene
 var worldMap
-var bgSet
-var bgLayer
-var fgMap
-var fgSet
-var fgLayer
+var terrainSet
+var terrainLayer
+var itemSet
+var itemLayer
 
 function CellManager() {
   if (!manager) {
     manager = {
-      getSize() {
-        return dimensions
+      ...handler,
+      init(newScene) {
+        scene = newScene
       },
-      getBackground() {
-        return bgLayer
+      load() {
+        loadCell(name)
       },
-      getForeground() {
-        return fgLayer
-      },
-      getSpawn() {
-        return spawn
-      },
-      setEntrance(name) {
-        entrance = name
-      },
-      setCell(newCell) {
-        cell = newCell
-      },
-      async loadCell() {
-        var cellRes = await getCell(cell)
-        data = await cellRes.json()
-
-        var mapRes = await getMap(cell)
-        dimensions = await getDimensions(mapRes)
-
-        spawn = data.entrances.find(p => p.name === entrance)
-
-        await loadChars(data)
-        return data
-      },
-      init(scene) {
-        worldMap = scene.make.tilemap({
-          key: cell + MAP_KEY, 
-          tileWidth: TILE_SIZE, 
-          tileHeight: TILE_SIZE
-        })
-
-        bgSet = worldMap.addTilesetImage(WORLD_TILE_KEY)
-        bgLayer = worldMap.createStaticLayer(BG_KEY, bgSet)
-
-        data.exits.forEach(tile => {
-          bgLayer.setTileLocationCallback(tile.x, tile.y, 1, 1, () => {
-            this.setEntrance(cell)
-            this.setCell(tile.name)
-            scene.scene.start(SCENE_LOADING)
-          })
-        })
-
-        fgSet = worldMap.addTilesetImage(ITEM_TILE_KEY)
-        fgLayer = worldMap.createDynamicLayer(FG_KEY, fgSet)
-
-        scene.physics.world.setBounds(0, 0, dimensions.x * TILE_SIZE, dimensions.y * TILE_SIZE)
-        scene.cameras.main.setBounds(0, 0, dimensions.x * TILE_SIZE, dimensions.y * TILE_SIZE)
+      render() {
+        renderCell()
       },
       destroy() {
         if (worldMap) {
           worldMap.destroy()
         }
 
-        if (bgLayer) {
-          bgLayer.destroy()
+        if (terrainLayer) {
+          terrainLayer.destroy()
         }
       }
     }
 
-    manager.setCell(STARTING_CELL)
-    manager.setEntrance(STARTING_ENTRANCE)
+    manager.on({
+      [E_INTERACT]: interact,
+      [E_LOAD_DATA]: setCellData,
+    })
+
+    setCell(STARTING_CELL)
+    setEntrance(STARTING_ENTRANCE)
   }
 
   return manager

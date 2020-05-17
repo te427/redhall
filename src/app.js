@@ -28,9 +28,9 @@ function initConfig() {
   config = {
     key: GAME_KEY,
     type: Phaser.AUTO,
-    width: REAL_WIDTH,
-    height: REAL_HEIGHT,
-    zoom: ZOOM_FACTOR,
+    //width: REAL_WIDTH,
+    //height: REAL_HEIGHT,
+    //zoom: ZOOM_FACTOR,
     pixelArt: true,
     physics: {
       default: 'arcade',

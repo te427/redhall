@@ -31,5 +31,8 @@ export const CHAR_PATH = DATA_PATH + 'characters/characters'
 export const MAP_PATH = DATA_PATH + 'maps/'
 export const ITEMS_PATH = DATA_PATH + 'items/'
 
+export const TITLE_FONT = 'pressstart24'
+export const MENU_FONT = 'pressstart16'
+
 export const ADDR = 'http://localhost:8085/'
 export const SCHEME = 'http'

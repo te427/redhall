@@ -1,3 +1,4 @@
+import { ZOOM_FACTOR } from 'constants/cfg'
 import { E_INIT_PLAYER } from 'events/types'
 import handler from 'events/handler'
 
@@ -13,6 +14,7 @@ function CameraManager() {
     manager = {
       ...handler,
       init(scene) {
+        scene.cameras.main.setZoom(ZOOM_FACTOR)
         scene.cameras.main.startFollow(player)
       }
     }

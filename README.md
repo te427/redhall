@@ -24,10 +24,9 @@ navigate to [localhost:8085](http://localhost:8085) when the server is running.
 - get the phaser animated tiles plugin
 - ~~create interactable non-NPC objects~~
 - give branching text options to menus
-- figure out how to make text smaller
-  - change scaling order (setScale?)
+- ~~figure out how to make text smaller~~
 - convert interaction detect to sprite group
-- fix the npc collision boxes
+- ~~fix the npc collision boxes~~
 
 ### Larger Items
 - ~~create a second cell and navigation between the two~~

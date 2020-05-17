@@ -1,4 +1,4 @@
-import { MAP_KEY, WORLD_TILE_KEY, ITEM_TILE_KEY, PLAYER_KEY, MENU_KEY, MUSIC_KEY } from 'constants/cfg'
+import { MAP_KEY, WORLD_TILE_KEY, ITEM_TILE_KEY, PLAYER_KEY, MENU_KEY, MUSIC_KEY, MENU_FONT, TITLE_FONT } from 'constants/cfg'
 import { E_LOAD_DATA, E_LOAD_SCENE } from 'events/types'
 import handler from 'events/handler'
 
@@ -21,7 +21,8 @@ function registerCallbacks(scene) {
 }
 
 function initPreload(scene) {
-  scene.load.bitmapFont('pressstart8', '../assets/fonts/pressstart10.png', '../assets/fonts/pressstart10.fnt')
+  scene.load.bitmapFont(TITLE_FONT, `../assets/fonts/${TITLE_FONT}.png`, `../assets/fonts/${TITLE_FONT}.fnt`)
+  scene.load.bitmapFont(MENU_FONT, `../assets/fonts/${MENU_FONT}.png`, `../assets/fonts/${MENU_FONT}.fnt`)
 }
 
 function initLoad(scene) {

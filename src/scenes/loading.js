@@ -1,11 +1,10 @@
+import { TITLE_FONT } from 'constants/cfg'
+import { SCENE_LOADING } from 'constants/scenes'
 import * as Phaser from 'phaser'
 import CellManager from 'managers/cellManager'
 import DataManager from 'managers/dataManager'
-import DialogueManager from 'managers/dialogueManager'
 import LoadManager from 'managers/loadManager'
-import NPCManager from 'managers/npcManager'
 import SceneManager from 'managers/sceneManager'
-import { SCENE_LOADING } from 'constants/scenes'
 
 class LoadingScene extends Phaser.Scene {
   constructor() {
@@ -29,7 +28,7 @@ class LoadingScene extends Phaser.Scene {
 
     this.cellManager.load()
 
-    this.add.bitmapText(20, 20, 'pressstart8', 'Loading Game...')
+    this.add.bitmapText(20, 20, TITLE_FONT, 'Loading Game...')
   }
 }
 

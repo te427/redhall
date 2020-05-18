@@ -1,4 +1,4 @@
-import { MAP_KEY, WORLD_TILE_KEY, ITEM_TILE_KEY, BG_KEY, FG_KEY, TILE_SIZE } from 'constants/cfg'
+import { MAP_KEY, WORLD_TILE_KEY, ITEM_TILE_KEY, WORLD_LAYER_KEY, ITEM_LAYER_KEY, TILE_SIZE } from 'constants/cfg'
 import { STARTING_CELL, STARTING_ENTRANCE } from 'constants/game'
 import { E_INTERACT, E_INIT_SPAWN, E_SET_CELL, E_LOAD_DATA, E_INIT_TERRAIN, E_CHANGE_SCENE } from 'events/types'
 import handler from 'events/handler'
@@ -21,7 +21,7 @@ function initWorld() {
 
 function initTerrain() {
   terrainSet = worldMap.addTilesetImage(WORLD_TILE_KEY)
-  terrainLayer = worldMap.createStaticLayer(BG_KEY, terrainSet)
+  terrainLayer = worldMap.createStaticLayer(WORLD_LAYER_KEY, terrainSet)
 
   data.exits.forEach(function(tile) {
     terrainLayer.setTileLocationCallback(tile.x, tile.y, 1, 1, () => changeCell(tile.name))
@@ -32,7 +32,7 @@ function initTerrain() {
 
 function initItems() {
   itemSet = worldMap.addTilesetImage(ITEM_TILE_KEY)
-  itemLayer = worldMap.createDynamicLayer(FG_KEY, itemSet)
+  itemLayer = worldMap.createDynamicLayer(ITEM_LAYER_KEY, itemSet)
 }
 
 function initBounds() {

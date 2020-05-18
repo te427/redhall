@@ -1,4 +1,4 @@
-import { MAP_KEY, WORLD_TILE_KEY, ITEM_TILE_KEY, PLAYER_KEY, MENU_KEY, MUSIC_KEY, MENU_FONT, TITLE_FONT } from 'constants/cfg'
+import { MAP_KEY, WORLD_TILE_KEY, ITEM_TILE_KEY, MENU_TILE_KEY, PLAYER_KEY, MENU_KEY, MUSIC_KEY, MENU_FONT, TITLE_FONT, DIALOGUE_KEY } from 'constants/cfg'
 import { E_LOAD_DATA, E_LOAD_SCENE } from 'events/types'
 import handler from 'events/handler'
 
@@ -29,7 +29,10 @@ function initLoad(scene) {
   // load general things (should only do once)
   scene.load.image(WORLD_TILE_KEY, '../assets/tiles/tiles.png')
   scene.load.image(ITEM_TILE_KEY, '../assets/tiles/items.png')
-  scene.load.image(MENU_KEY, '../assets/sprites/menu.png')
+  scene.load.image(MENU_TILE_KEY, '../assets/tiles/menu.png')
+  //scene.load.image(MENU_KEY, '../assets/sprites/menu.png')
+
+  scene.load.tilemapTiledJSON(DIALOGUE_KEY, `../data/maps/dialogue.json`)
 
   // load player info
   scene.load.spritesheet(PLAYER_KEY, '../assets/sprites/pc.png', { frameWidth: 16, frameHeight: 16})

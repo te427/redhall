@@ -1,5 +1,5 @@
 import * as context from 'constants/context'
-import *  as events from 'events/types'
+import * as events from 'events/types'
 import handler from 'events/handler'
 
 function playerInteractDown() {
@@ -47,8 +47,30 @@ function openDialogue() {
 }
 
 function closeDialogue() {
-  manager.emit(events.E_CLOSE_DIALOGUE)
   ctx = context.CTX_EXPLORE
+}
+
+function dialogueBackDown() {
+  manager.emit(events.E_DIALOGUE_BACK)
+}
+
+function dialogueSelectDown() {
+  manager.emit(events.E_DIALOGUE_SELECT)
+}
+
+function dialogueStartScrollDown() {
+  manager.emit(events.E_START_SCROLL_DIALOGUE_DOWN)
+}
+
+function dialogueStartScrollUp() {
+  manager.emit(events.E_START_SCROLL_DIALOGUE_UP)
+}
+function dialogueStopScrollDown() {
+  manager.emit(events.E_STOP_SCROLL_DIALOGUE_DOWN)
+}
+
+function dialogueStopScrollUp() {
+  manager.emit(events.E_STOP_SCROLL_DIALOGUE_UP)
 }
 
 function translate(_, event) {
@@ -79,21 +101,27 @@ var contextDict = {
     [events.E_DOWN_KEYDOWN]: playerDownDown,
     [events.E_DOWN_KEYUP]: playerDownUp,
     [events.E_INTERACT_KEYDOWN]: playerInteractDown,
-    [events.E_INTERACT_KEYUP]: playerInteractUp
+    [events.E_INTERACT_KEYUP]: playerInteractUp,
   },
   [context.CTX_DIALOGUE]: {
-    [events.E_INTERACT_KEYDOWN]: closeDialogue,
+    [events.E_INTERACT_KEYDOWN]: dialogueSelectDown,
+    [events.E_BACK_KEYDOWN]: dialogueBackDown,
+    [events.E_DOWN_KEYUP]: dialogueStopScrollDown,
+    [events.E_DOWN_KEYDOWN]: dialogueStartScrollDown,
+    [events.E_UP_KEYUP]: dialogueStopScrollUp,
+    [events.E_UP_KEYDOWN]: dialogueStartScrollUp,
   }
 }
 
 function ContextManager() {
   if (!manager) {
     manager = {
-      ...handler
+      ...handler,
     }
 
     manager.on({
-      [events.E_OPEN_DIALOGUE]: openDialogue
+      [events.E_OPEN_DIALOGUE]: openDialogue,
+      [events.E_CLOSE_DIALOGUE]: closeDialogue, 
     })
 
     manager.on([
@@ -106,7 +134,9 @@ function ContextManager() {
       events.E_DOWN_KEYDOWN,
       events.E_DOWN_KEYUP,
       events.E_INTERACT_KEYDOWN,
-      events.E_INTERACT_KEYUP
+      events.E_INTERACT_KEYUP,
+      events.E_BACK_KEYDOWN,
+      events.E_BACK_KEYUP,
     ], translate)
   }
 

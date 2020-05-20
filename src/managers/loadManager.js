@@ -1,5 +1,5 @@
 import { MAP_KEY, WORLD_TILE_KEY, ITEM_TILE_KEY, MENU_TILE_KEY, PLAYER_KEY, MENU_KEY, MUSIC_KEY, MENU_FONT, TITLE_FONT, DIALOGUE_KEY } from 'constants/cfg'
-import { E_LOAD_DATA, E_LOAD_SCENE } from 'events/types'
+import { E_LOAD_CELL_DATA, E_LOAD_SCENE } from 'events/types'
 import handler from 'events/handler'
 
 function progress(value) {
@@ -89,7 +89,7 @@ function LoadManager() {
       },
     }
 
-    manager.on(E_LOAD_DATA, loadCell)
+    manager.on(E_LOAD_CELL_DATA, loadCell)
   }
   
   return manager

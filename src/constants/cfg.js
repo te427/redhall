@@ -31,9 +31,10 @@ export const ASSET_PATH = 'assets/'
 
 export const DATA_PATH = 'data/'
 export const CELL_PATH = DATA_PATH + 'cells/'
-export const CHAR_PATH = DATA_PATH + 'characters/characters'
+export const CHAR_PATH = DATA_PATH + 'characters/'
 export const MAP_PATH = DATA_PATH + 'maps/'
 export const ITEMS_PATH = DATA_PATH + 'items/'
+export const DIALOGUE_PATH = DATA_PATH + 'dialogue/'
 
 export const TITLE_FONT = 'pressstart24'
 export const MENU_FONT = 'pressstart16'

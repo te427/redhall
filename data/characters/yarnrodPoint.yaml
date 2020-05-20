@@ -1,0 +1,20 @@
+- name: Ruric Hcvungylr
+  key: ruricHcvungylr
+  sprite: dwarf
+  groups:
+    - delvers
+    - skysingers
+    - dwarves
+  dialogue:
+    greeting: What's a dwarf to do with a rock in his shoe, a knot in his beard and some cold turnip stew?
+    background: I served as a blaster in the Skysinger guild. Good job until I started seeing shapes moving in every dark patch I looked. Since I got out of delving I've made a living foraging for artifacts in the West.
+    topics:
+      - delvers
+      - dwarves
+      - hamaeron
+      - korakorum
+      - the Skysingers
+  sfx: 
+    talk: dwarf
+  anims:
+    stand: dwarf

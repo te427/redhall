@@ -1,4 +1,4 @@
-import { E_INIT_NPCS, E_LOAD_DATA, E_INTERACT, E_OPEN_DIALOGUE, E_SET_DIALOGUE } from 'events/types'
+import { E_INIT_NPCS, E_LOAD_CELL_DATA, E_INTERACT, E_OPEN_DIALOGUE, E_SET_DIALOGUE } from 'events/types'
 import handler from 'events/handler'
 import NPC from 'objects/npc'
 
@@ -30,7 +30,7 @@ function NPCManager() {
     }
 
     manager.on({
-      [E_LOAD_DATA]: setNPCs,
+      [E_LOAD_CELL_DATA]: setNPCs,
       [E_INTERACT]: interact
     })
   }

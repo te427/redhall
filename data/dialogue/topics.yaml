@@ -1,0 +1,37 @@
+delvers:
+  default: 
+    text: They're state sanctioned relic hunters. They pick through ruins, barrows and crypts for salvage from the ancients. They're an odd bunch, and most keep away from them.
+  groups:
+    delvers: 
+      threshold: 0.4
+      text: Between the bitter smell of powder and the contempt for surface dwellers the average citizen keeps away from us. They haven't seen what we've seen... how could they understand what we do? Let them judge.
+  people:
+    ruricHcvungylr:
+      threshold: 0.6
+      text: We dig into the ruins of the ancients to find the glorious treasures of the dead world. I've seen strange things under this old ground. Good trade to ply for a dwarf, all in all. The men fare less well - I'd stay away from them if you see them.
+dwarves:
+  default:
+    text: Short stocky folk, seems like few know where they're from, and they mostly keep to themselves. They look sort of like rocks, if you see them in the right light.
+  groups:
+    dwarves:
+      threshold: 0.5
+      text: We're an old race, with a long memory. If you come by a dwarven encampment, sit by the fire if you're invited to, and listen to the song. You'll learn something, human.
+hamaeron:
+  default:
+    text: The westernmost province of the Empire is also its most remote. A few settlements are scattered amongst the sea bluffs and highlands, but most of the province can scarcely be claimed as Imperial. There are certainly other things that claim dominion over this land, however, and the northern reaches of Hamaeron hold no sanctuary for travellers. 
+korakorum:
+  default:
+    text: An ancient fortress above the great ocean. Last I heard, delvers hadn't been able to break into it beyond a few antechambers. Perhaps thats for the best.
+    unlocks:
+      - delvers
+the Skysingers:
+  default: 
+    text: The Skysingers are the official delver guild of Lord Amond Grey, which makes them the de facto delver guild of the Empire. They generally enjoy first contracts on new delver sites and access to the best equipment, though I've heard they lack the talent of other guilds. Too many lord's sons trying to make a name for themselves, not enough real wit.
+    unlocks:
+      - delvers
+  groups:
+    skysingers: 
+      threshold: 0
+      text: We're the pride of the Empire. Our Lord guarantees us the best men, equipment and sites, and in return, we glorify him with the treasures our delves unearth. 
+      unlocks:
+        - delvers

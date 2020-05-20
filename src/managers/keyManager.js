@@ -1,4 +1,4 @@
-import { E_INTERACT_KEYDOWN, E_INTERACT_KEYUP, E_DOWN_KEYDOWN, E_DOWN_KEYUP, E_UP_KEYDOWN, E_UP_KEYUP, E_LEFT_KEYDOWN, E_LEFT_KEYUP, E_RIGHT_KEYDOWN, E_RIGHT_KEYUP } from 'events/types'
+import { E_INTERACT_KEYDOWN, E_INTERACT_KEYUP, E_BACK_KEYDOWN, E_BACK_KEYUP, E_DOWN_KEYDOWN, E_DOWN_KEYUP, E_UP_KEYDOWN, E_UP_KEYUP, E_LEFT_KEYDOWN, E_LEFT_KEYUP, E_RIGHT_KEYDOWN, E_RIGHT_KEYUP } from 'events/types'
 import handler from 'events/handler'
 
 function interactKeydown() {
@@ -7,6 +7,14 @@ function interactKeydown() {
 
 function interactKeyup() {
   this.emit(E_INTERACT_KEYUP)  
+}
+
+function backKeydown() {
+  this.emit(E_BACK_KEYDOWN)  
+}
+
+function backKeyup() {
+  this.emit(E_BACK_KEYUP)  
 }
 
 function downKeydown() {
@@ -45,6 +53,10 @@ function init(scene) {
   var a = scene.input.keyboard.addKey('A')
   a.on('down', interactKeydown, this)
   a.on('up', interactKeyup, this)
+
+  var s = scene.input.keyboard.addKey('S')
+  s.on('down', backKeydown, this)
+  s.on('up', backKeyup, this)
 
   var down = scene.input.keyboard.addKey('down')
   down.on('down', downKeydown, this)

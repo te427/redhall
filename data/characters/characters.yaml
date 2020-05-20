@@ -1,9 +1,0 @@
-- name: Ruric Hcvungylr
-  key: ruricHcvungylr
-  sprite: dwarf
-  dialogue:
-    greeting: What's a dwarf to do with a rock in his shoe, a knot in his beard and some cold turnip stew?
-  sfx: 
-    talk: dwarf
-  anims:
-    stand: dwarf

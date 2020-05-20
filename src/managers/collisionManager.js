@@ -36,14 +36,13 @@ function CollisionManager() {
         }
       }
     }
+
+    manager.on({
+      [E_INIT_TERRAIN]: setTerrain,
+      [E_INIT_NPCS]: setNPCs,
+      [E_INIT_PLAYER]: setPlayer
+    })
   }
-
-  manager.on({
-    [E_INIT_TERRAIN]: setTerrain,
-    [E_INIT_NPCS]: setNPCs,
-    [E_INIT_PLAYER]: setPlayer
-  })
-
   return manager
 }
 

@@ -18,6 +18,7 @@ class LoadingScene extends Phaser.Scene {
 
   preload() {
     this.loadManager.preload(this)
+    this.dataManager.preload()
   }
 
   create() {

@@ -7,8 +7,8 @@ npcs:
     y: 20
 entrances:
   - name: spawn
-    x: 16
-    y: 16
+    x: 22
+    y: 20
   - name: pondOfTheChild
     x: 10
     y: 2

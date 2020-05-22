@@ -7,8 +7,7 @@ function ItemManager() {
   if (!manager) {
     manager = {
       async load() {
-        var res = await fetchItemDict()
-        //var items = await res.json()
+        // get items from E_ITEM_LOAD event from loadmanager
       },
       getItem(n) {
         return items[n]

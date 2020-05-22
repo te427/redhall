@@ -1,12 +1,12 @@
 import { MUSIC_KEY } from 'constants/cfg'
 
 var manager
+var music
 
 function MusicManager() {
   if (!manager) {
     manager = {
       init(scene) {
-        return
         // move to MusicManager
         scene.sound.audioPlayDelay = 0.1;
         scene.sound.loopEndOffset = 0.05;
@@ -16,9 +16,9 @@ function MusicManager() {
         var musicMarker = {
           name: 'music',
           start: 0, 
-          duration: 164,
+          duration: 164, // can we mqke this dynamic?
           config: {
-            volume: 2,
+            volume: 0.1,
             loop: true
           }
         }

@@ -30,7 +30,6 @@ function initLoad(scene) {
   scene.load.image(WORLD_TILE_KEY, '../assets/tiles/tiles.png')
   scene.load.image(ITEM_TILE_KEY, '../assets/tiles/items.png')
   scene.load.image(MENU_TILE_KEY, '../assets/tiles/menu.png')
-  //scene.load.image(MENU_KEY, '../assets/sprites/menu.png')
 
   scene.load.tilemapTiledJSON(DIALOGUE_KEY, `../data/maps/dialogue.json`)
 
@@ -51,7 +50,7 @@ function loadMap(scene, data) {
 }
 
 function loadMusic(scene, data) {
-  scene.load.audio(MUSIC_KEY, `../assets/${data.music}.wav`)
+  scene.load.audio(MUSIC_KEY, `../assets/music/${data.music}.mp3`)
 }
 
 function loadCell(data) {

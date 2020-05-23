@@ -4,7 +4,12 @@ import { E_SET_CELL, E_LOAD_CELL_DATA, E_LOAD_DIALOGUE_DATA } from 'events/types
 import handler from "events/handler"
 
 async function getObj(path) {
-  return fetch(ADDR + path)
+  try {
+    return fetch(ADDR + path)
+  } catch(err) {
+    console.error(err)
+    return null
+  }
 }
 
 function getYamlPath(path) {
@@ -72,7 +77,7 @@ async function mergeCellAndCharData(charData) {
 
 async function loadChars(cell) {
   var res = await getCharData(cell)
-  var charList = await YAML.parse(await res.text() )
+  var charList =  res ? await YAML.parse(await res.text()) : []
   var charData = Array.isArray(charList) ? charList.reduce((acc, c) => ({ ...acc, [c.key]: c}), {}) : {}
   await mergeCellAndCharData(charData)
 }

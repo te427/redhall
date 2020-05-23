@@ -16,6 +16,10 @@ navigate to [localhost:8085](http://localhost:8085) when the server is running.
 
 ## Todo List
 
+### Bugs
+- Fix tree collisions
+- Fix second cell not loading correctly
+
 ### Smaller Items
 - ~~create a cell manager to load sprites from static files~~
 - ~~break the assets folder into music, sprite and font folders~~
@@ -31,8 +35,8 @@ navigate to [localhost:8085](http://localhost:8085) when the server is running.
 - add a transition screen between maps (fade in to centered text w/name, fade out after 2 seconds)
   - add sfx to the title
   - do this between regions instead of cells?
-- add common topics to character interaction
-  - background
+- ~~add common topics to character interaction~~
+- clean up dialogue manager into common, finer tuned methods
 
 ### Larger Items
 - add world map

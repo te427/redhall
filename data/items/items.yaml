@@ -1,4 +1,4 @@
-- name: Talion Flower
-  description: This wildflower is known for it's peppery, sweet fragrance
 - name: Belyag
-  description: This bulbous growth seeps with tar-like ichor
+  description: This bulbous growth seeps with tar-like ichor.
+- name: Talion Flower
+  description: This wildflower is known for it's peppery, sweet fragrance.

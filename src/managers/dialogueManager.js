@@ -3,6 +3,9 @@ import { MENU_FONT, TITLE_FONT, DIALOGUE_KEY, MENU_TILE_KEY, TILE_SIZE, MENU_LAY
 import { E_SET_DIALOGUE, E_DIALOGUE_SELECT, E_DIALOGUE_BACK, E_START_SCROLL_DIALOGUE_UP, E_STOP_SCROLL_DIALOGUE_UP, E_START_SCROLL_DIALOGUE_DOWN, E_STOP_SCROLL_DIALOGUE_DOWN, E_CLOSE_DIALOGUE, E_LOAD_DIALOGUE_DATA } from 'events/types'
 import handler from 'events/handler'
 
+// move to cfg
+const UNIVERSAL_TOPICS = ['background']
+
 function setTarget(targetNPC) {
   npc = targetNPC
 }
@@ -14,16 +17,26 @@ function select() {
     graphics.lineStyle(1, 0x888888)
     graphics.strokeRectShape(highlight)
     inTopics = false
-    topic = topics[topicIndex]
-    var options = data.topics[topic]
-    var groupIntersect = npc.groups.filter(g => Object.keys(options.groups || {}).includes(g))
-    if (options.people && options.people[npc.key]) {
-      text = split(options.people[npc.key].text)
-    } else if (options.groups && groupIntersect.length > 0) {
-      text = split(options.groups[groupIntersect[0]].text)
+    topic = unlockedTopics[topicIndex]
+    if (UNIVERSAL_TOPICS.find(t => t === topic)) {
+      text = split(npc.dialogue.background)
     } else {
-      text = split(options.default.text)
+      var options = data.topics[topic]
+      var groupIntersect = npc.groups.filter(g => Object.keys(options.groups || {}).includes(g))
+      if (options.people && options.people[npc.key]) {
+        text = split(options.people[npc.key].text)
+      } else if (options.groups && groupIntersect.length > 0) {
+        text = split(options.groups[groupIntersect[0]].text)
+      } else {
+        text = split(options.default.text)
+      }
+      if (data.topics[topic].unlocks) {
+        data.topics[topic].unlocks.forEach(t => topicLocks[t] = false)
+        unlockedTopics = UNIVERSAL_TOPICS.concat(topics.filter(t => !topicLocks[t]))
+        topicIndex = unlockedTopics.indexOf(topic)
+      }
     }
+
     renderText()
   }
 }
@@ -46,7 +59,7 @@ function back() {
 
 function startScrollDown() {
   if (inTopics) {
-    if (topicIndex < topics.length - 1) {
+    if (topicIndex < unlockedTopics.length - 1) {
       topicIndex++
     }
     renderTopics()
@@ -66,7 +79,7 @@ function startScrollUp() {
     renderTopics()
   } else {
     if (textIndex > 0) {
-      textIndex -= 6
+      textIndex -= 8
     }
     renderText()
   }
@@ -115,18 +128,17 @@ function loadPanel() {
   panel = tilemap.createStaticLayer(MENU_LAYER_KEY, tilemap.addTilesetImage(MENU_TILE_KEY))
 
   panel.setScale(4)
-  panel.setY(24 * 16)
 
   graphics = scene.add.graphics()
   highlight = new Phaser.Geom.Rectangle(1.5 * 16, (29.5 * 16) + 32, 23 * 16, 32)
 
-  scene.add.bitmapText(2 * 16, 25.25 * 16, TITLE_FONT, name)
+  scene.add.bitmapText(2 * 16, 1.25 * 16, TITLE_FONT, name)
 }
 
 function renderTopics() {
   var normalizedIndex = (topicIndex < 0 ? 0 : topicIndex)
-  var topicSectionIndex = Math.floor(normalizedIndex / 3) * 3 
-  var highlightIndex = normalizedIndex % 3
+  var topicSectionIndex = Math.floor(normalizedIndex / 8) * 8 
+  var highlightIndex = normalizedIndex % 8
 
   if (topicIndex >= 0) {
     topicBitmaps.forEach(bm => bm.destroy())
@@ -137,9 +149,9 @@ function renderTopics() {
     graphics.strokeRectShape(highlight)
   }
 
-  for (var i = 0; i < 3; i++) {
+  for (var i = 0; i < 8; i++) {
     topicBitmaps.push(
-      scene.add.bitmapText(2 * 16, (30 * 16) + (i * 32), MENU_FONT, topics[topicSectionIndex + i]))
+      scene.add.bitmapText(2 * 16, (30 * 16) + (i * 32), MENU_FONT, unlockedTopics[topicSectionIndex + i]))
   }
 }
 
@@ -147,14 +159,14 @@ function renderText() {
   textBitmaps.forEach(bm => bm.destroy())
   textBitmaps = []
   var hasPrev = textIndex !== 0
-  var hasNext = textIndex + 6 < text.length
+  var hasNext = textIndex + 8 < text.length
   
   //if (hasPrev) {
   //  textBitmaps.push(
   //    scene.add.bitmapText(27 * 16, (29 * 16), MENU_FONT, '...'))
   //}
 
-  for (var i = 0; i < 6; i++) {
+  for (var i = 0; i < 8; i++) {
     textBitmaps.push(
       scene.add.bitmapText(27 * 16, (30 * 16) + (i * 32), MENU_FONT, text[textIndex + i]))
   }
@@ -167,6 +179,8 @@ function renderText() {
 
 function loadTopics() {
   topics = npc.dialogue.topics
+  topics.forEach(t => topicLocks[t] = data.topics[t].locked)
+  unlockedTopics = UNIVERSAL_TOPICS.concat(topics.filter(t => !topicLocks[t]))
   renderTopics()
 }
 
@@ -187,7 +201,8 @@ var scene
 var graphics
 var highlight
 var topics
-var topic = 'Greetings'
+var unlockedTopics
+var topic
 var text 
 var tilemap
 var panel
@@ -196,6 +211,7 @@ var textIndex = 0
 var topicBitmaps = []
 var textBitmaps = []
 var inTopics = true 
+var topicLocks = {}
 
 function DialogueManager() {
   if (!manager) {

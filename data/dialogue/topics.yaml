@@ -1,4 +1,66 @@
+# TEMPLATE
+topic:
+  # whether a topic is locked or not
+  locked: true 
+  # conditions for showing the topic
+  conditions:
+    # item is in inventory (bool val does not matter)
+    inInventory: true
+    # item is in spell
+    inSpells: true
+    # quest has been started
+    questStarted: questName
+    # quest has been completed
+    questCompleted: questName
+    # character has been met
+    characterMet: characterName
+  # default text to show if no personal/group text
+  default:
+    # string of text to display
+    text: Some text
+  # topic to show if npc is part of a given group
+  groups:
+    # key of the group
+    groupName:
+      # persuastion threshold needed
+      # 0 = completely disliked, 1 = completely liked
+      threshold: 1
+      # string of text to display
+      text: Some group text
+  # topic to show if talking to a specific npc
+  people:
+    # key of npc
+    npcName:
+      # persuasion threshold (for description, see groups.groupName.threshold)
+      threshold: 1
+      # string of text to display
+      text: Some individual text
+  # actions triggered by the text. this should only be present on groups or people
+  triggers:
+    # start a quest
+    startQuest: questName
+    # advance a quest to its next stage
+    advanceQuest: questName
+    # complete a quest
+    completeQuest: questName
+    # receive items
+    receiveItem:
+      - item1
+      - item2
+    # start combat for a given encounter 
+    startCombat: encounterName
+    startCutscene: cutsceneName
+  # topics unlocked by accessing this topic 
+  unlocks:
+    - topicName
+
+# TOPICS
+belyag:
+  locked: false
+  default:
+    text: You'll find them occasionally throughout southern Hamaeron, though they aren't a native plant. I hear they lure small animals in with their sweet scent, and snare them in their ooze. The locals say they have healing properties.
 delvers:
+  locked: true 
   default: 
     text: They're state sanctioned relic hunters. They pick through ruins, barrows and crypts for salvage from the ancients. They're an odd bunch, and most keep away from them.
   groups:
@@ -10,28 +72,57 @@ delvers:
       threshold: 0.6
       text: We dig into the ruins of the ancients to find the glorious treasures of the dead world. I've seen strange things under this old ground. Good trade to ply for a dwarf, all in all. The men fare less well - I'd stay away from them if you see them.
 dwarves:
+  locked: false 
   default:
     text: Short stocky folk, seems like few know where they're from, and they mostly keep to themselves. They look sort of like rocks, if you see them in the right light.
   groups:
     dwarves:
       threshold: 0.5
       text: We're an old race, with a long memory. If you come by a dwarven encampment, sit by the fire if you're invited to, and listen to the song. You'll learn something, human.
-hamaeron:
+Hamaeron:
+  locked: false 
   default:
     text: The westernmost province of the Empire is also its most remote. A few settlements are scattered amongst the sea bluffs and highlands, but most of the province can scarcely be claimed as Imperial. There are certainly other things that claim dominion over this land, however, and the northern reaches of Hamaeron hold no sanctuary for travellers. 
-korakorum:
+Lockeshead:
+  locked: false 
+  default:
+    text: The largest town in Hamaeron, and if you want any civilized amenities it's your best chance of finding them. It's a hub for delving, and several of the guilds have outposts in the town. You'll find the money in the eastern quarter of town - but the western quarter is more fun. If you're not affiliated with a guild, you can always go see Shuki for work.
+  unlocks:
+    - delvers
+    - Shuki
+    - The Skysingers
+Korakorum:
+  locked: false 
   default:
     text: An ancient fortress above the great ocean. Last I heard, delvers hadn't been able to break into it beyond a few antechambers. Perhaps thats for the best.
-    unlocks:
-      - delvers
-the Skysingers:
+  unlocks:
+    - delvers
+Shuki:
+  locked: true
+  default:
+    text: Shuki is a bartender in the southern slum of Lockeshead. Some say her business goes beyond that of an innkeep, but I wouldn't mention that around her. If you do go visit, look for the fat, booming Feneziri woman, you can't miss her.
+  people:
+    ruricHcvungylr:
+      text: Shuki has quite the reputation in this part of the world. Some would have you believe her power rivals that of the Empire. All I know is, she serves a good drink, and can get you work if you need it... and lack certain scruples.
+The Skysingers:
+  locked: true 
   default: 
     text: The Skysingers are the official delver guild of Lord Amond Grey, which makes them the de facto delver guild of the Empire. They generally enjoy first contracts on new delver sites and access to the best equipment, though I've heard they lack the talent of other guilds. Too many lord's sons trying to make a name for themselves, not enough real wit.
-    unlocks:
-      - delvers
   groups:
     skysingers: 
       threshold: 0
       text: We're the pride of the Empire. Our Lord guarantees us the best men, equipment and sites, and in return, we glorify him with the treasures our delves unearth. 
-      unlocks:
-        - delvers
+  unlocks:
+    - delvers
+Talion Flower:
+  conditions:
+    inInventory: true
+  default:
+    text: A simple white flower that grows near the sea in the West. Their smell tingles the nostrils, though don't eat them - they'll make you woozy.
+The Grey Empire:
+  default:
+    text: The Empire is old, with its roots in the first empire of man, Avanthum. For hundreds of years, it has fought against the wilds, rebellion, and forces of evil in order to colonize and expand into new territory. Many of these colonies do not last, though, and fall into ruin or disappear altogether. The Grey Empire has claimed half the world - in turn, the world claimed half of it back.
+  people:
+    ruricHcvungylr:
+      text: The Grey Lineage would have you believe they're the mightiest empire in the world. I hear news from dwarves roaming through these parts that another human empire is growing in the East. They spread like a disease under black banners, goaded on by howling priests. We shall see how mighty Grey is, when the Black comes to blot it out.
+

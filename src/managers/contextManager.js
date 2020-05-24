@@ -73,6 +73,32 @@ function dialogueStopScrollUp() {
   manager.emit(events.E_STOP_SCROLL_DIALOGUE_UP)
 }
 
+function openInventory() {
+  ctx = context.CTX_INVENTORY
+  manager.emit(events.E_OPEN_INVENTORY)
+}
+
+function closeInventory() {
+  ctx = context.CTX_EXPLORE
+  manager.emit(events.E_CLOSE_INVENTORY)
+}
+
+function inventoryNavLeft() {
+  manager.emit(events.E_NAV_LEFT)
+}
+
+function inventoryNavRight() {
+  manager.emit(events.E_NAV_RIGHT)
+}
+
+function inventoryNavUp() {
+  manager.emit(events.E_NAV_UP)
+}
+
+function inventoryNavDown() {
+  manager.emit(events.E_NAV_DOWN)
+}
+
 function translate(_, event) {
   var fn = contextDict[ctx][event]
   if (!fn) {
@@ -102,6 +128,7 @@ var contextDict = {
     [events.E_DOWN_KEYUP]: playerDownUp,
     [events.E_INTERACT_KEYDOWN]: playerInteractDown,
     [events.E_INTERACT_KEYUP]: playerInteractUp,
+    [events.E_INVENTORY_KEYDOWN]: openInventory,
   },
   [context.CTX_DIALOGUE]: {
     [events.E_INTERACT_KEYDOWN]: dialogueSelectDown,
@@ -110,6 +137,13 @@ var contextDict = {
     [events.E_DOWN_KEYDOWN]: dialogueStartScrollDown,
     [events.E_UP_KEYUP]: dialogueStopScrollUp,
     [events.E_UP_KEYDOWN]: dialogueStartScrollUp,
+  },
+  [context.CTX_INVENTORY]: {
+    [events.E_INVENTORY_KEYDOWN]: closeInventory,
+    [events.E_LEFT_KEYDOWN]: inventoryNavLeft,
+    [events.E_UP_KEYDOWN]: inventoryNavUp,
+    [events.E_DOWN_KEYDOWN]: inventoryNavDown,
+    [events.E_RIGHT_KEYDOWN]: inventoryNavRight,
   }
 }
 
@@ -137,6 +171,7 @@ function ContextManager() {
       events.E_INTERACT_KEYUP,
       events.E_BACK_KEYDOWN,
       events.E_BACK_KEYUP,
+      events.E_INVENTORY_KEYDOWN,
     ], translate)
   }
 

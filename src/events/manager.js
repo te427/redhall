@@ -25,7 +25,7 @@ function EventManager() {
         }
       },
       emit(type, data) {
-        console.log(`Emitting event: ${type}`)
+        console.log(`Emitting event: ${type} - ${data}`)
         var listeners = callbacks[type]
         if (listeners) {
           listeners.forEach(callback => callback(data, type))

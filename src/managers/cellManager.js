@@ -1,7 +1,7 @@
 import { TILE_SIZE } from 'constants/dimensions/game'
 import { STARTING_CELL, STARTING_ENTRANCE } from 'constants/game'
-import { WORLD_TILE_KEY, ITEM_TILE_KEY, WORLD_LAYER_KEY, ITEM_LAYER_KEY } from 'constants/keys'
-import { E_INTERACT, E_INIT_SPAWN, E_SET_CELL, E_LOAD_CELL_DATA, E_INIT_TERRAIN, E_CHANGE_SCENE } from 'events/types'
+import { WORLD_TILE_KEY, WORLD_LAYER_KEY } from 'constants/keys'
+import { E_INIT_SPAWN, E_SET_CELL, E_LOAD_CELL_DATA, E_INIT_TERRAIN, E_CHANGE_SCENE, E_INIT_TILEMAP } from 'events/types'
 
 import handler from 'events/handler'
 import { mapKey } from 'helpers/keys'
@@ -15,7 +15,7 @@ function setCell(newCell) {
 }
 
 function initWorld() {
-  worldMap = scene.make.tilemap({
+  cellMap = scene.make.tilemap({
     key: mapKey(name), 
     tileWidth: TILE_SIZE, 
     tileHeight: TILE_SIZE
@@ -23,19 +23,17 @@ function initWorld() {
 }
 
 function initTerrain() {
-  terrainSet = worldMap.addTilesetImage(WORLD_TILE_KEY)
-  terrainLayer = worldMap.createStaticLayer(WORLD_LAYER_KEY, terrainSet)
+  terrainSet = cellMap.addTilesetImage(WORLD_TILE_KEY)
+  terrainLayer = cellMap.createStaticLayer(WORLD_LAYER_KEY, terrainSet)
 
   data.exits.forEach(function(tile) {
-    terrainLayer.setTileLocationCallback(tile.x, tile.y, 1, 1, () => changeCell(tile.name))
+    terrainLayer.setTileLocationCallback(tile.x, tile.y, 1, 1, () => moveToCell(tile.name))
   })
 
   manager.emit(E_INIT_TERRAIN, terrainLayer)
-}
 
-function initItems() {
-  itemSet = worldMap.addTilesetImage(ITEM_TILE_KEY)
-  itemLayer = worldMap.createDynamicLayer(ITEM_LAYER_KEY, itemSet)
+  // we can add other layers once the initial has been added
+  manager.emit(E_INIT_TILEMAP, cellMap)
 }
 
 function initBounds() {
@@ -48,21 +46,9 @@ function initSpawn() {
   manager.emit(E_INIT_SPAWN, spawn)
 }
 
-function interact(pos) {
-  var tile = itemLayer.getTileAtWorldXY(pos.x, pos.y)
-  if (tile) {
-    var index = tile.index
-    // use index in scene itemManager to see if exists (isn't used)
-    var tx = tile.x
-    var ty = tile.y
-    tile.tilemap.fill(index + 1, tx, ty, 1, 1)
-  }
-}
-
 function renderCell() {
   initWorld()
   initTerrain()
-  initItems()
   initBounds()
   initSpawn()
 }
@@ -71,7 +57,7 @@ function setCellData(cellData) {
   data = cellData
 }
 
-function changeCell(newCell) {
+function moveToCell(newCell) {
   setEntrance(name)
   setCell(newCell)
   manager.emit(E_CHANGE_SCENE, newCell)
@@ -86,11 +72,9 @@ var entrance
 var name
 var data
 var scene
-var worldMap
+var cellMap
 var terrainSet
 var terrainLayer
-var itemSet
-var itemLayer
 
 function CellManager() {
   if (!manager) {
@@ -106,8 +90,8 @@ function CellManager() {
         renderCell()
       },
       destroy() {
-        if (worldMap) {
-          worldMap.destroy()
+        if (cellMap) {
+          cellMap.destroy()
         }
 
         if (terrainLayer) {
@@ -117,7 +101,6 @@ function CellManager() {
     }
 
     manager.on({
-      [E_INTERACT]: interact,
       [E_LOAD_CELL_DATA]: setCellData,
     })
 

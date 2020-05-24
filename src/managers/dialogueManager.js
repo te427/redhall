@@ -1,8 +1,9 @@
 import * as Phaser from 'phaser'
 
 import { UNIVERSAL_TOPICS } from 'constants/dialogue'
-import { BOX_FADED_COLOR, BOX_FADED_THICKNESS, BOX_HIGHLIGHTED_COLOR, BOX_HIGHLIGHTED_THICKNESS, BOX_X, BOX_STARTING_Y, BOX_WIDTH, BOX_HEIGHT, NAME_X, NAME_Y, BOX_JUMP, TOPIC_X, TOPIC_Y, LINE_OFFSET, LINE_COUNT, CHAR_COUNT, TEXT_X, TEXT_Y } from 'constants/dimensions/dialogue'
+import { BOX_X, BOX_STARTING_Y, BOX_WIDTH, BOX_HEIGHT, BOX_JUMP, TOPIC_X, TOPIC_Y, LINE_OFFSET, LINE_COUNT, CHAR_COUNT, TEXT_X, TEXT_Y } from 'constants/dimensions/dialogue'
 import { TILE_SIZE, ZOOM_FACTOR } from 'constants/dimensions/game'
+import { NAME_X, NAME_Y, BOX_HIGHLIGHTED_THICKNESS, BOX_HIGHLIGHTED_COLOR, BOX_FADED_THICKNESS, BOX_FADED_COLOR } from 'constants/dimensions/menu'
 import { DIALOGUE_KEY, TITLE_FONT_KEY, MENU_FONT_KEY, MENU_LAYER_KEY, MENU_TILE_KEY } from 'constants/keys'
 import { E_SET_DIALOGUE, E_DIALOGUE_SELECT, E_DIALOGUE_BACK, E_START_SCROLL_DIALOGUE_UP, E_STOP_SCROLL_DIALOGUE_UP, E_START_SCROLL_DIALOGUE_DOWN, E_STOP_SCROLL_DIALOGUE_DOWN, E_CLOSE_DIALOGUE, E_LOAD_DIALOGUE_DATA } from 'events/types'
 
@@ -15,8 +16,9 @@ function select() {
     inTopics = false
     topic = unlockedTopics[topicIndex]
 
-    if (UNIVERSAL_TOPICS.find(t => t === topic)) {
-      text = split(npc.dialogue.background)
+    var universalTopic = UNIVERSAL_TOPICS.find(t => t === topic)
+    if (universalTopic) {
+      text = split(npc.dialogue[universalTopic])
     } else {
       var options = data.topics[topic]
       var groupIntersect = npc.groups.filter(g => Object.keys(options.groups || {}).includes(g))

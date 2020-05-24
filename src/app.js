@@ -2,9 +2,10 @@ import * as Phaser from 'phaser'
 
 import { GAME_KEY } from 'constants/keys'
 
+import DialogueScene from 'scenes/dialogue'
+import InventoryScene from 'scenes/inventory'
 import GameScene from 'scenes/game'
 import LoadingScene from 'scenes/loading'
-import DialogueScene from 'scenes/dialogue'
 
 import CameraManager from 'managers/cameraManager'
 import CellManager from 'managers/cellManager'
@@ -13,6 +14,7 @@ import ContextManager from 'managers/contextManager'
 import DataManager from 'managers/dataManager'
 import DialogueManager from 'managers/dialogueManager'
 import EventManager from 'events/manager'
+import InventoryManager from 'managers/inventoryManager'
 import ItemManager from 'managers/itemManager'
 import KeyManager from 'managers/keyManager'
 import LoadManager from 'managers/loadManager'
@@ -35,7 +37,7 @@ function initConfig() {
         //debug: true
       },
     },
-    scene: [LoadingScene, GameScene, DialogueScene],
+    scene: [LoadingScene, GameScene, DialogueScene, InventoryScene],
   }
 }
 
@@ -50,7 +52,7 @@ function initManagers(game) {
     dialogue: DialogueManager(),
     enemies: null, // TODO
     events: EventManager(),
-    inventory: null,
+    inventory: InventoryManager(),
     items: ItemManager(),
     keys: KeyManager(game),
     loading: LoadManager(),

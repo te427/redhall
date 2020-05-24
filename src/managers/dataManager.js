@@ -1,8 +1,8 @@
 import YAML from 'yaml'
 
-import { FILE_DATA_DIALOGUE_TOPICS, FILE_DATA_DIALOGUE_DEFAULTS } from 'constants/data/files'
+import { FILE_DATA_DIALOGUE_TOPICS, FILE_DATA_DIALOGUE_DEFAULTS, FILE_DATA_ITEMS_NONCOLLISION } from 'constants/data/files'
 import { CELL_PATH, CHAR_PATH, MAP_PATH, DIALOGUE_PATH, CELL_MAP_PATH } from 'constants/data/paths'
-import { E_SET_CELL, E_LOAD_CELL_DATA, E_LOAD_DIALOGUE_DATA } from 'events/types'
+import { E_SET_CELL, E_LOAD_CELL_DATA, E_LOAD_DIALOGUE_DATA, E_LOAD_NON_COLLISION_ITEM_DATA } from 'events/types'
 
 import handler from "events/handler"
 import { fullPath, json, path, yaml } from 'helpers/files'
@@ -36,6 +36,10 @@ function getDefaultDialoguePath() {
   return FILE_DATA_DIALOGUE_DEFAULTS
 }
 
+function getNonCollisionItemPath() {
+  return FILE_DATA_ITEMS_NONCOLLISION
+}
+
 async function getCellData(cell) {
   return getObj(getCellPath(cell))
 }
@@ -54,6 +58,10 @@ async function getTopicData() {
 
 async function getDefaultDialogueData() {
   return getObj(getDefaultDialoguePath())
+}
+
+async function getNonCollisionItemData() {
+  return getObj(getNonCollisionItemPath())
 }
 
 async function getDimensions(mapRes) {
@@ -101,9 +109,22 @@ async function loadDialogue() {
   return true
 }
 
+async function loadItems() {
+  var nonCollisionItemRes = await getNonCollisionItemData()
+  var nonCollisionItems = YAML.parse(await nonCollisionItemRes.text())
+
+  manager.emit(E_LOAD_NON_COLLISION_ITEM_DATA, nonCollisionItems)
+
+  // load collision items
+}
+
 async function preload() {
   if (!init) {
-    init = await loadDialogue()
+
+    init = await Promise.all([
+      loadDialogue(),
+      loadItems(),
+    ])
   }
 }
 

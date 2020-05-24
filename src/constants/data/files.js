@@ -2,6 +2,7 @@ import * as p from 'constants/data/paths'
 import * as f from 'helpers/files'
 
 export const FILE_DATA_MAP_MENU_DIALOGUE = f.path(p.MENU_MAP_PATH, f.json('dialogue'))
+export const FILE_DATA_MAP_MENU_INVENTORY = f.path(p.MENU_MAP_PATH, f.json('inventory'))
 
 export const FILE_DATA_ITEMS_COLLISION = f.path(p.ITEMS_PATH, f.yaml('collision'))
 export const FILE_DATA_ITEMS_NONCOLLISION = f.path(p.ITEMS_PATH, f.yaml('non_collision'))
@@ -14,6 +15,7 @@ export const FILE_ASSET_TILES_NON_COLLISION_ITEMS = f.path(p.TILES_PATH, f.png('
 export const FILE_ASSET_TILES_WORLD = f.path(p.TILES_PATH, f.png('world'))
 
 export const FILE_ASSET_SPRITES_PLAYER = f.path(p.SPRITE_PATH, f.png('player'))
+export const FILE_ASSET_SPRITES_INGREDIENTS = f.path(p.SPRITE_PATH, f.png('ingredients'))
 
 export const FILE_ASSET_SFX_PLAYER_FOOTSTEP = f.path(p.PLAYER_SFX_PATH, f.wav('footstep'))
 

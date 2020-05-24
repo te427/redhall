@@ -18,7 +18,6 @@ navigate to [localhost:8085](http://localhost:8085) when the server is running.
 
 ### Bugs
 - Fix tree collisions
-- Fix second cell not loading correctly
 
 ### Smaller Items
 - ~~create a cell manager to load sprites from static files~~
@@ -37,6 +36,7 @@ navigate to [localhost:8085](http://localhost:8085) when the server is running.
   - do this between regions instead of cells?
 - ~~add common topics to character interaction~~
 - clean up dialogue manager into common, finer tuned methods
+- add notifications to the UI (i.e. on item pickup)
 
 ### Larger Items
 - add world map

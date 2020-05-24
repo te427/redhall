@@ -1,14 +1,17 @@
 import * as Phaser from 'phaser'
+
+import { SCENE_GAME } from 'constants/scenes'
+
 import CameraManager from 'managers/cameraManager'
 import CellManager from 'managers/cellManager'
 import CollisionManager from 'managers/collisionManager'
 import DialogueManager from 'managers/dialogueManager'
+import ItemManager from 'managers/itemManager'
 import KeyManager from 'managers/keyManager'
 import PlayerManager from 'managers/playerManager'
 import MusicManager from 'managers/musicManager'
 import NPCManager from 'managers/npcManager'
 import SceneManager from 'managers/sceneManager'
-import { SCENE_GAME } from 'constants/scenes'
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -18,6 +21,7 @@ class GameScene extends Phaser.Scene {
     this.cellManager = CellManager()
     this.collisionManager = CollisionManager()
     this.dialogueManager = DialogueManager()
+    this.itemManager = ItemManager()
     this.keyManager = KeyManager()
     this.musicManager = MusicManager()
     this.npcManager = NPCManager()
@@ -27,6 +31,7 @@ class GameScene extends Phaser.Scene {
 
   create() {
     this.cellManager.init(this)
+    this.itemManager.init(this)
     this.cellManager.render()
     this.sceneManager.init(this)
     this.npcManager.init(this)

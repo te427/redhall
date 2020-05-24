@@ -9,8 +9,11 @@ export const PLAYER_KEY = 'player'
 export const MENU_KEY = 'menu'
 export const ITEM_KEY = 'item'
 export const DIALOGUE_KEY = 'dialogue'
+export const INVENTORY_KEY = 'inventory'
 export const SFX_KEY = 'sfx'
 export const SPRITE_KEY = 'sprite'
+
+export const INGREDIENTS_SPRITE_KEY = 'ingredients'
 
 export const WORLD_LAYER_KEY = 'Tile Layer 1'
 export const ITEM_LAYER_KEY = 'Tile Layer 2'

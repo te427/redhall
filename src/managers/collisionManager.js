@@ -1,5 +1,5 @@
 import { E_INIT_TERRAIN, E_INIT_NPCS, E_INIT_PLAYER } from 'events/types';
-import { FPS } from 'constants/cfg'
+import { FPS } from 'constants/dimensions/game'
 import handler from 'events/handler'
 
 function setTerrain(terrainLayer) {

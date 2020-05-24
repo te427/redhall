@@ -1,4 +1,4 @@
-import { TILE_SIZE } from 'constants/cfg'
+import { TILE_SIZE } from 'constants/dimensions/game'
 import { STARTING_CELL, STARTING_ENTRANCE } from 'constants/game'
 import { WORLD_TILE_KEY, ITEM_TILE_KEY, WORLD_LAYER_KEY, ITEM_LAYER_KEY } from 'constants/keys'
 import { E_INTERACT, E_INIT_SPAWN, E_SET_CELL, E_LOAD_CELL_DATA, E_INIT_TERRAIN, E_CHANGE_SCENE } from 'events/types'

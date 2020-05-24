@@ -1,4 +1,4 @@
-import { ADDR, ITEMS_PATH } from "constants/cfg"
+import { ADDR, ITEMS_PATH } from "constants/dimensions/game"
 
 var manager
 var items

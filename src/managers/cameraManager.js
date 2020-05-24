@@ -1,4 +1,4 @@
-import { ZOOM_FACTOR } from 'constants/cfg'
+import { ZOOM_FACTOR } from 'constants/dimensions/game'
 import { E_INIT_PLAYER } from 'events/types'
 import handler from 'events/handler'
 

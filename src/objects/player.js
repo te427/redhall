@@ -1,4 +1,4 @@
-import { TILE_SIZE } from 'constants/cfg'
+import { TILE_SIZE } from 'constants/dimensions/game'
 import { DIR_DOWN, DIR_LEFT, DIR_RIGHT, DIR_UP } from 'constants/game'
 import { PLAYER_KEY, PLAYER_SFX_FOOTSTEP_KEY } from 'constants/keys'
 import { VELOCITY, SFX_MOVING } from 'constants/player'

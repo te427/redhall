@@ -1,4 +1,4 @@
-import { TILE_SIZE } from 'constants/cfg'
+import { TILE_SIZE } from 'constants/dimensions/game'
 
 import { npcSpriteKey, npcSFXKey } from 'helpers/keys'
 

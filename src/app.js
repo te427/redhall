@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser'
 
-import { GAME_KEY, REAL_WIDTH, REAL_HEIGHT, ZOOM_FACTOR } from 'constants/cfg'
+import { GAME_KEY } from 'constants/keys'
 
 import GameScene from 'scenes/game'
 import LoadingScene from 'scenes/loading'
@@ -28,9 +28,6 @@ function initConfig() {
   config = {
     key: GAME_KEY,
     type: Phaser.AUTO,
-    //width: REAL_WIDTH,
-    //height: REAL_HEIGHT,
-    //zoom: ZOOM_FACTOR,
     pixelArt: true,
     physics: {
       default: 'arcade',

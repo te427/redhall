@@ -4,7 +4,7 @@
      "export":
         {
          "format":"json",
-         "target":"pondOfTheChild.json"
+         "target":"pond_of_the_child.json"
         }
     },
  "height":24,
@@ -32,11 +32,11 @@
         {
          "columns":4,
          "firstgid":1,
-         "image":"..\/..\/assets\/tiles\/tiles.png",
+         "image":"..\/..\/assets\/tiles\/world.png",
          "imageheight":64,
          "imagewidth":64,
          "margin":0,
-         "name":"tiles",
+         "name":"world",
          "spacing":0,
          "tilecount":16,
          "tileheight":16,

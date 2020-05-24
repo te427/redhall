@@ -1,0 +1,6 @@
+export const TYPE_JSON = 'json'
+export const TYPE_YAML = 'yaml'
+export const TYPE_PNG = 'png'
+export const TYPE_MP3 = 'mp3'
+export const TYPE_WAV = 'wav'
+export const TYPE_FNT = 'fnt'

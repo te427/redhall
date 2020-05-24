@@ -1,6 +1,9 @@
 import * as Phaser from 'phaser'
-import { MENU_FONT, TITLE_FONT, DIALOGUE_KEY, MENU_TILE_KEY, TILE_SIZE, MENU_LAYER_KEY } from 'constants/cfg'
+
+import { TILE_SIZE } from 'constants/cfg'
+import { DIALOGUE_KEY, TITLE_FONT_KEY, MENU_FONT_KEY, MENU_LAYER_KEY, MENU_TILE_KEY } from 'constants/keys'
 import { E_SET_DIALOGUE, E_DIALOGUE_SELECT, E_DIALOGUE_BACK, E_START_SCROLL_DIALOGUE_UP, E_STOP_SCROLL_DIALOGUE_UP, E_START_SCROLL_DIALOGUE_DOWN, E_STOP_SCROLL_DIALOGUE_DOWN, E_CLOSE_DIALOGUE, E_LOAD_DIALOGUE_DATA } from 'events/types'
+
 import handler from 'events/handler'
 
 // move to cfg
@@ -132,7 +135,7 @@ function loadPanel() {
   graphics = scene.add.graphics()
   highlight = new Phaser.Geom.Rectangle(1.5 * 16, (29.5 * 16) + 32, 23 * 16, 32)
 
-  scene.add.bitmapText(2 * 16, 1.25 * 16, TITLE_FONT, name)
+  scene.add.bitmapText(2 * 16, 1.25 * 16, TITLE_FONT_KEY, name)
 }
 
 function renderTopics() {
@@ -151,7 +154,7 @@ function renderTopics() {
 
   for (var i = 0; i < 8; i++) {
     topicBitmaps.push(
-      scene.add.bitmapText(2 * 16, (30 * 16) + (i * 32), MENU_FONT, unlockedTopics[topicSectionIndex + i]))
+      scene.add.bitmapText(2 * 16, (30 * 16) + (i * 32), MENU_FONT_KEY, unlockedTopics[topicSectionIndex + i]))
   }
 }
 
@@ -168,7 +171,7 @@ function renderText() {
 
   for (var i = 0; i < 8; i++) {
     textBitmaps.push(
-      scene.add.bitmapText(27 * 16, (30 * 16) + (i * 32), MENU_FONT, text[textIndex + i]))
+      scene.add.bitmapText(27 * 16, (30 * 16) + (i * 32), MENU_FONT_KEY, text[textIndex + i]))
   }
 
   //if (hasNext) {

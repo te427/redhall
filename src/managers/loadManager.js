@@ -1,6 +1,11 @@
-import { MAP_KEY, WORLD_TILE_KEY, ITEM_TILE_KEY, MENU_TILE_KEY, PLAYER_KEY, MENU_KEY, MUSIC_KEY, MENU_FONT, TITLE_FONT, DIALOGUE_KEY } from 'constants/cfg'
+import { FILE_ASSET_FONTS_PRESS_START_24_IMG, FILE_ASSET_FONTS_PRESS_START_24_MAP, FILE_ASSET_FONTS_PRESS_START_16_IMG, FILE_ASSET_FONTS_PRESS_START_16_MAP, FILE_ASSET_TILES_WORLD, FILE_ASSET_TILES_NON_COLLISION_ITEMS, FILE_ASSET_TILES_MENUS, FILE_DATA_MAP_MENU_DIALOGUE, FILE_ASSET_SPRITES_PLAYER, FILE_ASSET_SFX_PLAYER_FOOTSTEP } from 'constants/data/files'
+import { NPC_SFX_PATH, NPC_SPRITE_PATH, MAP_PATH, MUSIC_PATH, CELL_MAP_PATH } from 'constants/data/paths'
+import { DIALOGUE_KEY, ITEM_TILE_KEY, MAP_KEY, MENU_TILE_KEY, MUSIC_KEY, PLAYER_KEY, WORLD_TILE_KEY, PLAYER_SFX_FOOTSTEP_KEY, TITLE_FONT_KEY, MENU_FONT_KEY} from 'constants/keys'
 import { E_LOAD_CELL_DATA, E_LOAD_SCENE } from 'events/types'
+
 import handler from 'events/handler'
+import { fnt, json, loadPath, mp3, path, png, wav, yaml } from 'helpers/files'
+import { npcSFXKey, npcSpriteKey, playerSFXKey, mapKey } from 'helpers/keys'
 
 function progress(value) {
   console.log(value)
@@ -21,36 +26,38 @@ function registerCallbacks(scene) {
 }
 
 function initPreload(scene) {
-  scene.load.bitmapFont(TITLE_FONT, `../assets/fonts/${TITLE_FONT}.png`, `../assets/fonts/${TITLE_FONT}.fnt`)
-  scene.load.bitmapFont(MENU_FONT, `../assets/fonts/${MENU_FONT}.png`, `../assets/fonts/${MENU_FONT}.fnt`)
+  scene.load.bitmapFont(TITLE_FONT_KEY, loadPath(FILE_ASSET_FONTS_PRESS_START_24_IMG),
+    loadPath(FILE_ASSET_FONTS_PRESS_START_24_MAP))
+  scene.load.bitmapFont(MENU_FONT_KEY, loadPath(FILE_ASSET_FONTS_PRESS_START_16_IMG),
+    loadPath(FILE_ASSET_FONTS_PRESS_START_16_MAP))
 }
 
 function initLoad(scene) {
   // load general things (should only do once)
-  scene.load.image(WORLD_TILE_KEY, '../assets/tiles/tiles.png')
-  scene.load.image(ITEM_TILE_KEY, '../assets/tiles/items.png')
-  scene.load.image(MENU_TILE_KEY, '../assets/tiles/menu.png')
+  scene.load.image(WORLD_TILE_KEY, loadPath(FILE_ASSET_TILES_WORLD))
+  scene.load.image(ITEM_TILE_KEY, loadPath(FILE_ASSET_TILES_NON_COLLISION_ITEMS))
+  scene.load.image(MENU_TILE_KEY, loadPath(FILE_ASSET_TILES_MENUS))
 
-  scene.load.tilemapTiledJSON(DIALOGUE_KEY, `../data/maps/dialogue.json`)
+  scene.load.tilemapTiledJSON(DIALOGUE_KEY, loadPath(FILE_DATA_MAP_MENU_DIALOGUE))
 
   // load player info
-  scene.load.spritesheet(PLAYER_KEY, '../assets/sprites/pc.png', { frameWidth: 16, frameHeight: 16})
-  scene.load.audio('footstep', '../assets/sfx/footstep.wav')
+  scene.load.spritesheet(PLAYER_KEY, loadPath(FILE_ASSET_SPRITES_PLAYER), { frameWidth: 16, frameHeight: 16})
+  scene.load.audio(playerSFXKey(PLAYER_SFX_FOOTSTEP_KEY), loadPath(FILE_ASSET_SFX_PLAYER_FOOTSTEP))
 }
 
 function loadNPCs(scene, data) {
   data.npcs.forEach(function(npc) {
-    scene.load.audio(npc.sfx.talk, `../assets/sfx/${npc.sfx.talk}.wav`)
-    scene.load.spritesheet(npc.sprite, `../assets/sprites/${npc.sprite}.png`, { frameWidth: 16, frameHeight: 16})
+    scene.load.audio(npcSFXKey(npc, npc.sfx.talk), loadPath(NPC_SFX_PATH, wav(npc.sfx.talk)))
+    scene.load.spritesheet(npcSpriteKey(npc, npc.sprite), loadPath(NPC_SPRITE_PATH, png(npc.sprite)), { frameWidth: 16, frameHeight: 16})
   })
 }
 
 function loadMap(scene, data) {
-  scene.load.tilemapTiledJSON(data.map + MAP_KEY, `../data/maps/${data.map}.json`)
+  scene.load.tilemapTiledJSON(mapKey(data.map), loadPath(CELL_MAP_PATH, json(data.map)))
 }
 
 function loadMusic(scene, data) {
-  scene.load.audio(MUSIC_KEY, `../assets/music/${data.music}.mp3`)
+  scene.load.audio(MUSIC_KEY, loadPath(MUSIC_PATH, mp3(data.music)))
 }
 
 function loadCell(data) {

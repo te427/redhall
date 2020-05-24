@@ -4,7 +4,7 @@
      "export":
         {
          "format":"json",
-         "target":"yarnrodPoint.json"
+         "target":"yarnrod_point.json"
         }
     },
  "height":100,
@@ -44,11 +44,11 @@
         {
          "columns":2,
          "firstgid":1,
-         "image":"..\/..\/assets\/tiles\/items.png",
+         "image":"..\/..\/assets\/tiles\/non_collision_items.png",
          "imageheight":32,
          "imagewidth":32,
          "margin":0,
-         "name":"items",
+         "name":"non_collision_items",
          "spacing":0,
          "tilecount":4,
          "tileheight":16,
@@ -57,11 +57,11 @@
         {
          "columns":4,
          "firstgid":5,
-         "image":"..\/..\/assets\/tiles\/tiles.png",
+         "image":"..\/..\/assets\/tiles\/world.png",
          "imageheight":64,
          "imagewidth":64,
          "margin":0,
-         "name":"tiles",
+         "name":"world",
          "spacing":0,
          "tilecount":16,
          "tileheight":16,

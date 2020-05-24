@@ -1,43 +1,39 @@
 import YAML from 'yaml'
-import { ADDR, CELL_PATH, CHAR_PATH, MAP_PATH, DIALOGUE_PATH } from 'constants/cfg'
+
+import { FILE_DATA_DIALOGUE_TOPICS, FILE_DATA_DIALOGUE_DEFAULTS } from 'constants/data/files'
+import { CELL_PATH, CHAR_PATH, MAP_PATH, DIALOGUE_PATH, CELL_MAP_PATH } from 'constants/data/paths'
 import { E_SET_CELL, E_LOAD_CELL_DATA, E_LOAD_DIALOGUE_DATA } from 'events/types'
+
 import handler from "events/handler"
+import { fullPath, json, path, yaml } from 'helpers/files'
 
 async function getObj(path) {
   try {
-    return fetch(ADDR + path)
+    return fetch(fullPath(path))
   } catch(err) {
     console.error(err)
     return null
   }
 }
 
-function getYamlPath(path) {
-  return path + '.yaml'
-}
-
-function getJSONPath(path) {
-  return path + '.json'
-}
-
 function getCellPath(cell) {
-  return getYamlPath(CELL_PATH + cell)
+  return yaml(path(CELL_PATH, cell))
 }
 
 function getCharPath(cell) {
-  return getYamlPath(CHAR_PATH + cell)
+  return yaml(path(CHAR_PATH, cell))
 }
 
 function getMapPath(cell) {
-  return getJSONPath(MAP_PATH + cell)
+  return json(path(CELL_MAP_PATH, cell))
 }
 
 function getTopicsPath() {
-  return getYamlPath(DIALOGUE_PATH + 'topics')
+  return FILE_DATA_DIALOGUE_TOPICS
 }
 
 function getDefaultDialoguePath() {
-  return getYamlPath(DIALOGUE_PATH + 'defaults')
+  return FILE_DATA_DIALOGUE_DEFAULTS
 }
 
 async function getCellData(cell) {

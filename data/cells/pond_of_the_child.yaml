@@ -1,15 +1,15 @@
 name: Pond of the Child
-map: pondOfTheChild
+map: pond_of_the_child
 music: music
 npcs: []
 entrances:
   - name: spawn
     x: 5
     y: 23
-  - name: yarnrodPoint
+  - name: yarnrod_point
     x: 8
     y: 22
 exits:
-  - name: yarnrodPoint
+  - name: yarnrod_point
     x: 8
     y: 23

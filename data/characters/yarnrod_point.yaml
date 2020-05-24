@@ -1,6 +1,6 @@
 - name: Ruric Hcvungylr
-  key: ruricHcvungylr
-  sprite: dwarf
+  key: ruric_hcvungylr
+  sprite: orange_haired_bald_dwarf
   groups:
     - delvers
     - skysingers
@@ -20,6 +20,6 @@
       - The Grey Empire
       - The Skysingers
   sfx: 
-    talk: dwarf
+    talk: dwarf_greeting_1 
   anims:
     stand: dwarf

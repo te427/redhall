@@ -1,6 +1,8 @@
-import { TITLE_FONT } from 'constants/cfg'
-import { SCENE_LOADING } from 'constants/scenes'
 import * as Phaser from 'phaser'
+
+import { TITLE_FONT_KEY } from 'constants/keys'
+import { SCENE_LOADING } from 'constants/scenes'
+
 import CellManager from 'managers/cellManager'
 import DataManager from 'managers/dataManager'
 import LoadManager from 'managers/loadManager'
@@ -29,7 +31,7 @@ class LoadingScene extends Phaser.Scene {
 
     this.cellManager.load()
 
-    this.add.bitmapText(20, 20, TITLE_FONT, 'Loading Game...')
+    this.add.bitmapText(20, 20, TITLE_FONT_KEY, 'Loading Game...')
   }
 }
 

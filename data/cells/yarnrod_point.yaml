@@ -1,18 +1,18 @@
 name: Yarnrod Point
-map: yarnrodPoint
-music: music
+map: yarnrod_point
+music: cliffs_of_hamaeron 
 npcs:
-  - key: ruricHcvungylr
+  - key: ruric_hcvungylr
     x: 24
     y: 20
 entrances:
   - name: spawn
     x: 22
     y: 20
-  - name: pondOfTheChild
+  - name: pond_of_the_child
     x: 10
     y: 2
 exits:
-  - name: pondOfTheChild
+  - name: pond_of_the_child
     x: 10
     y: 0

@@ -1,5 +1,7 @@
 import { TILE_SIZE } from 'constants/cfg'
 
+import { npcSpriteKey, npcSFXKey } from 'helpers/keys'
+
 var data
 var sprite
 var anims
@@ -25,7 +27,7 @@ function NPC(scene, npcData) {
         key: 'stand',
         repeat: -1,
         frameRate: 2,
-        frames: scene.anims.generateFrameNames(data.sprite, {start: 0, end: 1}) 
+        frames: scene.anims.generateFrameNames(npcSpriteKey(data, data.sprite), {start: 0, end: 1}) 
       })
 
       sprite.play('stand')
@@ -33,7 +35,7 @@ function NPC(scene, npcData) {
     initSfx(scene) {
       sfx = {} 
 
-      sfx.talk = scene.sound.add(data.sfx.talk)
+      sfx.talk = scene.sound.add(npcSFXKey(data, data.sfx.talk))
 
       sfx.talk.addMarker({
         name: 'talk',

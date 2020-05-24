@@ -1,7 +1,10 @@
-import { VELOCITY, SFX_MOVING } from 'constants/player'
-import { PLAYER_KEY, TILE_SIZE } from 'constants/cfg'
-import { ANIM_WALK_DOWN, ANIM_WALK_UP, ANIM_WALK_LEFT, ANIM_WALK_RIGHT } from 'constants/sprites'
+import { TILE_SIZE } from 'constants/cfg'
 import { DIR_DOWN, DIR_LEFT, DIR_RIGHT, DIR_UP } from 'constants/game'
+import { PLAYER_KEY, PLAYER_SFX_FOOTSTEP_KEY } from 'constants/keys'
+import { VELOCITY, SFX_MOVING } from 'constants/player'
+import { ANIM_WALK_DOWN, ANIM_WALK_UP, ANIM_WALK_LEFT, ANIM_WALK_RIGHT } from 'constants/sprites'
+
+import { playerSFXKey } from 'helpers/keys'
 
 const animationDirectionMap = {
   [DIR_DOWN]: ANIM_WALK_DOWN,
@@ -71,7 +74,7 @@ function Player (scene, pos) {
     initSfx(scene) {
       sfx = {}
 
-      sfx.moving = scene.sound.add('footstep')
+      sfx.moving = scene.sound.add(playerSFXKey(PLAYER_SFX_FOOTSTEP_KEY))
 
       sfx.moving.addMarker({
         name: SFX_MOVING,

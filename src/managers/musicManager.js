@@ -1,4 +1,4 @@
-import { MUSIC_KEY } from 'constants/cfg'
+import { MUSIC_KEY } from 'constants/keys'
 
 var manager
 var music

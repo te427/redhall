@@ -1,7 +1,10 @@
-import { MAP_KEY, WORLD_TILE_KEY, ITEM_TILE_KEY, WORLD_LAYER_KEY, ITEM_LAYER_KEY, TILE_SIZE } from 'constants/cfg'
+import { TILE_SIZE } from 'constants/cfg'
 import { STARTING_CELL, STARTING_ENTRANCE } from 'constants/game'
+import { WORLD_TILE_KEY, ITEM_TILE_KEY, WORLD_LAYER_KEY, ITEM_LAYER_KEY } from 'constants/keys'
 import { E_INTERACT, E_INIT_SPAWN, E_SET_CELL, E_LOAD_CELL_DATA, E_INIT_TERRAIN, E_CHANGE_SCENE } from 'events/types'
+
 import handler from 'events/handler'
+import { mapKey } from 'helpers/keys'
 
 function setEntrance(name) {
   entrance = name
@@ -13,7 +16,7 @@ function setCell(newCell) {
 
 function initWorld() {
   worldMap = scene.make.tilemap({
-    key: name + MAP_KEY, 
+    key: mapKey(name), 
     tileWidth: TILE_SIZE, 
     tileHeight: TILE_SIZE
   })

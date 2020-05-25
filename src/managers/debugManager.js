@@ -105,6 +105,7 @@ function handle(e) {
     pastCmds = pastCmds
       .filter((cmd, i) => pastCmds.indexOf(cmd) === i)
       .slice(0, MAX_STORAGE_LENGTH)
+
     var args = cmd.split(' ')
 
     exec(args)

@@ -1,0 +1,8 @@
+name: The Arena
+map: arena 
+music: music
+npcs: []
+entrances:
+  - name: spawn
+    x: 13
+    y: 16

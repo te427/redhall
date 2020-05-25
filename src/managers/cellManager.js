@@ -26,10 +26,12 @@ function initTerrain() {
   terrainSet = cellMap.addTilesetImage(WORLD_TILE_KEY)
   terrainLayer = cellMap.createStaticLayer(WORLD_LAYER_KEY, terrainSet)
 
-  data.exits.forEach(function(tile) {
-    terrainLayer.setTileLocationCallback(tile.x, tile.y, 1, 1,
-        () => moveToCell({ entrance: cell, cell: tile.name }))
-  })
+  if (data.exits) {
+    data.exits.forEach(function(tile) {
+      terrainLayer.setTileLocationCallback(tile.x, tile.y, 1, 1,
+          () => moveToCell({ entrance: cell, cell: tile.name }))
+    })
+  }
 
   manager.emit(E_INIT_TERRAIN, terrainLayer)
 

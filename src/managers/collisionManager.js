@@ -27,7 +27,10 @@ function CollisionManager() {
         scene.physics.world.setFPS(FPS)
 
         if (terrain && player && npcs) {
-          terrain.setCollisionBetween(0, 15);
+          terrain.setCollisionBetween(1, 15);
+          terrain.setCollisionBetween(16, 23);
+          terrain.setCollisionBetween(25, 28);
+          terrain.setCollisionBetween(31, 39);
 
           player.setCollideWorldBounds(true)
           scene.physics.add.collider(player, terrain)

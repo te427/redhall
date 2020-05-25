@@ -1,6 +1,6 @@
 import { TILE_SIZE, ZOOM_FACTOR } from "constants/dimensions/game"
 import { NAME_X, NAME_Y, BOX_HIGHLIGHTED_THICKNESS, BOX_HIGHLIGHTED_COLOR, BOX_FADED_THICKNESS, BOX_FADED_COLOR } from 'constants/dimensions/menu'
-import { ITEM_START_X, ITEM_X_OFFSET, ITEM_START_Y, ITEM_Y_OFFSET, COUNT_X_OFFSET, COUNT_Y_OFFSET, TYPE_X, TYPE_START_Y, TYPE_Y_OFFSET, BOX_X, BOX_STARTING_Y, BOX_WIDTH, BOX_HEIGHT, BOX_JUMP } from "constants/dimensions/inventory"
+import { ITEM_START_X, ITEM_X_OFFSET, ITEM_START_Y, ITEM_Y_OFFSET, COUNT_X_OFFSET, COUNT_Y_OFFSET, TYPE_X, TYPE_START_Y, TYPE_Y_OFFSET, BOX_X, BOX_STARTING_Y, BOX_WIDTH, BOX_HEIGHT, BOX_JUMP, COUNT_DIGIT_OFFSET } from "constants/dimensions/inventory"
 import { INVENTORY_TITLE, INVENTORY_MAX_ROW_LENGTH, INVENTORY_MAX_COL_LENGTH } from "constants/inventory"
 import { INVENTORY_KEY, MENU_LAYER_KEY, MENU_TILE_KEY, TITLE_FONT_KEY, INGREDIENTS_SPRITE_KEY, MENU_FONT_KEY } from "constants/keys"
 import { E_ADD_TO_INVENTORY, E_NAV_DOWN, E_NAV_UP, E_NAV_LEFT, E_NAV_RIGHT } from "events/types"
@@ -61,7 +61,11 @@ function renderItems() {
     sprite.setScale(ZOOM_FACTOR)
     sprites.push(sprite)
 
-    var count = scene.add.bitmapText(xOffset + COUNT_X_OFFSET, yOffset + COUNT_Y_OFFSET, MENU_FONT_KEY, i.count)
+    var digits = ('' + i.count).length
+
+    var count = scene.add.bitmapText(
+        xOffset + COUNT_X_OFFSET - ((digits - 1) * COUNT_DIGIT_OFFSET),
+        yOffset + COUNT_Y_OFFSET, MENU_FONT_KEY, i.count)
     counts.push(count)
 
     x++ 

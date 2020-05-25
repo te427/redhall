@@ -1,7 +1,7 @@
 import { TILE_SIZE } from 'constants/dimensions/game'
 import { STARTING_CELL, STARTING_ENTRANCE } from 'constants/game'
 import { WORLD_TILE_KEY, WORLD_LAYER_KEY } from 'constants/keys'
-import { E_INIT_SPAWN, E_SET_CELL, E_LOAD_CELL_DATA, E_INIT_TERRAIN, E_CHANGE_SCENE, E_INIT_TILEMAP } from 'events/types'
+import { E_INIT_SPAWN, E_SET_CELL, E_LOAD_CELL_DATA, E_INIT_TERRAIN, E_CHANGE_SCENE, E_INIT_TILEMAP, E_MOVE_TO_CELL } from 'events/types'
 
 import handler from 'events/handler'
 import { mapKey } from 'helpers/keys'
@@ -11,12 +11,12 @@ function setEntrance(name) {
 }
 
 function setCell(newCell) {
-  name = newCell
+  cell = newCell
 }
 
 function initWorld() {
   cellMap = scene.make.tilemap({
-    key: mapKey(name), 
+    key: mapKey(cell), 
     tileWidth: TILE_SIZE, 
     tileHeight: TILE_SIZE
   })
@@ -27,7 +27,8 @@ function initTerrain() {
   terrainLayer = cellMap.createStaticLayer(WORLD_LAYER_KEY, terrainSet)
 
   data.exits.forEach(function(tile) {
-    terrainLayer.setTileLocationCallback(tile.x, tile.y, 1, 1, () => moveToCell(tile.name))
+    terrainLayer.setTileLocationCallback(tile.x, tile.y, 1, 1,
+        () => moveToCell({ entrance: cell, cell: tile.name }))
   })
 
   manager.emit(E_INIT_TERRAIN, terrainLayer)
@@ -42,7 +43,7 @@ function initBounds() {
 }
 
 function initSpawn() {
-  var spawn = data.entrances.find(e => e.name === entrance)
+  var spawn = entrance ? data.entrances.find(e => e.name === entrance) : data.entrances[0]
   manager.emit(E_INIT_SPAWN, spawn)
 }
 
@@ -57,10 +58,11 @@ function setCellData(cellData) {
   data = cellData
 }
 
-function moveToCell(newCell) {
-  setEntrance(name)
-  setCell(newCell)
-  manager.emit(E_CHANGE_SCENE, newCell)
+function moveToCell(cellData) {
+  // make this take a pos for spawning in non entrances
+  setEntrance(cellData.entrance)
+  setCell(cellData.cell)
+  manager.emit(E_CHANGE_SCENE, cell)
 }
 
 function loadCell(cell) {
@@ -69,7 +71,7 @@ function loadCell(cell) {
 
 var manager
 var entrance 
-var name
+var cell
 var data
 var scene
 var cellMap
@@ -84,7 +86,7 @@ function CellManager() {
         scene = newScene
       },
       load() {
-        loadCell(name)
+        loadCell(cell)
       },
       render() {
         renderCell()
@@ -102,6 +104,7 @@ function CellManager() {
 
     manager.on({
       [E_LOAD_CELL_DATA]: setCellData,
+      [E_MOVE_TO_CELL]: moveToCell,
     })
 
     setCell(STARTING_CELL)

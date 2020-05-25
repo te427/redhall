@@ -1,5 +1,5 @@
 import { ITEM_TILE_KEY, ITEM_LAYER_KEY } from "constants/keys"
-import { E_LOAD_NON_COLLISION_ITEM_DATA, E_INTERACT, E_INIT_TILEMAP, E_ADD_TO_INVENTORY } from "events/types"
+import { E_LOAD_NON_COLLISION_ITEM_DATA, E_INTERACT, E_INIT_TILEMAP, E_ADD_TO_INVENTORY, E_SET_TILE, E_SET_NONCOLLISION_TILE } from "events/types"
 
 import handler from "events/handler"
 
@@ -30,6 +30,15 @@ function loadNonCollisionItems(itemData) {
       (i.sprites ? { ...acc, [i.sprites.default]: i} : acc), {})
 }
 
+function setTile(to) {
+  if (!nonCollisionItemLayer) return
+  var tx = +to.x
+  var ty = +to.y
+  var tw = +to.width
+  var th = +to.height
+  nonCollisionItemLayer.fill(to.i, tx, ty, tw || 1, th || 1)
+}
+
 var manager
 var scene 
 var nonCollisionData
@@ -50,6 +59,7 @@ function ItemManager() {
       [E_INTERACT]: interact,
       [E_INIT_TILEMAP]: initNonCollisionItems,
       [E_LOAD_NON_COLLISION_ITEM_DATA]: loadNonCollisionItems,
+      [E_SET_NONCOLLISION_TILE]: setTile,
     })
   }
   return manager

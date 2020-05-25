@@ -175,7 +175,6 @@ function ContextManager() {
     ], translate)
   }
 
-
   return manager
 }
 

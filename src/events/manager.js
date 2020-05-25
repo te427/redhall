@@ -1,5 +1,4 @@
-var manager
-var callbacks = {}
+import { E_LOG_DEBUG } from "./types"
 
 function register(type, callback){
   if (typeof callback !== 'function') {
@@ -11,6 +10,18 @@ function register(type, callback){
   }
   callbacks[type] = listeners.concat(callback)
 } 
+
+function emitWithoutDebug(type, data){
+  var listeners = callbacks[type]
+  if (listeners) {
+    listeners.forEach(callback => callback(data, type))
+  }
+}
+
+var manager
+var debug
+var callbacks = {}
+
 
 function EventManager() {
   if(!manager) {
@@ -25,14 +36,12 @@ function EventManager() {
         }
       },
       emit(type, data) {
-        console.log(`Emitting event: ${type} - ${data}`)
-        var listeners = callbacks[type]
-        if (listeners) {
-          listeners.forEach(callback => callback(data, type))
-        }
+        emitWithoutDebug(E_LOG_DEBUG, { type, data })
+        emitWithoutDebug(type, data)
       }
     }
   }
+
   return manager
 }
 

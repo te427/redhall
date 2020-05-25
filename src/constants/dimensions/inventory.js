@@ -8,6 +8,7 @@ export const ITEM_Y_OFFSET = 2 * TILE_SIZE
 
 export const COUNT_X_OFFSET = 1.5 * TILE_SIZE
 export const COUNT_Y_OFFSET = 1.5 * TILE_SIZE
+export const COUNT_DIGIT_OFFSET = TILE_SIZE
 
 export const TYPE_X = 2 * TILE_SIZE
 export const TYPE_START_Y = 7 * TILE_SIZE

@@ -233,7 +233,7 @@ function DialogueManager() {
       [E_START_SCROLL_DIALOGUE_DOWN]: startScrollDown,
       [E_STOP_SCROLL_DIALOGUE_UP]: stopScrollUp,
       [E_STOP_SCROLL_DIALOGUE_DOWN]: stopScrollDown,
-    })
+    }) 
   }
   return manager
 }

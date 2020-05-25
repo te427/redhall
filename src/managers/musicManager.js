@@ -7,7 +7,10 @@ function MusicManager() {
   if (!manager) {
     manager = {
       init(scene) {
-        // move to MusicManager
+        if (music) {
+          music.stop()
+        }
+
         scene.sound.audioPlayDelay = 0.1;
         scene.sound.loopEndOffset = 0.05;
 
@@ -23,8 +26,10 @@ function MusicManager() {
           }
         }
 
+        // load music data to see what track is playing for a cell
+        // and keep playing if its the same
         music.addMarker(musicMarker)
-        music.play(MUSIC_KEY)
+        //music.play(MUSIC_KEY)
       }
     }
   }

@@ -17,7 +17,10 @@ navigate to [localhost:8085](http://localhost:8085) when the server is running.
 ## Todo List
 
 ### Bugs
-- Fix tree collisions
+- Fix tree collisions in cell 1
+- Fix running direction not resumed when moving diagonally after collision
+- get logs outputting on debug screen
+
 
 ### Smaller Items
 - ~~create a cell manager to load sprites from static files~~
@@ -37,13 +40,17 @@ navigate to [localhost:8085](http://localhost:8085) when the server is running.
 - ~~add common topics to character interaction~~
 - clean up dialogue manager into common, finer tuned methods
 - add notifications to the UI (i.e. on item pickup)
+- add sfx to picking items
+- add music state to track if tracks should change or continue
+- fix inventory item count offset when greater than 1 digit
 
 ### Larger Items
+- make it an electron app
 - add world map
-- create an inventory 
+- ~~create an inventory~~
 - create a persuasion system
   - concept - talking about topics increases/decreases likes based off of character personality?
-- split item layer into collision/non collision layers
+- ~~split item layer into collision/non collision layers~~
   - add tiles of multiple sizes
   - add general interactions for tiles of type
   - add specific interactions for tiles at a given place

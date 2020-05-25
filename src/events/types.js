@@ -12,6 +12,7 @@ export const E_INTERACT_KEYUP = 'eventInteractKeyup'
 export const E_BACK_KEYDOWN = 'eventBackKeydown'
 export const E_BACK_KEYUP = 'eventBackKeyup'
 export const E_INVENTORY_KEYDOWN = 'eventIventoryKeydown'
+export const E_DEBUG_KEYDOWN = 'eventDebugKeydown'
 
 // player events
 export const E_PLAYER_MOVE_LEFT_START = 'eventPlayerMoveLeftStart'
@@ -36,6 +37,7 @@ export const E_CHANGE_SCENE = 'eventChangeScene'
 
 // cell events
 export const E_SET_CELL = 'eventSetCell'
+export const E_MOVE_TO_CELL = 'eventMoveToCell'
 
 // initialization events
 export const E_INIT_PLAYER = 'eventInitPlayer'
@@ -46,6 +48,7 @@ export const E_INIT_SPAWN = 'eventInitSpawn'
 
 // world events 
 export const E_INTERACT = 'eventInteract'
+export const E_SET_NONCOLLISION_TILE = 'eventSetTile'
 
 // dialogue events
 export const E_OPEN_DIALOGUE = 'eventOpenDialogue'
@@ -66,3 +69,9 @@ export const E_NAV_DOWN = 'eventNavDown'
 export const E_NAV_LEFT = 'eventNavLeft'
 export const E_NAV_RIGHT = 'eventNavRight'
 export const E_ADD_TO_INVENTORY = 'eventAddToInventory'
+
+// debug events
+export const E_LOG_DEBUG = 'eventLogDebug'
+export const E_OPEN_DEBUG = 'eventOpenDebug'
+export const E_CLOSE_DEBUG = 'eventCloseDebug'
+export const E_EXEC_DEBUG_CMD = 'eventExecDebugCmd'

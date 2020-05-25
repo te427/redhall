@@ -12,6 +12,7 @@ import CellManager from 'managers/cellManager'
 import CollisionManager from 'managers/collisionManager'
 import ContextManager from 'managers/contextManager'
 import DataManager from 'managers/dataManager'
+import DebugManager from 'managers/debugManager'
 import DialogueManager from 'managers/dialogueManager'
 import EventManager from 'events/manager'
 import InventoryManager from 'managers/inventoryManager'
@@ -34,7 +35,7 @@ function initConfig() {
     physics: {
       default: 'arcade',
       arcade: {
-        //debug: true
+        debug: false
       },
     },
     scene: [LoadingScene, GameScene, DialogueScene, InventoryScene],
@@ -49,6 +50,7 @@ function initManagers(game) {
     collision: CollisionManager(),
     context: ContextManager(),
     data: DataManager(),
+    debug: DebugManager(),
     dialogue: DialogueManager(),
     enemies: null, // TODO
     events: EventManager(),

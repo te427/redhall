@@ -13,7 +13,7 @@ const animationDirectionMap = {
   [DIR_UP]: ANIM_WALK_UP,
 }
 function startAnimation() {
-  var animation = animationDirectionMap[dir]
+  animation = animationDirectionMap[dir]
   sprite.play(animation)
   sfx.moving.play(SFX_MOVING)
 }
@@ -22,8 +22,9 @@ function stopAnimationIfAtRest() {
   // need to check if butted against something
   var v = sprite.body.velocity
   if (!v.x && !v.y) {
+    sprite.anims.restart()
     sprite.anims.stop()
-    sfx.moving.stop()
+    sfx.moving.once('looped', () => sfx.moving.stop())
   }
 }
 
@@ -33,6 +34,7 @@ var dir
 var sprite
 var anims
 var sfx
+var animation
 
 function Player (scene, pos) {
   player = {
@@ -144,8 +146,13 @@ function Player (scene, pos) {
       }
     },
     halt() {
-      sprite.anims.stop()
-      sfx.moving.stop()
+      try {
+        sprite.anims.restart()
+        sprite.anims.stop()
+        sfx.moving.once('looped', () => sfx.moving.stop())
+      } catch (err) {
+        console.error(err)
+      }
     }
   }
 

@@ -8,6 +8,7 @@ function startLoading() {
 
 function startMainScene() {
   scene.scene.start(scenes.SCENE_GAME)
+  scene.scene.launch(scenes.SCENE_WEATHER)
 }
 
 function startDialogue() {

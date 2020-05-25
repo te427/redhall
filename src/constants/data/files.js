@@ -4,6 +4,8 @@ import * as f from 'helpers/files'
 export const FILE_DATA_MAP_MENU_DIALOGUE = f.path(p.MENU_MAP_PATH, f.json('dialogue'))
 export const FILE_DATA_MAP_MENU_INVENTORY = f.path(p.MENU_MAP_PATH, f.json('inventory'))
 
+export const FILE_DATA_MAP_WEATHER = f.path(p.WEATHER_MAP_PATH, f.json('weather'))
+
 export const FILE_DATA_ITEMS_COLLISION = f.path(p.ITEMS_PATH, f.yaml('collision'))
 export const FILE_DATA_ITEMS_NONCOLLISION = f.path(p.ITEMS_PATH, f.yaml('non_collision'))
 
@@ -11,6 +13,7 @@ export const FILE_DATA_DIALOGUE_DEFAULTS = f.path(p.DIALOGUE_PATH, f.yaml('defau
 export const FILE_DATA_DIALOGUE_TOPICS = f.path(p.DIALOGUE_PATH, f.yaml('topics'))
 
 export const FILE_ASSET_TILES_MENUS = f.path(p.TILES_PATH, f.png('menu'))
+export const FILE_ASSET_TILES_WEATHER = f.path(p.TILES_PATH, f.png('weather'))
 export const FILE_ASSET_TILES_NON_COLLISION_ITEMS = f.path(p.TILES_PATH, f.png('non_collision_items'))
 export const FILE_ASSET_TILES_WORLD = f.path(p.TILES_PATH, f.png('world'))
 

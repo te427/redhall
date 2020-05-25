@@ -1,4 +1,5 @@
 import * as Phaser from 'phaser'
+import AnimatedTiles from 'phaser-animated-tiles/dist/AnimatedTiles.min.js'
 
 import { GAME_KEY } from 'constants/keys'
 
@@ -6,6 +7,7 @@ import DialogueScene from 'scenes/dialogue'
 import InventoryScene from 'scenes/inventory'
 import GameScene from 'scenes/game'
 import LoadingScene from 'scenes/loading'
+import WeatherScene from 'scenes/weather'
 
 import CameraManager from 'managers/cameraManager'
 import CellManager from 'managers/cellManager'
@@ -26,6 +28,7 @@ import PlayerManager from 'managers/playerManager'
 import SceneManager from 'managers/sceneManager'
 import SFXManager from 'managers/sfxManager'
 import StateManager from 'managers/stateManager'
+import WeatherManager from 'managers/weatherManager'
 
 function initConfig() {
   config = {
@@ -38,7 +41,20 @@ function initConfig() {
         debug: false
       },
     },
-    scene: [LoadingScene, GameScene, DialogueScene, InventoryScene],
+    plugins: {
+      scene: [
+        {
+          key: 'animatedTiles',
+          plugin: AnimatedTiles,
+          start: true,
+          systemKey: 'animatedTiles',
+          sceneKey: 'animatedTiles',
+          mapping: 'animatedTiles'
+        }
+      ],
+
+    },
+    scene: [LoadingScene, GameScene, DialogueScene, InventoryScene, WeatherScene],
   }
 }
 
@@ -66,7 +82,8 @@ function initManagers(game) {
     scene: SceneManager(),
     sfx: SFXManager(),
     state: StateManager(),
-    ui: null
+    ui: null,
+    weather: WeatherManager(),
   }
 }
 

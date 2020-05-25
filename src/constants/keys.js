@@ -12,12 +12,16 @@ export const DIALOGUE_KEY = 'dialogue'
 export const INVENTORY_KEY = 'inventory'
 export const SFX_KEY = 'sfx'
 export const SPRITE_KEY = 'sprite'
+export const WEATHER_KEY = 'weather'
+
+export const WEATHER_TILE_KEY = 'weather'
 
 export const INGREDIENTS_SPRITE_KEY = 'ingredients'
 
 export const WORLD_LAYER_KEY = 'Tile Layer 1'
 export const ITEM_LAYER_KEY = 'Tile Layer 2'
 export const MENU_LAYER_KEY = 'Tile Layer 3'
+export const WEATHER_LAYER_KEY = 'Tile Layer 4'
 
 export const PLAYER_SFX_FOOTSTEP_KEY = 'footstep'
 

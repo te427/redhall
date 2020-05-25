@@ -75,3 +75,6 @@ export const E_LOG_DEBUG = 'eventLogDebug'
 export const E_OPEN_DEBUG = 'eventOpenDebug'
 export const E_CLOSE_DEBUG = 'eventCloseDebug'
 export const E_EXEC_DEBUG_CMD = 'eventExecDebugCmd'
+
+// weather events
+export const E_SET_WEATHER = 'eventSetWeather'

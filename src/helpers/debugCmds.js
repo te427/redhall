@@ -1,4 +1,4 @@
-import { E_MOVE_TO_CELL, E_SET_NONCOLLISION_TILE } from 'events/types'
+import { E_MOVE_TO_CELL, E_SET_NONCOLLISION_TILE, E_SET_WEATHER } from 'events/types'
 import { TILE_SIZE } from 'constants/dimensions/game'
 
 import handler from 'events/handler'
@@ -21,5 +21,9 @@ export default {
   // removeIngredient x y [width] [height]
   removeIngredient(args) {
     handler.emit(E_SET_NONCOLLISION_TILE, { x: args[0], y: args[1], i: 0, width: args[2], height: args[3]})
+  },
+  // setWeather {sunny|rainy}
+  setWeather(args) {
+    handler.emit(E_SET_WEATHER, args[0])
   }
 }

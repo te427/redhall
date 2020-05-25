@@ -27,6 +27,8 @@ function CollisionManager() {
         scene.physics.world.setFPS(FPS)
 
         if (terrain && player && npcs) {
+          // should only set these for the tiles used
+          // should make sure gids line up
           terrain.setCollisionBetween(1, 15);
           terrain.setCollisionBetween(16, 23);
           terrain.setCollisionBetween(25, 28);

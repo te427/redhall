@@ -1,4 +1,4 @@
-import * as p from 'constants/data/paths'
+import * as p from 'managers/data/constants/paths'
 import * as f from 'helpers/files'
 
 export const FILE_DATA_MAP_MENU_DIALOGUE = f.path(p.MENU_MAP_PATH, f.json('dialogue'))
@@ -15,7 +15,8 @@ export const FILE_DATA_DIALOGUE_TOPICS = f.path(p.DIALOGUE_PATH, f.yaml('topics'
 export const FILE_ASSET_TILES_MENUS = f.path(p.TILES_PATH, f.png('menu'))
 export const FILE_ASSET_TILES_WEATHER = f.path(p.TILES_PATH, f.png('weather'))
 export const FILE_ASSET_TILES_NON_COLLISION_ITEMS = f.path(p.TILES_PATH, f.png('non_collision_items'))
-export const FILE_ASSET_TILES_WORLD = f.path(p.TILES_PATH, f.png('world'))
+// change this to dynamic
+export const FILE_ASSET_TILES_WORLD = f.path(p.TILES_PATH, f.png('kryke'))
 
 export const FILE_ASSET_SPRITES_PLAYER = f.path(p.SPRITE_PATH, f.png('player'))
 export const FILE_ASSET_SPRITES_INGREDIENTS = f.path(p.SPRITE_PATH, f.png('ingredients'))

@@ -67,3 +67,4 @@ navigate to [localhost:8085](http://localhost:8085) when the server is running.
 - create a crafting system
 - add a cutscene system
 - add a barter system
+- add a quest system

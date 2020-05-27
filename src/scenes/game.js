@@ -2,16 +2,16 @@ import * as Phaser from 'phaser'
 
 import { SCENE_GAME } from 'constants/scenes'
 
-import CameraManager from 'managers/cameraManager'
-import CellManager from 'managers/cellManager'
-import CollisionManager from 'managers/collisionManager'
-import DialogueManager from 'managers/dialogueManager'
-import ItemManager from 'managers/itemManager'
-import KeyManager from 'managers/keyManager'
-import PlayerManager from 'managers/playerManager'
-import MusicManager from 'managers/musicManager'
-import NPCManager from 'managers/npcManager'
-import SceneManager from 'managers/sceneManager'
+import CameraManager from 'managers/game/cameraManager'
+import CellManager from 'managers/cell/cellManager'
+import CollisionManager from 'managers/game/collisionManager'
+import DialogueManager from 'managers/menu/dialogueManager'
+import ItemManager from 'managers/cell/itemManager'
+import KeyManager from 'managers/game/keyManager'
+import PlayerManager from 'managers/sprite/playerManager'
+import MusicManager from 'managers/sound/musicManager'
+import NPCManager from 'managers/sprite/npcManager'
+import SceneManager from 'managers/game/sceneManager'
 
 class GameScene extends Phaser.Scene {
   constructor() {

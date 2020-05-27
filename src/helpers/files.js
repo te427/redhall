@@ -1,5 +1,5 @@
-import * as t from 'constants/data/types'
-import { BASE_PATH } from 'constants/data/paths'
+import * as t from 'managers/data/constants/types'
+import { BASE_PATH } from 'managers/data/constants/paths'
 
 export const json = (f) => `${f}.${t.TYPE_JSON}`
 export const yaml = (f) => `${f}.${t.TYPE_YAML}`

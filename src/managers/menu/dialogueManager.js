@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser'
 
-import { UNIVERSAL_TOPICS } from 'constants/dialogue'
+import { UNIVERSAL_TOPICS } from 'managers/menu/constants/dialogue'
 import { BOX_X, BOX_STARTING_Y, BOX_WIDTH, BOX_HEIGHT, BOX_JUMP, TOPIC_X, TOPIC_Y, LINE_OFFSET, LINE_COUNT, CHAR_COUNT, TEXT_X, TEXT_Y } from 'constants/dimensions/dialogue'
 import { TILE_SIZE, ZOOM_FACTOR } from 'constants/dimensions/game'
 import { NAME_X, NAME_Y, BOX_HIGHLIGHTED_THICKNESS, BOX_HIGHLIGHTED_COLOR, BOX_FADED_THICKNESS, BOX_FADED_COLOR } from 'constants/dimensions/menu'

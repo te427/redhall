@@ -1,8 +1,8 @@
 import { TILE_SIZE } from 'constants/dimensions/game'
-import { DIR_DOWN, DIR_LEFT, DIR_RIGHT, DIR_UP } from 'constants/game'
+import { DIR_DOWN, DIR_LEFT, DIR_RIGHT, DIR_UP } from 'managers/sprite/constants/player'
 import { PLAYER_KEY, PLAYER_SFX_FOOTSTEP_KEY } from 'constants/keys'
-import { VELOCITY, SFX_MOVING } from 'constants/player'
-import { ANIM_WALK_DOWN, ANIM_WALK_UP, ANIM_WALK_LEFT, ANIM_WALK_RIGHT } from 'constants/sprites'
+import { VELOCITY, SFX_MOVING } from 'managers/sprite/constants/player'
+import { ANIM_WALK_DOWN, ANIM_WALK_UP, ANIM_WALK_LEFT, ANIM_WALK_RIGHT } from 'managers/sprite/constants/sprites'
 
 import { playerSFXKey } from 'helpers/keys'
 

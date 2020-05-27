@@ -1,5 +1,5 @@
-import { CMD_MOVE_TO_CELL, CMD_SPAWN_INGREDIENT, CMD_REMOVE_INGREDIENT, CMD_SET_WEATHER } from "constants/debug/cmds"
-import { CANVAS_EL, LOG_ID, DEBUG_ID, STYLE_VISIBLE, STYLE_HIDDEN, EXEC_ID, BG_ID, LINE_EL, STORAGE_KEY, MAX_STORAGE_LENGTH } from "constants/debug/cfg"
+import { CMD_MOVE_TO_CELL, CMD_SPAWN_INGREDIENT, CMD_REMOVE_INGREDIENT, CMD_SET_WEATHER } from "managers/debug/constants/cmds"
+import { CANVAS_EL, LOG_ID, DEBUG_ID, STYLE_VISIBLE, STYLE_HIDDEN, EXEC_ID, BG_ID, LINE_EL, STORAGE_KEY, MAX_STORAGE_LENGTH } from "managers/debug/constants/cfg"
 import { E_EXEC_DEBUG_CMD, E_DEBUG_KEYDOWN, E_OPEN_DEBUG, E_CLOSE_DEBUG, E_LOG_DEBUG, E_MOVE_TO_CELL } from "events/types"
 
 import handler from "events/handler"

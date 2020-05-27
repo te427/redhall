@@ -1,7 +1,7 @@
 import YAML from 'yaml'
 
-import { FILE_DATA_DIALOGUE_TOPICS, FILE_DATA_DIALOGUE_DEFAULTS, FILE_DATA_ITEMS_NONCOLLISION } from 'constants/data/files'
-import { CELL_PATH, CHAR_PATH, MAP_PATH, DIALOGUE_PATH, CELL_MAP_PATH } from 'constants/data/paths'
+import { FILE_DATA_DIALOGUE_TOPICS, FILE_DATA_DIALOGUE_DEFAULTS, FILE_DATA_ITEMS_NONCOLLISION } from 'managers/data/constants/files'
+import { CELL_PATH, CHAR_PATH, MAP_PATH, DIALOGUE_PATH, CELL_MAP_PATH } from 'managers/data/constants/paths'
 import { E_SET_CELL, E_LOAD_CELL_DATA, E_LOAD_DIALOGUE_DATA, E_LOAD_NON_COLLISION_ITEM_DATA } from 'events/types'
 
 import handler from "events/handler"

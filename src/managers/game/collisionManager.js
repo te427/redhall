@@ -29,10 +29,7 @@ function CollisionManager() {
         if (terrain && player && npcs) {
           // should only set these for the tiles used
           // should make sure gids line up
-          terrain.setCollisionBetween(1, 15);
-          terrain.setCollisionBetween(16, 23);
-          terrain.setCollisionBetween(25, 28);
-          terrain.setCollisionBetween(31, 39);
+          terrain.setCollisionBetween(15, 30);
 
           player.setCollideWorldBounds(true)
           scene.physics.add.collider(player, terrain)

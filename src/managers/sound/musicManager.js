@@ -10,7 +10,6 @@ function MusicManager() {
         if (music) {
           music.stop()
         }
-        /*
         scene.sound.audioPlayDelay = 0.1;
         scene.sound.loopEndOffset = 0.05;
 
@@ -30,7 +29,6 @@ function MusicManager() {
         // and keep playing if its the same
         music.addMarker(musicMarker)
         music.play(MUSIC_KEY)
-        */
       }
     }
   }

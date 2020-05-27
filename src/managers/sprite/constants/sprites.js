@@ -3,3 +3,8 @@ export const ANIM_WALK_UP = 'walk-up'
 export const ANIM_WALK_LEFT = 'walk-left'
 export const ANIM_WALK_RIGHT = 'walk-right'
 export const ANIM_STAND = 'stand'
+
+export const DIR_LEFT = 'left'
+export const DIR_RIGHT = 'right'
+export const DIR_UP = 'up'
+export const DIR_DOWN = 'down'

@@ -1,5 +1,5 @@
 import { TILE_SIZE } from 'constants/dimensions/game'
-import { STARTING_CELL, STARTING_ENTRANCE } from 'constants/game'
+import { STARTING_CELL, STARTING_ENTRANCE } from 'managers/cell/constants/cell'
 import { WORLD_TILE_KEY, WORLD_LAYER_KEY } from 'constants/keys'
 import { E_INIT_SPAWN, E_SET_CELL, E_LOAD_CELL_DATA, E_INIT_TERRAIN, E_CHANGE_SCENE, E_INIT_TILEMAP, E_MOVE_TO_CELL } from 'events/types'
 
@@ -24,7 +24,7 @@ function initWorld() {
 
 function initTerrain() {
   terrainSet = cellMap.addTilesetImage(WORLD_TILE_KEY)
-  terrainLayer = cellMap.createStaticLayer(WORLD_LAYER_KEY, terrainSet)
+  terrainLayer = cellMap.createDynamicLayer(WORLD_LAYER_KEY, terrainSet)
 
   if (data.exits) {
     data.exits.forEach(function(tile) {
@@ -37,6 +37,8 @@ function initTerrain() {
 
   // we can add other layers once the initial has been added
   manager.emit(E_INIT_TILEMAP, cellMap)
+
+  scene.sys.animatedTiles.init(cellMap)
 }
 
 function initBounds() {

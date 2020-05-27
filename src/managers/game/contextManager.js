@@ -1,4 +1,4 @@
-import * as context from 'constants/context'
+import * as context from 'managers/game/constants/context'
 import * as events from 'events/types'
 import handler from 'events/handler'
 

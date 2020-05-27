@@ -1,3 +1,16 @@
+/*
+ * May God bless this creation.
+ *
+ * May this work honour Him, and in honouring His name bring Him glory.
+ * 
+ * May He guide this work, and may His song echo throughout it.
+ * 
+ * May He grant me the persistence to build it, the diligence to form it with care,
+ * and the inspiration to make it beautiful.
+ * 
+ * Amen.
+ */
+
 import * as Phaser from 'phaser'
 import AnimatedTiles from 'phaser-animated-tiles/dist/AnimatedTiles.min.js'
 
@@ -9,26 +22,25 @@ import GameScene from 'scenes/game'
 import LoadingScene from 'scenes/loading'
 import WeatherScene from 'scenes/weather'
 
-import CameraManager from 'managers/cameraManager'
-import CellManager from 'managers/cellManager'
-import CollisionManager from 'managers/collisionManager'
-import ContextManager from 'managers/contextManager'
-import DataManager from 'managers/dataManager'
-import DebugManager from 'managers/debugManager'
-import DialogueManager from 'managers/dialogueManager'
+import CameraManager from 'managers/game/cameraManager'
+import CellManager from 'managers/cell/cellManager'
+import CollisionManager from 'managers/game/collisionManager'
+import ContextManager from 'managers/game/contextManager'
+import DataManager from 'managers/data/dataManager'
+import DebugManager from 'managers/debug/debugManager'
+import DialogueManager from 'managers/menu/dialogueManager'
 import EventManager from 'events/manager'
-import InventoryManager from 'managers/inventoryManager'
-import ItemManager from 'managers/itemManager'
-import KeyManager from 'managers/keyManager'
-import LoadManager from 'managers/loadManager'
-import ModeManager from 'managers/modeManager'
-import MusicManager from 'managers/musicManager'
-import NPCManager from 'managers/npcManager'
-import PlayerManager from 'managers/playerManager'
-import SceneManager from 'managers/sceneManager'
-import SFXManager from 'managers/sfxManager'
-import StateManager from 'managers/stateManager'
-import WeatherManager from 'managers/weatherManager'
+import InventoryManager from 'managers/menu/inventoryManager'
+import ItemManager from 'managers/cell/itemManager'
+import KeyManager from 'managers/game/keyManager'
+import LoadManager from 'managers/data/loadManager'
+import MusicManager from 'managers/sound/musicManager'
+import NPCManager from 'managers/sprite/npcManager'
+import PlayerManager from 'managers/sprite/playerManager'
+import SceneManager from 'managers/game/sceneManager'
+import SFXManager from 'managers/sound/sfxManager'
+import StateManager from 'managers/data/stateManager'
+import WeatherManager from 'managers/cell/weatherManager'
 
 function initConfig() {
   config = {
@@ -54,7 +66,17 @@ function initConfig() {
       ],
 
     },
-    scene: [LoadingScene, GameScene, DialogueScene, InventoryScene, WeatherScene],
+    scene: [
+      // StartScene,
+      LoadingScene,
+      GameScene,
+      WeatherScene, 
+      // DayNightScene,
+      // UiScene,
+      DialogueScene,
+      InventoryScene
+      // MenuScene,
+    ],
   }
 }
 
@@ -75,7 +97,6 @@ function initManagers(game) {
     keys: KeyManager(game),
     loading: LoadManager(),
     menus: null, // TODO
-    modes: ModeManager(),
     music: MusicManager(),
     npcs: NPCManager(),
     player: PlayerManager(),

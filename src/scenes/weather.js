@@ -2,7 +2,7 @@ import * as Phaser from 'phaser'
 
 import { SCENE_WEATHER } from 'constants/scenes'
 
-import WeatherManager from 'managers/weatherManager'
+import WeatherManager from 'managers/cell/weatherManager'
 
 class WeatherScene extends Phaser.Scene {
   constructor() {

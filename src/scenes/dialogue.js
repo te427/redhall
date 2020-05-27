@@ -2,7 +2,7 @@ import * as Phaser from 'phaser'
 
 import { SCENE_DIALOGUE } from 'constants/scenes'
 
-import DialogueManager from 'managers/dialogueManager'
+import DialogueManager from 'managers/menu/dialogueManager'
 
 class DialogueScene extends Phaser.Scene {
   constructor() {

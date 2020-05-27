@@ -64,12 +64,15 @@ async function getNonCollisionItemData() {
   return getObj(getNonCollisionItemPath())
 }
 
-async function getDimensions(mapRes) {
-  var obj = await mapRes.json()
+function getDimensions(obj) {
   var y = obj.height
   var x = obj.width
   return { x, y }
 }
+
+function getTiles(obj) {
+  return obj.tilesets[0].name
+} 
 
 function mergeChar(charData) {
   return (npc) => ({ ...npc, ...charData[npc.key] })
@@ -88,8 +91,14 @@ async function loadChars(cell) {
 
 async function loadMap() {
   var res = await getMapData(data.map)
-  var dimensions = await getDimensions(res)
+
+  var obj = await res.json()
+
+  var dimensions = await getDimensions(obj)
+  var tiles = await getTiles(obj)
+
   data.dimensions = dimensions
+  data.tiles = tiles
 }
 
 async function loadCell(cell) {

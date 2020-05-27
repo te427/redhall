@@ -4,5 +4,5 @@ music: music
 npcs: []
 entrances:
   - name: spawn
-    x: 13
+    x: 12
     y: 16

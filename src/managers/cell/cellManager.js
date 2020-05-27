@@ -24,7 +24,7 @@ function initWorld() {
 }
 
 function initTerrain() {
-  terrainSet = cellMap.addTilesetImage(WORLD_TILE_KEY)
+  terrainSet = cellMap.addTilesetImage(data.tiles)
   terrainLayer = cellMap.createDynamicLayer(TERRAIN_LAYER, terrainSet)
 
   if (data.exits) {

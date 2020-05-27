@@ -1,6 +1,6 @@
 import { E_INIT_NPCS, E_LOAD_CELL_DATA, E_INTERACT, E_OPEN_DIALOGUE, E_SET_DIALOGUE } from 'events/types'
 import handler from 'events/handler'
-import NPC from 'objects/npc'
+import NPC from 'managers/sprite/objects/npc'
 
 function setNPCs(cell) {
   npcs = cell.npcs

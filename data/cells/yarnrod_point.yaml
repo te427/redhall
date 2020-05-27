@@ -4,7 +4,7 @@ music: cliffs_of_hamaeron
 npcs:
   - key: ruric_hcvungylr
     x: 16
-    y: 16
+    y: 24
 entrances:
   - name: spawn
     x: 16

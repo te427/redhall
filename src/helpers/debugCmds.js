@@ -14,13 +14,13 @@ export default {
   removeNPC(args) {
 
   },
-  // spawnIngredient x y i [width] [height]
+  // spawnIngredient x y key [width] [height]
   spawnIngredient(args) {
-    handler.emit(E_SET_NONCOLLISION_TILE, { x: args[0], y: args[1], i: args[2], width: args[3], height: args[4]})
+    handler.emit(E_SET_NONCOLLISION_TILE, { x: args[0], y: args[1], key: args[2], width: args[3], height: args[4]})
   },
   // removeIngredient x y [width] [height]
   removeIngredient(args) {
-    handler.emit(E_SET_NONCOLLISION_TILE, { x: args[0], y: args[1], i: 0, width: args[2], height: args[3]})
+    handler.emit(E_SET_NONCOLLISION_TILE, { x: args[0], y: args[1], key: null, width: args[2], height: args[3]})
   },
   // setWeather {sunny|rainy}
   setWeather(args) {

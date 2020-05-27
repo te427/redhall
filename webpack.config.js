@@ -24,7 +24,6 @@ module.exports = {
       events: path.resolve  (__dirname, 'src/events/'),
       helpers: path.resolve  (__dirname, 'src/helpers/'),
       managers: path.resolve(__dirname, 'src/managers/'),
-      objects: path.resolve(__dirname, 'src/objects/'),
       scenes: path.resolve(__dirname, 'src/scenes/')
     }
   },

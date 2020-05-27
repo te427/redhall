@@ -7,14 +7,14 @@ export const FILE_DATA_MAP_MENU_INVENTORY = f.path(p.MENU_MAP_PATH, f.json('inve
 export const FILE_DATA_MAP_WEATHER = f.path(p.WEATHER_MAP_PATH, f.json('weather'))
 
 export const FILE_DATA_ITEMS_COLLISION = f.path(p.ITEMS_PATH, f.yaml('collision'))
-export const FILE_DATA_ITEMS_NONCOLLISION = f.path(p.ITEMS_PATH, f.yaml('non_collision'))
+export const FILE_DATA_ITEMS_NONCOLLISION = f.path(p.ITEMS_PATH, f.yaml('bypass'))
 
 export const FILE_DATA_DIALOGUE_DEFAULTS = f.path(p.DIALOGUE_PATH, f.yaml('defaults'))
 export const FILE_DATA_DIALOGUE_TOPICS = f.path(p.DIALOGUE_PATH, f.yaml('topics'))
 
 export const FILE_ASSET_TILES_MENUS = f.path(p.TILES_PATH, f.png('menu'))
 export const FILE_ASSET_TILES_WEATHER = f.path(p.TILES_PATH, f.png('weather'))
-export const FILE_ASSET_TILES_NON_COLLISION_ITEMS = f.path(p.TILES_PATH, f.png('non_collision_items'))
+export const FILE_ASSET_TILES_BYPASS = f.path(p.TILES_PATH, f.png('bypass'))
 // change this to dynamic
 export const FILE_ASSET_TILES_WORLD = f.path(p.TILES_PATH, f.png('kryke'))
 

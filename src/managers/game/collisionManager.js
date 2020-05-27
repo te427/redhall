@@ -1,4 +1,4 @@
-import { E_INIT_TERRAIN, E_INIT_NPCS, E_INIT_PLAYER } from 'events/types';
+import { E_INIT_TERRAIN, E_INIT_NPCS, E_INIT_PLAYER, E_INIT_TILEMAP } from 'events/types';
 import { FPS } from 'constants/dimensions/game'
 import handler from 'events/handler'
 
@@ -14,7 +14,12 @@ function setNPCs(npcSprites) {
   npcs = npcSprites
 }
 
+function setMapCollision(newMap) {
+  map = newMap
+}
+
 var manager
+var map
 var player
 var npcs
 var terrain
@@ -27,11 +32,9 @@ function CollisionManager() {
         scene.physics.world.setFPS(FPS)
 
         if (terrain && player && npcs) {
-          // should only set these for the tiles used
-          // should make sure gids line up
-          terrain.setCollisionBetween(15, 30);
-
           player.setCollideWorldBounds(true)
+
+          map.setCollisionByProperty({ collide: true }, true, true, terrain)
           scene.physics.add.collider(player, terrain)
 
           npcs.forEach(npc => scene.physics.add.collider(player, npc))
@@ -40,6 +43,7 @@ function CollisionManager() {
     }
 
     manager.on({
+      [E_INIT_TILEMAP]: setMapCollision,
       [E_INIT_TERRAIN]: setTerrain,
       [E_INIT_NPCS]: setNPCs,
       [E_INIT_PLAYER]: setPlayer

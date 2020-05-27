@@ -3,7 +3,7 @@ export const GAME_KEY = 'game'
 export const MAP_KEY = 'map'
 // need to set this to dynamic
 export const WORLD_TILE_KEY = 'kryke'
-export const ITEM_TILE_KEY = 'non_collision_items'
+export const ITEM_TILE_KEY = 'bypass'
 export const MENU_TILE_KEY = 'menu'
 export const MUSIC_KEY = 'music'
 export const PLAYER_KEY = 'player'

@@ -3,7 +3,7 @@ import { E_PLAY_MUSIC, E_PAUSE_MUSIC, E_RESTART_MUSIC } from 'events/types'
 
 import handler from 'events/handler'
 
-function  play() {
+function play() {
   paused = false
   if (music) {
     if (stopped) {

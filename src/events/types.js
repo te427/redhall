@@ -50,6 +50,10 @@ export const E_INIT_SPAWN = 'eventInitSpawn'
 export const E_INTERACT = 'eventInteract'
 export const E_SET_NONCOLLISION_TILE = 'eventSetTile'
 
+// combat events
+export const E_START_COMBAT = 'eventStartCombat'
+export const E_STOP_COMBAT = 'eventStopCombat'
+
 // dialogue events
 export const E_OPEN_DIALOGUE = 'eventOpenDialogue'
 export const E_CLOSE_DIALOGUE = 'eventCloseDialogue'

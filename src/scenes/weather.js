@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser'
 
-import { SCENE_WEATHER } from 'constants/scenes'
+import { SCENE_WEATHER } from 'scenes/constants/scenes'
 
 import WeatherManager from 'managers/cell/weatherManager'
 

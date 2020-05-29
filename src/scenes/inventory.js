@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser'
 
-import { SCENE_INVENTORY } from 'constants/scenes'
+import { SCENE_INVENTORY } from 'scenes/constants/scenes'
 
 import InventoryManager from 'managers/menu/inventoryManager'
 

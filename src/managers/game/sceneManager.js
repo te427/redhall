@@ -1,5 +1,5 @@
-import { E_LOAD_SCENE, E_CHANGE_SCENE, E_OPEN_DIALOGUE, E_CLOSE_DIALOGUE, E_OPEN_INVENTORY, E_CLOSE_INVENTORY } from 'events/types'
-import * as scenes from 'constants/scenes'
+import { E_LOAD_SCENE, E_CHANGE_SCENE, E_OPEN_DIALOGUE, E_CLOSE_DIALOGUE, E_OPEN_INVENTORY, E_CLOSE_INVENTORY, E_START_COMBAT, E_STOP_COMBAT } from 'events/types'
+import * as scenes from 'scenes/constants/scenes'
 import handler from 'events/handler'
 
 function startLoading() {
@@ -27,6 +27,14 @@ function closeInventory() {
   scene.scene.stop(scenes.SCENE_INVENTORY)
 }
 
+function startCombat() {
+  scene.scene.launch(scenes.SCENE_COMBAT)
+}
+
+function stopCombat() {
+  scene.scene.stop(scenes.SCENE_COMBAT)
+}
+
 var manager
 var scene
 
@@ -46,6 +54,8 @@ function SceneManager() {
       [E_CLOSE_DIALOGUE]: stopDialogue,
       [E_OPEN_INVENTORY]: openInventory,
       [E_CLOSE_INVENTORY]: closeInventory,
+      [E_START_COMBAT]: startCombat,
+      [E_STOP_COMBAT]: stopCombat
     })
   }
   return manager

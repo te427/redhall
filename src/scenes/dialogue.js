@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser'
 
-import { SCENE_DIALOGUE } from 'constants/scenes'
+import { SCENE_DIALOGUE } from 'scenes/constants/scenes'
 
 import DialogueManager from 'managers/menu/dialogueManager'
 

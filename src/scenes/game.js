@@ -1,6 +1,6 @@
 import * as Phaser from 'phaser'
 
-import { SCENE_GAME } from 'constants/scenes'
+import { SCENE_GAME } from 'scenes/constants/scenes'
 
 import CameraManager from 'managers/game/cameraManager'
 import CellManager from 'managers/cell/cellManager'

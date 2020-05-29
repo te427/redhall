@@ -21,14 +21,17 @@ import InventoryScene from 'scenes/inventory'
 import GameScene from 'scenes/game'
 import LoadingScene from 'scenes/loading'
 import WeatherScene from 'scenes/weather'
+import CombatScene from 'scenes/combat'
 
 import CameraManager from 'managers/game/cameraManager'
 import CellManager from 'managers/cell/cellManager'
 import CollisionManager from 'managers/game/collisionManager'
+import CombatManager from 'managers/combat/combatManager'
 import ContextManager from 'managers/game/contextManager'
 import DataManager from 'managers/data/dataManager'
 import DebugManager from 'managers/debug/debugManager'
 import DialogueManager from 'managers/menu/dialogueManager'
+import EnemyManager from 'managers/sprite/enemyManager'
 import EventManager from 'events/manager'
 import InventoryManager from 'managers/menu/inventoryManager'
 import ItemManager from 'managers/cell/itemManager'
@@ -73,6 +76,7 @@ function initConfig() {
       WeatherScene, 
       // DayNightScene,
       // UiScene,
+      CombatScene,
       DialogueScene,
       InventoryScene
       // MenuScene,
@@ -86,11 +90,12 @@ function initManagers(game) {
     camera: CameraManager(),
     cell: CellManager(),
     collision: CollisionManager(),
+    combat: CombatManager(),
     context: ContextManager(),
     data: DataManager(),
     debug: DebugManager(),
     dialogue: DialogueManager(),
-    enemies: null, // TODO
+    enemies: EnemyManager(), // TODO
     events: EventManager(),
     inventory: InventoryManager(),
     items: ItemManager(),

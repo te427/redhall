@@ -1,9 +1,8 @@
-import { CMD_MOVE_TO_CELL, CMD_SPAWN_INGREDIENT, CMD_REMOVE_INGREDIENT, CMD_SET_WEATHER } from "managers/debug/constants/cmds"
+import { CMD_MOVE_TO_CELL, CMD_SPAWN_INGREDIENT, CMD_REMOVE_INGREDIENT, CMD_SET_WEATHER, CMDS } from "managers/debug/constants/cmds"
 import { CANVAS_EL, LOG_ID, DEBUG_ID, STYLE_VISIBLE, STYLE_HIDDEN, EXEC_ID, BG_ID, LINE_EL, STORAGE_KEY, MAX_STORAGE_LENGTH } from "managers/debug/constants/cfg"
 import { E_EXEC_DEBUG_CMD, E_DEBUG_KEYDOWN, E_OPEN_DEBUG, E_CLOSE_DEBUG, E_LOG_DEBUG, E_MOVE_TO_CELL } from "events/types"
 
 import handler from "events/handler"
-import debugCmds from 'helpers/debugCmds'
 
 function loadStorage() {
   var res = storage.getItem(STORAGE_KEY)
@@ -120,7 +119,7 @@ function handle(e) {
 function exec(args) {
   console.log(`Executing ${args}`)
   try {
-    var cmd = cmds[args[0]]
+    var cmd = CMDS[args[0]]
     cmd(args.slice(1))
   } catch(err) {
     console.error(`Could not execute cmd ${args} - $${err}`)
@@ -142,13 +141,6 @@ var canvasEl
 var pastCmds = []
 var pastIndex
 var storage
-
-const cmds = {
-  [CMD_MOVE_TO_CELL]: debugCmds.moveToCell,
-  [CMD_SPAWN_INGREDIENT]: debugCmds.spawnIngredient,
-  [CMD_REMOVE_INGREDIENT]: debugCmds.removeIngredient,
-  [CMD_SET_WEATHER]: debugCmds.setWeather,
-}
 
 function DebugManager() {
   if (!manager) {

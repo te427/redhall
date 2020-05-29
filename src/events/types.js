@@ -78,3 +78,8 @@ export const E_EXEC_DEBUG_CMD = 'eventExecDebugCmd'
 
 // weather events
 export const E_SET_WEATHER = 'eventSetWeather'
+
+// music events
+export const E_PAUSE_MUSIC = 'eventPauseeMusic'
+export const E_PLAY_MUSIC = 'eventPlayMusic'
+export const E_RESTART_MUSIC = 'eventRestartMusic'

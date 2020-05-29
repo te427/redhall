@@ -12,6 +12,8 @@ export const FILE_DATA_ITEMS_NONCOLLISION = f.path(p.ITEMS_PATH, f.yaml('bypass'
 export const FILE_DATA_DIALOGUE_DEFAULTS = f.path(p.DIALOGUE_PATH, f.yaml('defaults'))
 export const FILE_DATA_DIALOGUE_TOPICS = f.path(p.DIALOGUE_PATH, f.yaml('topics'))
 
+export const FILE_DATA_ENEMIES_TYPES = f.path(p.ENEMIES_PATH, f.yaml('types'))
+
 export const FILE_ASSET_TILES_MENUS = f.path(p.TILES_PATH, f.png('menu'))
 export const FILE_ASSET_TILES_WEATHER = f.path(p.TILES_PATH, f.png('weather'))
 export const FILE_ASSET_TILES_BYPASS = f.path(p.TILES_PATH, f.png('bypass'))

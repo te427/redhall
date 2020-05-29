@@ -1,0 +1,13 @@
+skeleton:
+  name: Skeleton
+  sprite: skeleton
+  description: A lowly lich found commonly in barrows throughout Hamaeron.
+  stats:
+    health: 30
+    speed: 5
+    attack: 2
+  abilities: []
+  spells: []
+  drops:
+    - marrow: 1
+    - sign_of_gol: 0.05

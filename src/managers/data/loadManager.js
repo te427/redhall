@@ -1,12 +1,13 @@
 import { FILE_ASSET_FONTS_PRESS_START_24_IMG, FILE_ASSET_FONTS_PRESS_START_24_MAP, FILE_ASSET_FONTS_PRESS_START_16_IMG, FILE_ASSET_FONTS_PRESS_START_16_MAP, FILE_ASSET_TILES_WEATHER, FILE_ASSET_TILES_WORLD, FILE_ASSET_TILES_BYPASS, FILE_ASSET_TILES_MENUS, FILE_DATA_MAP_WEATHER, FILE_DATA_MAP_MENU_DIALOGUE, FILE_ASSET_SPRITES_PLAYER, FILE_ASSET_SFX_PLAYER_FOOTSTEP, FILE_DATA_MAP_MENU_INVENTORY, FILE_ASSET_SPRITES_INGREDIENTS } from 'managers/data/constants/files'
-import { NPC_SFX_PATH, NPC_SPRITE_PATH, MAP_PATH, MUSIC_PATH, CELL_MAP_PATH, TILES_PATH } from 'managers/data/constants/paths'
+import { NPC_SFX_PATH, NPC_SPRITE_PATH, MAP_PATH, MUSIC_PATH, CELL_MAP_PATH, TILES_PATH, ENEMY_SPRITE_PATH } from 'managers/data/constants/paths'
 import { DIALOGUE_KEY, ITEM_TILE_KEY, MAP_KEY, MENU_TILE_KEY, MUSIC_KEY, PLAYER_KEY, WORLD_TILE_KEY, PLAYER_SFX_FOOTSTEP_KEY, TITLE_FONT_KEY, MENU_FONT_KEY, INVENTORY_KEY, INGREDIENTS_SPRITE_KEY, WEATHER_TILE_KEY, WEATHER_KEY} from 'constants/keys'
 import { E_LOAD_CELL_DATA, E_LOAD_SCENE } from 'events/types'
 
 import handler from 'events/handler'
 import { fnt, json, loadPath, mp3, path, png, wav, yaml } from 'helpers/files'
-import { npcSFXKey, npcSpriteKey, playerSFXKey, mapKey } from 'helpers/keys'
+import { npcSFXKey, npcSpriteKey, playerSFXKey, mapKey, enemySFXKey, enemySpriteKey } from 'helpers/keys'
 import { TILE_SIZE } from 'constants/dimensions/game'
+import DataManager from './dataManager'
 
 function progress(value) {
   console.log(value)
@@ -53,10 +54,21 @@ function initLoad(scene) {
 }
 
 function loadNPCs(scene, data) {
-  data.npcs.forEach(function(npc) {
-    scene.load.audio(npcSFXKey(npc, npc.sfx.talk), loadPath(NPC_SFX_PATH, wav(npc.sfx.talk)))
-    scene.load.spritesheet(npcSpriteKey(npc, npc.sprite), loadPath(NPC_SPRITE_PATH, png(npc.sprite)), { frameWidth: TILE_SIZE, frameHeight: TILE_SIZE})
-  })
+  if (data.npcs) {
+    data.npcs.forEach(function(npc) {
+      scene.load.audio(npcSFXKey(npc, npc.sfx.talk), loadPath(NPC_SFX_PATH, wav(npc.sfx.talk)))
+      scene.load.spritesheet(npcSpriteKey(npc, npc.sprite), loadPath(NPC_SPRITE_PATH, png(npc.sprite)), { frameWidth: TILE_SIZE, frameHeight: TILE_SIZE})
+    })
+  }
+}
+
+function loadEnemies(scene, data) {
+  if (data.enemies) {
+    data.enemies.forEach(function(enemy) {
+      //scene.load.audio(enemySFXKey(npc, npc.sfx.talk), loadPath(NPC_SFX_PATH, wav(npc.sfx.talk)))
+      scene.load.spritesheet(enemySpriteKey(enemy, enemy.sprite), loadPath(ENEMY_SPRITE_PATH, png(enemy.sprite)), { frameWidth: TILE_SIZE, frameHeight: TILE_SIZE})
+    })
+  }
 }
 
 function loadMap(scene, data) {
@@ -78,6 +90,7 @@ function loadCell(data) {
   loadMap(scene, data)
   loadMusic(scene, data)
   loadNPCs(scene, data)
+  loadEnemies(scene, data)
 
   scene.load.start()
 }

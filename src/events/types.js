@@ -30,6 +30,7 @@ export const E_PLAYER_INTERACT_END = 'eventPlayerInteractEnd'
 export const E_LOAD_CELL_DATA = 'eventLoadCellData'
 export const E_LOAD_DIALOGUE_DATA = 'eventLoadDialogueData'
 export const E_LOAD_NON_COLLISION_ITEM_DATA = 'eventLoadNonCollisionItemData'
+export const E_LOAD_ENEMY_DATA = 'eventLoadEnemyData'
 
 // scene events
 export const E_LOAD_SCENE = 'eventLoadScene'
@@ -45,6 +46,7 @@ export const E_INIT_NPCS = 'eventInitNPCs'
 export const E_INIT_TILEMAP = 'eventInitTilemap'
 export const E_INIT_TERRAIN = 'eventInitTerrain'
 export const E_INIT_SPAWN = 'eventInitSpawn'
+export const E_INIT_ENEMIES = 'eventInitEnemies'
 
 // world events 
 export const E_INTERACT = 'eventInteract'

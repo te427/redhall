@@ -1,8 +1,8 @@
 import YAML from 'yaml'
 
-import { FILE_DATA_DIALOGUE_TOPICS, FILE_DATA_DIALOGUE_DEFAULTS, FILE_DATA_ITEMS_NONCOLLISION } from 'managers/data/constants/files'
-import { CELL_PATH, CHAR_PATH, MAP_PATH, DIALOGUE_PATH, CELL_MAP_PATH } from 'managers/data/constants/paths'
-import { E_SET_CELL, E_LOAD_CELL_DATA, E_LOAD_DIALOGUE_DATA, E_LOAD_NON_COLLISION_ITEM_DATA } from 'events/types'
+import { FILE_DATA_DIALOGUE_TOPICS, FILE_DATA_DIALOGUE_DEFAULTS, FILE_DATA_ITEMS_NONCOLLISION, FILE_DATA_ENEMIES_TYPES } from 'managers/data/constants/files'
+import { CELL_PATH, CHAR_PATH, MAP_PATH, DIALOGUE_PATH, CELL_MAP_PATH, ENEMIES_PATH } from 'managers/data/constants/paths'
+import { E_SET_CELL, E_LOAD_CELL_DATA, E_LOAD_DIALOGUE_DATA, E_LOAD_NON_COLLISION_ITEM_DATA, E_LOAD_ENEMY_DATA } from 'events/types'
 
 import handler from "events/handler"
 import { fullPath, json, path, yaml } from 'helpers/files'
@@ -22,6 +22,10 @@ function getCellPath(cell) {
 
 function getCharPath(cell) {
   return yaml(path(CHAR_PATH, cell))
+}
+
+function getEnemyPath() {
+  return FILE_DATA_ENEMIES_TYPES
 }
 
 function getMapPath(cell) {
@@ -46,6 +50,10 @@ async function getCellData(cell) {
 
 async function getCharData(cell) {
   return getObj(getCharPath(cell))
+}
+
+async function getEnemyData() {
+  return getObj(getEnemyPath())
 }
 
 async function getMapData(cell) {
@@ -78,8 +86,20 @@ function mergeChar(charData) {
   return (npc) => ({ ...npc, ...charData[npc.key] })
 }
 
+function mergeEnemy(enemyData) {
+  return (enemy) => ({ ...enemy, ...enemyData[enemy.key] })
+}
+
 async function mergeCellAndCharData(charData) {
-  data.npcs = await Promise.all(data.npcs.map(mergeChar(charData)))
+  if (data.npcs) {
+    data.npcs = await Promise.all(data.npcs.map(mergeChar(charData)))
+  }
+}
+
+function mergeCellAndEnemyData(enemyData) {
+  if (data.enemies) {
+    data.enemies = Object.values(data.enemies).map(mergeEnemy(enemyData))
+  }
 }
 
 async function loadChars(cell) {
@@ -87,6 +107,12 @@ async function loadChars(cell) {
   var charList =  res ? await YAML.parse(await res.text()) : []
   var charData = Array.isArray(charList) ? charList.reduce((acc, c) => ({ ...acc, [c.key]: c}), {}) : {}
   await mergeCellAndCharData(charData)
+}
+
+async function loadEnemies() {
+  var res = await getEnemyData()
+  var enemyData =  res ? await YAML.parse(await res.text()) : []
+  await mergeCellAndEnemyData(enemyData)
 }
 
 async function loadMap() {
@@ -144,6 +170,7 @@ async function load(cell) {
   await loadCell(cell)
   await loadMap()
   await loadChars(cell)
+  await loadEnemies()
 
   manager.emit(E_LOAD_CELL_DATA, data)
 }

@@ -2,6 +2,10 @@ name: The Arena
 map: arena 
 music: music
 npcs: []
+enemies:
+  - key: skeleton
+    x: 10
+    y: 8
 entrances:
   - name: spawn
     x: 12

@@ -12,6 +12,7 @@ export const PLAYER_SFX_PATH = SFX_PATH + 'player/'
 
 export const SPRITE_PATH = ASSET_PATH + 'sprites/'
 export const NPC_SPRITE_PATH = SPRITE_PATH + 'npcs/'
+export const ENEMY_SPRITE_PATH = SPRITE_PATH + 'enemies/'
 
 export const TILES_PATH = ASSET_PATH + 'tiles/'
 

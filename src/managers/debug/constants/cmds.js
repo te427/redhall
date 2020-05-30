@@ -15,11 +15,16 @@ export const CMD_SPAWN_NPC = 'spawnNPC'
 export const CMD_REMOVE_NPC = 'removeNPC'
 export const CMD_ADD_TO_INVENTORY = 'addToInventory'
 
+export const CMD_COMBAT = 'combat'
+export const CMD_COMBAT_OPT_START = 'start'
+export const CMD_COMBAT_OPT_STOP = 'stop'
+
 export const CMDS = {
   [CMD_MOVE_TO_CELL]: cmds.moveToCell,
   [CMD_SPAWN_INGREDIENT]: cmds.spawnIngredient,
   [CMD_REMOVE_INGREDIENT]: cmds.removeIngredient,
   [CMD_SET_WEATHER]: cmds.setWeather,
   [CMD_MUSIC]: cmds.music,
+  [CMD_COMBAT]: cmds.combat,
 }
 

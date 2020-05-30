@@ -12,3 +12,6 @@ export const WEATHER_LAYER = 'weather'
 
 // menu layer
 export const MENU_LAYER = 'menu'
+
+// combat layer
+export const COMBAT_LAYER = 'combat'

@@ -1,3 +1,4 @@
+import { TERRAIN_LAYER } from "constants/layers"
 import { DEFAULT_CELL_VALUE, DISABLED_CELL_VALUE } from "managers/combat/constants/paths"
 
 function traverse(bf, x, y, dist, prev) {
@@ -68,6 +69,8 @@ function traverseAndMark(possible, x, y, speed, dist, prev) {
 function transformAndSetBattlefield(map) {
   var field = []
 
+  map.setLayer(TERRAIN_LAYER)
+
   map.forEachTile((t, i) => {
     var row = Math.floor(i / width)
     var col = i % width
@@ -94,6 +97,8 @@ function setPossiblePaths(from, speed) {
   var lowerBound = Math.min(from.y + speed, height)
 
   possibleBound = { x: leftBound, y: upperBound }
+  possibleWidth = rightBound - leftBound
+  possibleHeight = lowerBound - upperBound
 
   var possible = []
 
@@ -114,6 +119,7 @@ function setPossiblePaths(from, speed) {
         // mark as negative if untraversible
         possible[y - upperBound][x - leftBound] = Object.assign({}, DISABLED_CELL_VALUE)
       }
+      // mark squares that have enemies/npcs/non-traversible items
     }
   }
 
@@ -123,17 +129,23 @@ function setPossiblePaths(from, speed) {
 }
 
 function getPossibleOverlay() {
-  return possiblePaths.map((row) => row.map(cell => cell >= 0 && cell < 100))
+  return possiblePaths.map((row) => row.map(cell => cell.dist >= 0 && cell.dist < 100))
 }
 
 function getPossiblePath(to) {
   var x = to.x - possibleBound.x
   var y = to.y - possibleBound.y
+  var path = []
 
-  if (x < 0 || x >= width || y < 0 || y >= height) return
+  if (x < 0 || x >= possibleWidth || y < 0 || y >= possibleHeight) {
+    return path
+  }
 
   var block = possiblePaths[y][x]
-  var path = []
+  if (!block.prev) {
+    return path
+  }
+
 
   while (block.prev !== null) {
     path.push({ x, y })
@@ -159,6 +171,8 @@ var height
 var possiblePaths
 var possibleOrigin
 var possibleBound
+var possibleWidth
+var possibleHeight
 
 export default {
   setBattlefield(map) {
@@ -173,15 +187,15 @@ export default {
      * Return an object with
      * {
      *   origin: { int, int } // top left position of grid 
-     *   possible: bool[][] // possible spots to highlight
+     *   tiles: bool[][] // possible spots to highlight
      * }
      */
     // todo - cache this?
     setPossiblePaths(from, speed)
-    var possible = getPossibleOverlay()
+    var tiles = getPossibleOverlay()
     var origin = possibleBound
 
-    return { possible, origin }
+    return { tiles, origin }
   },
   getPossiblePath(to) {
     if (possiblePaths) {

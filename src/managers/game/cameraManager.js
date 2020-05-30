@@ -5,8 +5,8 @@ import handler from 'events/handler'
 var manager
 var player
 
-function setPlayer(playerSprite) {
-  player = playerSprite
+function setPlayer(newPlayer) {
+  player = newPlayer 
 }
 
 function CameraManager() {
@@ -15,7 +15,7 @@ function CameraManager() {
       ...handler,
       init(scene) {
         scene.cameras.main.setZoom(ZOOM_FACTOR)
-        scene.cameras.main.startFollow(player)
+        scene.cameras.main.startFollow(player.getSprite())
       }
     }
 

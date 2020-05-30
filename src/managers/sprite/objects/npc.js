@@ -1,6 +1,7 @@
 import { TILE_SIZE } from 'constants/dimensions/game'
 
 import { npcSpriteKey, npcSFXKey } from 'helpers/keys'
+import { CHARACTER_SPRITE_DEPTH } from 'constants/depth'
 
 var data
 var sprite
@@ -16,6 +17,8 @@ function NPC(scene, npcData) {
       sprite.body.setSize(16, 16)
       sprite.body.setOffset(0, 0)
       sprite.setImmovable(true)
+      sprite.depth = CHARACTER_SPRITE_DEPTH 
+      sprite.setOrigin(0, 0)
     },
     initState(npcData) {
       data = npcData

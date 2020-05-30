@@ -1,9 +1,14 @@
 import { ITEM_TILE_KEY, ITEM_LAYER_KEY } from "constants/keys"
 import { BYPASS_LAYER } from "constants/layers"
 
-import { E_LOAD_NON_COLLISION_ITEM_DATA, E_INTERACT, E_INIT_TILEMAP, E_ADD_TO_INVENTORY, E_SET_TILE, E_SET_NONCOLLISION_TILE } from "events/types"
+import { E_LOAD_NON_COLLISION_ITEM_DATA, E_INTERACT, E_INIT_TILEMAP, E_ADD_TO_INVENTORY, E_SET_TILE, E_SET_NONCOLLISION_TILE, E_STOP_COMBAT } from "events/types"
 
 import handler from "events/handler"
+
+function setActiveLayer() {
+  // need to set to explore layers for interacting with ingredients
+  cellMap.setLayer(BYPASS_LAYER)
+}
 
 function initBypassLayer(map) {
   cellMap = map
@@ -73,6 +78,7 @@ function ItemManager() {
       [E_INIT_TILEMAP]: initBypassLayer,
       [E_LOAD_NON_COLLISION_ITEM_DATA]: loadBypassItems,
       [E_SET_NONCOLLISION_TILE]: setTile,
+      [E_STOP_COMBAT]: setActiveLayer
     })
   }
   return manager

@@ -17,6 +17,8 @@ export const WEATHER_KEY = 'weather'
 
 export const WEATHER_TILE_KEY = 'weather'
 
+export const COMBAT_SPRITE_KEY = 'combat'
+
 export const INGREDIENTS_SPRITE_KEY = 'ingredients'
 
 export const WORLD_LAYER_KEY = 'Tile Layer 1'

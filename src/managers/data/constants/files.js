@@ -22,6 +22,7 @@ export const FILE_ASSET_TILES_WORLD = f.path(p.TILES_PATH, f.png('kryke'))
 
 export const FILE_ASSET_SPRITES_PLAYER = f.path(p.SPRITE_PATH, f.png('player'))
 export const FILE_ASSET_SPRITES_INGREDIENTS = f.path(p.SPRITE_PATH, f.png('ingredients'))
+export const FILE_ASSET_SPRITES_COMBAT = f.path(p.SPRITE_PATH, f.png('combat'))
 
 export const FILE_ASSET_SFX_PLAYER_FOOTSTEP = f.path(p.PLAYER_SFX_PATH, f.wav('footstep'))
 

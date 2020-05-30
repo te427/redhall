@@ -61,7 +61,10 @@ function PlayerManager() {
       init(scene) {
         player = new Player(scene, spawn)
 
-        this.emit(E_INIT_PLAYER, player.getSprite())
+        this.emit(E_INIT_PLAYER, player)
+      },
+      drive() {
+        player.drive()
       }
     }
 
@@ -79,6 +82,7 @@ function PlayerManager() {
       [E_INIT_SPAWN]: setSpawn,
       [E_CHANGE_SCENE]: haltSFXAndAnimations,
       [E_OPEN_DIALOGUE]: haltSFXAndAnimations,
+      // on add to inventory, play pick animation
     })
   }
   return manager

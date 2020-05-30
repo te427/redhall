@@ -1,0 +1,14 @@
+export const VERTICAL = 0
+export const HORIZONTAL = 1
+export const LEFT_UP_BEND = 2
+export const UP_RIGHT_BEND = 3
+export const LEFT_DOWN_BEND = 4
+export const DOWN_RIGHT_BEND = 5
+export const UP_ARROW = 6
+export const DOWN_ARROW = 7
+export const LEFT_ARROW = 8
+export const RIGHT_ARROW = 9
+export const MOVE_HIGHLIGHT = 10
+export const ATTACK_HIGHLIGHT = 11
+export const INVALID = 12
+export const VALID = 13

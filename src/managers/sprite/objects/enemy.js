@@ -1,4 +1,5 @@
 import { TILE_SIZE } from 'constants/dimensions/game'
+import { CHARACTER_SPRITE_DEPTH } from 'constants/depth'
 import { enemySpriteKey, enemySFXKey } from 'helpers/keys'
 
 var enemy
@@ -19,10 +20,11 @@ function Enemy(newScene, enemyData) {
       sprite.body.setSize(16, 16)
       sprite.body.setOffset(0, 0)
       sprite.setImmovable(true)
+      sprite.depth = CHARACTER_SPRITE_DEPTH
+      sprite.setOrigin(0, 0)
     },
     initAnims() {
       anims = {}
-
       anims.stand = scene.anims.create({
         key: 'wait',
         repeat: -1,

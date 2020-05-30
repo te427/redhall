@@ -12,7 +12,7 @@ class CombatScene extends Phaser.Scene {
   }
 
   create() {
-    this.combatManager.init(this)
+    this.combatManager.start()
   }
 }
 

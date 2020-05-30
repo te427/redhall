@@ -99,6 +99,38 @@ function inventoryNavDown() {
   manager.emit(events.E_NAV_DOWN)
 }
 
+function startCombat() {
+  ctx = context.CTX_COMBAT
+}
+
+function stopCombat() {
+  ctx = context.CTX_EXPLORE
+}
+
+function combatSelect() {
+  manager.emit(events.E_COMBAT_SELECT)
+}
+
+function combatBack() {
+  manager.emit(events.E_COMBAT_BACK)
+}
+
+function combatLeft() {
+  manager.emit(events.E_COMBAT_LEFT)
+}
+
+function combatRight() {
+  manager.emit(events.E_COMBAT_RIGHT)
+}
+
+function combatUp() {
+  manager.emit(events.E_COMBAT_UP)
+}
+
+function combatDown() {
+  manager.emit(events.E_COMBAT_DOWN)
+}
+
 function translate(_, event) {
   var fn = contextDict[ctx][event]
   if (!fn) {
@@ -144,6 +176,14 @@ var contextDict = {
     [events.E_UP_KEYDOWN]: inventoryNavUp,
     [events.E_DOWN_KEYDOWN]: inventoryNavDown,
     [events.E_RIGHT_KEYDOWN]: inventoryNavRight,
+  },
+  [context.CTX_COMBAT]: {
+    [events.E_INTERACT_KEYDOWN]: combatSelect,
+    [events.E_BACK_KEYDOWN]: combatBack,
+    [events.E_LEFT_KEYDOWN]: combatLeft,
+    [events.E_DOWN_KEYDOWN]: combatDown,
+    [events.E_UP_KEYDOWN]: combatUp,
+    [events.E_RIGHT_KEYDOWN]: combatRight,
   }
 }
 
@@ -156,6 +196,8 @@ function ContextManager() {
     manager.on({
       [events.E_OPEN_DIALOGUE]: openDialogue,
       [events.E_CLOSE_DIALOGUE]: closeDialogue, 
+      [events.E_START_COMBAT]: startCombat,
+      [events.E_STOP_COMBAT]: stopCombat
     })
 
     manager.on([

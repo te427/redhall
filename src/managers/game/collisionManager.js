@@ -1,5 +1,5 @@
 import { E_INIT_TERRAIN, E_INIT_NPCS, E_INIT_PLAYER, E_INIT_TILEMAP, E_INIT_ENEMIES } from 'events/types';
-import { FPS } from 'constants/dimensions/game'
+import { FPS, TILE_SIZE } from 'constants/dimensions/game'
 import handler from 'events/handler'
 
 function setTerrain(terrainLayer) {
@@ -36,18 +36,19 @@ function CollisionManager() {
       init(scene) {
         scene.physics.world.setFPS(FPS)
 
-        if (terrain && player && npcs) {
-          player.setCollideWorldBounds(true)
+        if (terrain && player) {
+          player.getSprite().setCollideWorldBounds(true)
+          player.getSprite().setCircle(TILE_SIZE / 2)
 
           map.setCollisionByProperty({ collide: true }, true, true, terrain)
-          scene.physics.add.collider(player, terrain)
+          scene.physics.add.collider(player.getSprite(), terrain)
 
           if (npcs) {
-            npcs.forEach(npc => scene.physics.add.collider(player, npc))
+            npcs.forEach(npc => scene.physics.add.collider(player.getSprite(), npc.getSprite()))
           }
 
           if (enemies) {
-            enemies.forEach(enemy => scene.physics.add.collider(player, enemy))
+            enemies.forEach(enemy => scene.physics.add.collider(player.getSprite(), enemy.getSprite()))
           }
         }
       }

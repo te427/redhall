@@ -55,6 +55,12 @@ export const E_SET_NONCOLLISION_TILE = 'eventSetTile'
 // combat events
 export const E_START_COMBAT = 'eventStartCombat'
 export const E_STOP_COMBAT = 'eventStopCombat'
+export const E_COMBAT_SELECT = 'eventCombatSelect'
+export const E_COMBAT_BACK = 'eventCombatBack'
+export const E_COMBAT_LEFT = 'eventCombatLeft'
+export const E_COMBAT_RIGHT = 'eventCombatRight'
+export const E_COMBAT_UP = 'eventCombatUp'
+export const E_COMBAT_DOWN = 'eventCombatDown'
 
 // dialogue events
 export const E_OPEN_DIALOGUE = 'eventOpenDialogue'

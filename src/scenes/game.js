@@ -5,6 +5,7 @@ import { SCENE_GAME } from 'scenes/constants/scenes'
 import CameraManager from 'managers/game/cameraManager'
 import CellManager from 'managers/cell/cellManager'
 import CollisionManager from 'managers/game/collisionManager'
+import CombatManager from 'managers/combat/combatManager'
 import DialogueManager from 'managers/menu/dialogueManager'
 import EnemyManager from 'managers/sprite/enemyManager'
 import ItemManager from 'managers/cell/itemManager'
@@ -21,6 +22,7 @@ class GameScene extends Phaser.Scene {
     this.cameraManager = CameraManager()
     this.cellManager = CellManager()
     this.collisionManager = CollisionManager()
+    this.combatManager = CombatManager()
     this.dialogueManager = DialogueManager()
     this.enemyManager = EnemyManager()
     this.itemManager = ItemManager()
@@ -43,6 +45,12 @@ class GameScene extends Phaser.Scene {
     this.playerManager.init(this)
     this.collisionManager.init(this)
     this.cameraManager.init(this)
+    this.combatManager.init(this)
+  }
+
+  update() {
+    this.enemyManager.scan()
+    this.playerManager.drive()
   }
 }
 

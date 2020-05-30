@@ -25,7 +25,7 @@ function NPCManager() {
       init(scene) {
         npcs = npcs.map(c => (new NPC(scene, c)))
 
-        this.emit(E_INIT_NPCS, npcs.map(npc => npc.getSprite()))
+        this.emit(E_INIT_NPCS, npcs)
       }
     }
 

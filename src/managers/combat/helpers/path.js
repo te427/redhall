@@ -54,8 +54,8 @@ function shortestPath(from, to, speed) {
 }
 
 function traverseAndMark(possible, x, y, speed, dist, prev) {
-  if (dist > speed || y < 0 || y == height ||
-      x < 0 || x == width || possible[y][x].dist <= dist ) return
+  if (!possible.length || dist > speed || y < 0 || y >= possible.length ||
+      x < 0 || x >= possible[0].length || possible[y][x].dist <= dist ) return
 
   possible[y][x] = { dist, prev }
   var curr = { x, y }

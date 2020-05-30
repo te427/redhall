@@ -11,18 +11,22 @@ function finishedMoveCallback(o) {
 }
 
 function moveCursorLeft() {
+  if (!cursorPos.x) return
   cursorPos = { x: cursorPos.x - 1, y: cursorPos.y }
 }
 
-function moveCursorRight() {
+function moveCursorRight(bf) {
+  if (cursorPos.x + 1 == bf.tileMap.width) return
   cursorPos = { x: cursorPos.x + 1, y: cursorPos.y }
 }
 
 function moveCursorUp() {
+  if (!cursorPos.y) return
   cursorPos = { x: cursorPos.x, y: cursorPos.y - 1}
 }
 
-function moveCursorDown() {
+function moveCursorDown(bf) {
+  if (cursorPos.y + 1 == bf.tileMap.height) return
   cursorPos = { x: cursorPos.x, y: cursorPos.y  + 1}
 }
 
@@ -47,7 +51,6 @@ export default {
     var possible = path.getPossiblePaths(cursorPos, PLAYER_SPEED)
 
     sprites.drawPossibleMoves(this.scene, cursorPos, possible)
-    sprites.drawValid(this.scene, cursorPos)
   },
   select() {
     // create callbacks along path
@@ -55,7 +58,7 @@ export default {
     this.end()
   },
   back() {
-    this.end()
+
   },
   left() {
     moveCursorLeft()
@@ -63,7 +66,7 @@ export default {
     drawPath(this.scene)
   },
   right() {
-    moveCursorRight()
+    moveCursorRight(this.bf)
 
     drawPath(this.scene)
   },
@@ -73,7 +76,7 @@ export default {
     drawPath(this.scene)
   },
   down() {
-    moveCursorDown()
+    moveCursorDown(this.bf)
 
     drawPath(this.scene)
   },

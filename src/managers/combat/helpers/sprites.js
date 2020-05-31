@@ -57,6 +57,7 @@ function getArrowMiddle(next, curr, prev) {
 var cursor
 var moves = []
 var arrow = []
+var attacks = []
 
 export default {
   reset() {
@@ -67,6 +68,8 @@ export default {
     moves = []
     arrow.forEach(s => s.destroy())
     arrow = []
+    attacks.forEach(s => s.destroy())
+    attacks = []
   },
   drawPath(scene, path) {
     if (cursor) {
@@ -126,8 +129,10 @@ export default {
       }
     }
   },
-  drawPossibleAttacks(scene, attacks) {
-
+  drawPossibleAttacks(scene, positions) {
+    attacks = positions.map(p => scene.add.image(
+        TILE_SIZE * p.x, TILE_SIZE * p.y, COMBAT_SPRITE_KEY, s.ATTACK_HIGHLIGHT))
+    attacks.forEach(a => a.setOrigin(0, 0))
   },
   drawInvalid(scene, pos) {
     // move this and drawValid into drawCursor method that chooses whether a move is valid or not
@@ -147,5 +152,16 @@ export default {
     cursor = scene.add.image(TILE_SIZE * pos.x, TILE_SIZE * pos.y, COMBAT_SPRITE_KEY, s.VALID)
     cursor.setOrigin(0, 0)
     //sprite.depth = COMBAT_SPRITE_DEPTH
+  },
+  drawCursor(scene, pos, possible) {
+    if (cursor) {
+      cursor.destroy()
+    }
+
+    var valid = !!possible.find(p => p.x === pos.x && p.y === pos.y) 
+
+    cursor = scene.add.image(TILE_SIZE * pos.x, TILE_SIZE * pos.y, COMBAT_SPRITE_KEY,
+        valid ? s.VALID : s.INVALID)
+    cursor.setOrigin(0, 0)
   }
 }

@@ -1,8 +1,4 @@
 import { E_INIT_TILEMAP, E_INIT_PLAYER, E_COMBAT_SELECT, E_COMBAT_BACK, E_COMBAT_LEFT, E_COMBAT_RIGHT, E_COMBAT_UP, E_COMBAT_DOWN, E_INIT_ENEMIES, E_STOP_COMBAT } from "events/types"
-import { TILE_SIZE } from "constants/dimensions/game"
-import { COMBAT_TILE_KEY, COMBAT_MAP_KEY, MENU_TILE_KEY, COMBAT_SPRITE_KEY } from "constants/keys"
-import { COMBAT_LAYER } from "constants/layers"
-import { COMBAT_SPRITE_DEPTH } from "constants/depth"
 
 import handler from "events/handler"
 import path from 'managers/combat/helpers/path'

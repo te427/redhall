@@ -6,6 +6,7 @@ export default {
   ...noOp,
   bf: null,
   set(phase) {
+    this.end()
     Object.keys(noOp).forEach(k => this[k] = PHASES[PLAYER_TURN][phase][k])
     this.start()
   },

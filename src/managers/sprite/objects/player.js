@@ -261,6 +261,12 @@ function Player (scene, pos) {
       var y = yFunc(sprite.y / TILE_SIZE) * TILE_SIZE
 
       sprite.setPosition(x, y)
+    },
+    attack(pos, cb) {
+      // decide which direction to go and attack
+      console.log(`attacking ${pos}`)
+      // call cb on animation complete
+      cb()
     }
   }
 

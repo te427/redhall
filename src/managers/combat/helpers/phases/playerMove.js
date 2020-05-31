@@ -1,13 +1,11 @@
-import { PLAYER_MOVING, PLAYER_MOVE_SELECT } from "managers/combat/constants/phases"
+import { PLAYER_MOVING, PLAYER_ATTACK_SELECT } from "managers/combat/constants/phases"
 import { PLAYER_SPEED } from "managers/combat/constants/stats"
 
 import path from 'managers/combat/helpers/path'
 import sprites from 'managers/combat/helpers/sprites'
 
-var cursorPos 
-
 function finishedMoveCallback(o) {
-  return () => o.set(PLAYER_MOVE_SELECT)
+  return () => o.set(PLAYER_ATTACK_SELECT)
 }
 
 function moveCursorLeft() {
@@ -42,6 +40,7 @@ function drawPath(scene) {
 }
 
 var currentPath 
+var cursorPos 
 
 export default {
   start() {
@@ -54,8 +53,8 @@ export default {
   },
   select() {
     // create callbacks along path
+    this.set(PLAYER_MOVING)
     this.bf.player.moveAlongPath(currentPath, finishedMoveCallback(this))
-    this.end()
   },
   back() {
 
@@ -83,6 +82,5 @@ export default {
   end() {
     console.log('ending move phase')
     sprites.reset()
-    this.set(PLAYER_MOVING)
   }
 }

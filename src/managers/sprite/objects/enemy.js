@@ -1,18 +1,27 @@
+import * as Phaser from 'phaser'
+
 import { DIR_DOWN, DIR_LEFT, DIR_RIGHT, DIR_UP } from 'managers/sprite/constants/sprites'
 import { TILE_SIZE } from 'constants/dimensions/game'
 import { CHARACTER_SPRITE_DEPTH } from 'constants/depth'
 import { enemySpriteKey, enemySFXKey } from 'helpers/keys'
+import { DIR_TO_ANIMATION, VELOCITY, SFX_MOVING } from '../constants/player'
 
 function startPath(path, cb) {
   if (path.length == 1) {
-    cb()
+    endAuto(cb)()
   } else {
     var curr = path[0]
     var next = path[1]
     var dir = next.x == curr.x
         ? next.y > curr.y ? DIR_DOWN : DIR_UP
         : next.x > curr.x ? DIR_RIGHT : DIR_LEFT
-    var nextCb = () => startPath(path.slice(1), cb)
+
+    var nextCb = function () {
+      sprite.setVelocity(0, 0)
+      enemy.moveToNearestTile()
+      startPath(path.slice(1), cb)
+    }
+
     if (dir === DIR_DOWN) {
       enemy.moveToLower(nextCb)
     } else if (dir === DIR_UP) {
@@ -25,7 +34,7 @@ function startPath(path, cb) {
   }
 }
 
-function startAuto(dir) {
+function startAuto(dir, cb) {
   to = { x: sprite.x, y: sprite.y }
 
   if (dir === DIR_DOWN) {
@@ -40,32 +49,24 @@ function startAuto(dir) {
   if (dir === DIR_LEFT) {
     to.x -= TILE_SIZE
   }
+  //set vector
+  //scene.physics.moveTo(sprite, to.x, to.y, 32, 500, cb)
+  var target = new Phaser.Math.Vector2();
+  target.x = to.x
+  target.y = to.y
+  scene.physics.moveToObject(sprite, target, 32)
 
-  sprite.play(DIR_TO_ANIMATION[dir])
-  sfx.moving.play(SFX_MOVING)
+  sprite.play('enemy-' + DIR_TO_ANIMATION[dir])
+  //sfx.moving.play(SFX_MOVING)
 }
 
-function finishAutoIfDone() {
-  if (auto) {
-    console.log(sprite.x, sprite.y)
-    if (sprite.x === to.x && sprite.y === to.y) {
-      xDir = null
-      yDir = null
-      sprite.setVelocity(0, 0)
-      sprite.anims.stop()
-      sfx.moving.stop()
-
-      auto = false
-
-      // sometimes we don't stop at quite the right coords - call this to make sure we're in grid
-      enemy.moveToNearestTile()
-
-      if (autoCallback) {
-        autoCallback()
-      }
-    }
-
-  } 
+function endAuto(cb) {
+  return function() {
+    auto = false
+    autoCallback = null
+    enemy.halt()
+    cb()
+  }
 }
 
 var enemy
@@ -74,9 +75,6 @@ var scene
 var sprite
 var anims
 var sfx
-var xDir
-var yDir
-var lastDir
 var auto
 var to
 var autoCallback
@@ -97,11 +95,40 @@ function Enemy(newScene, enemyData) {
     },
     initAnims() {
       anims = {}
+
       anims.stand = scene.anims.create({
         key: 'wait',
         repeat: -1,
         frameRate: 2,
         frames: scene.anims.generateFrameNames(enemySpriteKey(data, data.sprite), {start: 0, end: 1}) 
+      })
+
+      anims.moveDown = scene.anims.create({
+        key: 'enemy-' + DIR_TO_ANIMATION[DIR_DOWN],
+        repeat: -1,
+        frameRate: 8,
+        frames: scene.anims.generateFrameNames(enemySpriteKey(data, data.sprite), {start: 4, end: 7}) 
+      })
+
+      anims.moveRight = scene.anims.create({
+        key: 'enemy-' + DIR_TO_ANIMATION[DIR_RIGHT],
+        repeat: -1,
+        frameRate: 8,
+        frames: scene.anims.generateFrameNames(enemySpriteKey(data, data.sprite), {start: 8, end: 11}) 
+      })
+
+      anims.moveLeft = scene.anims.create({
+        key: 'enemy-' + DIR_TO_ANIMATION[DIR_LEFT],
+        repeat: -1,
+        frameRate: 8,
+        frames: scene.anims.generateFrameNames(enemySpriteKey(data, data.sprite), {start: 12, end: 15}) 
+      })
+
+      anims.moveUp = scene.anims.create({
+        key: 'enemy-' + DIR_TO_ANIMATION[DIR_UP],
+        repeat: -1,
+        frameRate: 8,
+        frames: scene.anims.generateFrameNames(enemySpriteKey(data, data.sprite), {start: 16, end: 19}) 
       })
 
       sprite.play('wait')
@@ -126,61 +153,48 @@ function Enemy(newScene, enemyData) {
     getSprite() {
       return sprite
     },
+    getPos() {
+      var x = Math.floor(sprite.x / TILE_SIZE)
+      var y = Math.floor(sprite.y / TILE_SIZE)
+
+      return { x, y } 
+    },
     drive() {
-      var up = yDir === DIR_UP
-      var down = yDir === DIR_DOWN
-      var left = xDir === DIR_LEFT
-      var right = xDir === DIR_RIGHT
-
-      sprite.setVelocityY(up ? -VELOCITY : down ? VELOCITY : 0)
-      sprite.setVelocityX(left ? -VELOCITY : right ? VELOCITY : 0)
-
-      finishAutoIfDone()
-
-      if (!yDir && !xDir) {
-        lastAnimation = null
-        lastDir = null
-
-        sprite.anims.stop()
-        sfx.moving.stop()
-      } else if (lastAnimation != DIR_TO_ANIMATION[lastDir]){
-        lastAnimation = DIR_TO_ANIMATION[lastDir]
-        sprite.play(lastAnimation)
-        sfx.moving.play(SFX_MOVING)
+      if (sprite.body.speed > 0) {
+        if (Phaser.Math.Distance.Between(sprite.x, sprite.y, to.x, to.y) < 4) {
+          sprite.body.reset(to.x, to.y)
+          autoCallback()
+        }
       }
     },
     halt() {
       try {
         sprite.anims.restart()
         sprite.anims.stop()
-        sfx.moving.once('looped', () => sfx.moving.stop())
+        //sfx.moving.once('looped', () => sfx.moving.stop())
       } catch (err) {
         console.error(err)
       }
     },
     moveToLeft(cb) {
       auto = true
-      xDir = DIR_LEFT
       startAuto(DIR_LEFT)
-      autoCallback = cb
+      autoCallback = endAuto(cb)
     },
     moveToRight(cb) {
       auto = true
-      xDir = DIR_RIGHT
       startAuto(DIR_RIGHT)
-      autoCallback = cb
+      autoCallback = endAuto(cb)
     },
     moveToUpper(cb) {
       auto = true
-      yDir = DIR_UP
       startAuto(DIR_UP)
-      autoCallback = cb
+      autoCallback = endAuto(cb)
     },
     moveToLower(cb) {
       auto = true
-      yDir = DIR_DOWN
       startAuto(DIR_DOWN)
-      autoCallback = cb
+      autoCallback = endAuto(cb)
     },
     moveAlongPath(path, cb) {
       var inOrderPath = [...path].reverse()

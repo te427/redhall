@@ -1,10 +1,10 @@
-import { PLAYER_MOVE, PLAYER_ATTACKING } from "managers/combat/constants/phases"
+import { PLAYER_MOVE, PLAYER_ATTACKING, ENEMY_QUEUE } from "managers/combat/constants/phases"
 
 import attack from 'managers/combat/helpers/attack'
 import sprites from 'managers/combat/helpers/sprites'
 
 function finishedAttackCallback(o) {
-  return () => o.set(PLAYER_MOVE)
+  return () => o.set(ENEMY_QUEUE)
 }
 
 function moveCursorLeft() {

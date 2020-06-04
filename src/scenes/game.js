@@ -51,6 +51,7 @@ class GameScene extends Phaser.Scene {
   update() {
     this.enemyManager.scan()
     this.playerManager.drive()
+    this.enemyManager.drive()
   }
 }
 

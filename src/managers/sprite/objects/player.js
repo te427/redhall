@@ -209,7 +209,7 @@ function Player (newScene, pos) {
           sfx.moving.play(SFX_MOVING)
         }
       } else if (sprite.body.speed > 0) {
-        if (Phaser.Math.Distance.Between(sprite.x, sprite.y, to.x, to.y) < 2) {
+        if (Phaser.Math.Distance.Between(sprite.x, sprite.y, to.x, to.y) < 4) {
           sprite.body.reset(to.x, to.y)
           autoCallback()
         }

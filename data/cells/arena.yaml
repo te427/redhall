@@ -1,6 +1,6 @@
 name: The Arena
 map: arena 
-music: music
+music: cliffs_of_hamaeron
 npcs: []
 enemies:
   - key: skeleton

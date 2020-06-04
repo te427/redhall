@@ -50,6 +50,9 @@ function EnemyManager() {
             }
           })
         }
+      },
+      drive() {
+        enemies.forEach(e => e.drive())
       }
     }
 

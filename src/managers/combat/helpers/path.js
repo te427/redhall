@@ -103,9 +103,9 @@ function setPossiblePaths(from, speed) {
   var possible = []
 
   // TODO: combine with below for loop
-  for (var y = 0; y <= lowerBound - upperBound; y++) {
+  for (var y = 0; y < lowerBound - upperBound; y++) {
     possible[y] = []
-    for (var x = 0; x <= rightBound - leftBound; x++) {
+    for (var x = 0; x < rightBound - leftBound; x++) {
       possible[y][x] = Object.assign({}, DEFAULT_CELL_VALUE)
     }
   }
@@ -113,8 +113,8 @@ function setPossiblePaths(from, speed) {
   possibleOrigin = { x: from.x - leftBound, y: from.y - upperBound }
 
   // mark non traversible positions in possible array
-  for (var y = upperBound; y <= lowerBound; y++) {
-    for (var x = leftBound; x <= rightBound; x++) {
+  for (var y = upperBound; y < lowerBound; y++) {
+    for (var x = leftBound; x < rightBound; x++) {
       if (battlefield[y][x]) {
         // mark as negative if untraversible
         possible[y - upperBound][x - leftBound] = Object.assign({}, DISABLED_CELL_VALUE)

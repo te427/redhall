@@ -1,7 +1,5 @@
-import { DIR_DOWN, DIR_LEFT, DIR_RIGHT, DIR_UP } from 'managers/sprite/constants/sprites'
-import { TILE_SIZE } from 'constants/dimensions/game'
-import { CHARACTER_SPRITE_DEPTH } from 'constants/depth'
-import { enemySpriteKey, enemySFXKey } from 'helpers/keys'
+import { TILE_SIZE } from "constants/dimensions/game"
+import { CHARACTER_SPRITE_DEPTH } from "constants/depth"
 
 function startPath(path, cb) {
   if (path.length == 1) {
@@ -14,13 +12,13 @@ function startPath(path, cb) {
         : next.x > curr.x ? DIR_RIGHT : DIR_LEFT
     var nextCb = () => startPath(path.slice(1), cb)
     if (dir === DIR_DOWN) {
-      enemy.moveToLower(nextCb)
+      character.moveToLower(nextCb)
     } else if (dir === DIR_UP) {
-      enemy.moveToUpper(nextCb)
+      character.moveToUpper(nextCb)
     } else if (dir === DIR_LEFT) {
-      enemy.moveToLeft(nextCb)
+      character.moveToLeft(nextCb)
     } else if (dir === DIR_RIGHT) {
-      enemy.moveToRight(nextCb)
+      character.moveToRight(nextCb)
     }
   }
 }
@@ -58,7 +56,7 @@ function finishAutoIfDone() {
       auto = false
 
       // sometimes we don't stop at quite the right coords - call this to make sure we're in grid
-      enemy.moveToNearestTile()
+      character.moveToNearestTile()
 
       if (autoCallback) {
         autoCallback()
@@ -68,63 +66,51 @@ function finishAutoIfDone() {
   } 
 }
 
-var enemy
-var data
-var scene
-var sprite
-var anims
-var sfx
+function newAnimation(key, start, end) {
+  animations[key] = scene.anims.create({
+    key,
+    repeat: -1,
+    frameRate: 8,
+    frames: scene.anims.generateFrameNames(key, { start, end }) 
+  })
+}
+
+var character
 var xDir
 var yDir
+var sprite
+var animations
+var sfx
+var dir
+var lastAnimation 
 var lastDir
 var auto
 var to
 var autoCallback
 
-function Enemy(newScene, enemyData) {
-  data = enemyData
-  scene = newScene
-
-  enemy = {
-    initSprite() {
-      // Check if this width/height box is correct
-      sprite = scene.physics.add.sprite(data.x * TILE_SIZE, data.y * TILE_SIZE, data)
-      sprite.body.setSize(16, 16)
-      sprite.body.setOffset(0, 0)
-      sprite.setImmovable(true)
-      sprite.depth = CHARACTER_SPRITE_DEPTH
+function Character(key, pos) {
+  return {
+    initSprite(scene) {
+      sprite = scene.physics.add.sprite(pos.x * TILE_SIZE, pos.y * TILE_SIZE, key)
+      sprite.depth = CHARACTER_SPRITE_DEPTH 
       sprite.setOrigin(0, 0)
+    }, 
+    initAnims(scene, anims) {
+      animations = {}
+      Object.keys(anims).forEach(k => newAnimation(k, anims[k].start, anims[k].end))
     },
-    initAnims() {
-      anims = {}
-      anims.stand = scene.anims.create({
-        key: 'wait',
-        repeat: -1,
-        frameRate: 2,
-        frames: scene.anims.generateFrameNames(enemySpriteKey(data, data.sprite), {start: 0, end: 1}) 
-      })
-
-      sprite.play('wait')
-    },
-    initSfx() {
-      sfx = {} 
-
-      //sfx.talk = scene.sound.add(enemySFXKey(data, data.sfx.talk))
-
-      /*
-      sfx.talk.addMarker({
-        name: 'talk',
-        start: 0,
-        duration: 2,
-        config: {
-          volume: 0.5,
-          loop: false 
-        }
-      })
-      */
+    initSfx(scene, fx) {
+      sfx = {}
+      Object.keys(fx).forEach(f => newSoundEffect(k, fx[k]))
     },
     getSprite() {
       return sprite
+    },
+    getPos() {
+      var x = Math.floor(sprite.x / TILE_SIZE)
+      var y = Math.floor(sprite.y / TILE_SIZE)
+
+      return { x, y } 
     },
     drive() {
       var up = yDir === DIR_UP
@@ -145,6 +131,7 @@ function Enemy(newScene, enemyData) {
         sfx.moving.stop()
       } else if (lastAnimation != DIR_TO_ANIMATION[lastDir]){
         lastAnimation = DIR_TO_ANIMATION[lastDir]
+        dir = lastDir
         sprite.play(lastAnimation)
         sfx.moving.play(SFX_MOVING)
       }
@@ -206,12 +193,6 @@ function Enemy(newScene, enemyData) {
       cb()
     }
   }
-
-  enemy.initSprite()
-  enemy.initAnims()
-  enemy.initSfx()
-
-  return enemy
 }
 
-export default Enemy
+export default Character

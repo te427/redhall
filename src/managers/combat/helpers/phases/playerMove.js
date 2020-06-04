@@ -1,11 +1,11 @@
-import { PLAYER_MOVING, PLAYER_ATTACK_SELECT } from "managers/combat/constants/phases"
+import { PLAYER_MOVING, PLAYER_ATTACK } from "managers/combat/constants/phases"
 import { PLAYER_SPEED } from "managers/combat/constants/stats"
 
 import path from 'managers/combat/helpers/path'
 import sprites from 'managers/combat/helpers/sprites'
 
 function finishedMoveCallback(o) {
-  return () => o.set(PLAYER_ATTACK_SELECT)
+  return () => o.set(PLAYER_ATTACK)
 }
 
 function moveCursorLeft() {

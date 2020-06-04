@@ -1,3 +1,5 @@
+import * as Phaser from 'phaser'
+
 import { TILE_SIZE } from 'constants/dimensions/game'
 import { DIR_DOWN, DIR_LEFT, DIR_RIGHT, DIR_UP } from 'managers/sprite/constants/sprites'
 import { PLAYER_KEY, PLAYER_SFX_FOOTSTEP_KEY } from 'constants/keys'
@@ -9,14 +11,20 @@ import { CHARACTER_SPRITE_DEPTH } from 'constants/depth'
 
 function startPath(path, cb) {
   if (path.length == 1) {
-    cb()
+    endAuto(cb)()
   } else {
     var curr = path[0]
     var next = path[1]
     var dir = next.x == curr.x
         ? next.y > curr.y ? DIR_DOWN : DIR_UP
         : next.x > curr.x ? DIR_RIGHT : DIR_LEFT
-    var nextCb = () => startPath(path.slice(1), cb)
+
+    var nextCb = function () {
+      sprite.setVelocity(0, 0)
+      player.moveToNearestTile()
+      startPath(path.slice(1), cb)
+    }
+
     if (dir === DIR_DOWN) {
       player.moveToLower(nextCb)
     } else if (dir === DIR_UP) {
@@ -29,7 +37,7 @@ function startPath(path, cb) {
   }
 }
 
-function startAuto(dir) {
+function startAuto(dir, cb) {
   to = { x: sprite.x, y: sprite.y }
 
   if (dir === DIR_DOWN) {
@@ -44,35 +52,28 @@ function startAuto(dir) {
   if (dir === DIR_LEFT) {
     to.x -= TILE_SIZE
   }
+  //set vector
+  //scene.physics.moveTo(sprite, to.x, to.y, 32, 500, cb)
+  var target = new Phaser.Math.Vector2();
+  target.x = to.x
+  target.y = to.y
+  scene.physics.moveToObject(sprite, target, 32)
 
   sprite.play(DIR_TO_ANIMATION[dir])
   sfx.moving.play(SFX_MOVING)
 }
 
-function finishAutoIfDone() {
-  if (auto) {
-    console.log(sprite.x, sprite.y)
-    if (sprite.x === to.x && sprite.y === to.y) {
-      xDir = null
-      yDir = null
-      sprite.setVelocity(0, 0)
-      sprite.anims.stop()
-      sfx.moving.stop()
-
-      auto = false
-
-      // sometimes we don't stop at quite the right coords - call this to make sure we're in grid
-      player.moveToNearestTile()
-
-      if (autoCallback) {
-        autoCallback()
-      }
-    }
-
-  } 
+function endAuto(cb) {
+  return function() {
+    auto = false
+    autoCallback = null
+    player.halt()
+    cb()
+  }
 }
 
 var player
+var scene
 var xDir
 var yDir
 var sprite
@@ -85,14 +86,16 @@ var auto
 var to
 var autoCallback
 
-function Player (scene, pos) {
+function Player (newScene, pos) {
+  scene = newScene
+
   player = {
-    initSprite(scene) {
+    initSprite() {
       sprite = scene.physics.add.sprite(pos.x * TILE_SIZE, pos.y * TILE_SIZE, PLAYER_KEY)
       sprite.depth = CHARACTER_SPRITE_DEPTH 
       sprite.setOrigin(0, 0)
     }, 
-    initAnims(scene) {
+    initAnims() {
       anims = {}
 
       anims.walkDown = scene.anims.create({
@@ -123,7 +126,7 @@ function Player (scene, pos) {
         frames: scene.anims.generateFrameNames(PLAYER_KEY, {start: 12, end: 15}) 
       })
     },
-    initSfx(scene) {
+    initSfx() {
       sfx = {}
 
       sfx.moving = scene.sound.add(playerSFXKey(PLAYER_SFX_FOOTSTEP_KEY))
@@ -144,10 +147,6 @@ function Player (scene, pos) {
 
       const x = sprite.x + halfTile + (dir === DIR_RIGHT ? threeQuarterTile : dir === DIR_LEFT ? -threeQuarterTile: 0)
       const y = sprite.y + halfTile + (dir === DIR_DOWN ? threeQuarterTile: dir === DIR_UP ? -threeQuarterTile: 0)
-
-      console.log(dir)
-      console.log(sprite.x, sprite.y)
-      console.log(x, y)
 
       return { x, y }
     },
@@ -189,27 +188,31 @@ function Player (scene, pos) {
       yDir = null
     },
     drive() {
-      var up = yDir === DIR_UP
-      var down = yDir === DIR_DOWN
-      var left = xDir === DIR_LEFT
-      var right = xDir === DIR_RIGHT
+      if (!auto) {
+        var up = yDir === DIR_UP
+        var down = yDir === DIR_DOWN
+        var left = xDir === DIR_LEFT
+        var right = xDir === DIR_RIGHT
 
-      sprite.setVelocityY(up ? -VELOCITY : down ? VELOCITY : 0)
-      sprite.setVelocityX(left ? -VELOCITY : right ? VELOCITY : 0)
+        sprite.setVelocityY(up ? -VELOCITY : down ? VELOCITY : 0)
+        sprite.setVelocityX(left ? -VELOCITY : right ? VELOCITY : 0)
 
-      finishAutoIfDone()
-
-      if (!yDir && !xDir) {
-        lastAnimation = null
-        lastDir = null
-
-        sprite.anims.stop()
-        sfx.moving.stop()
-      } else if (lastAnimation != DIR_TO_ANIMATION[lastDir]){
-        lastAnimation = DIR_TO_ANIMATION[lastDir]
-        dir = lastDir
-        sprite.play(lastAnimation)
-        sfx.moving.play(SFX_MOVING)
+        if (!yDir && !xDir) {
+          lastAnimation = null
+          lastDir = null
+          sprite.anims.stop()
+          sfx.moving.stop()
+        } else if (lastAnimation != DIR_TO_ANIMATION[lastDir]){
+          lastAnimation = DIR_TO_ANIMATION[lastDir]
+          dir = lastDir
+          sprite.play(lastAnimation)
+          sfx.moving.play(SFX_MOVING)
+        }
+      } else if (sprite.body.speed > 0) {
+        if (Phaser.Math.Distance.Between(sprite.x, sprite.y, to.x, to.y) < 2) {
+          sprite.body.reset(to.x, to.y)
+          autoCallback()
+        }
       }
     },
     halt() {
@@ -223,27 +226,23 @@ function Player (scene, pos) {
     },
     moveToLeft(cb) {
       auto = true
-      xDir = DIR_LEFT
       startAuto(DIR_LEFT)
-      autoCallback = cb
+      autoCallback = endAuto(cb)
     },
     moveToRight(cb) {
       auto = true
-      xDir = DIR_RIGHT
       startAuto(DIR_RIGHT)
-      autoCallback = cb
+      autoCallback = endAuto(cb)
     },
     moveToUpper(cb) {
       auto = true
-      yDir = DIR_UP
       startAuto(DIR_UP)
-      autoCallback = cb
+      autoCallback = endAuto(cb)
     },
     moveToLower(cb) {
       auto = true
-      yDir = DIR_DOWN
       startAuto(DIR_DOWN)
-      autoCallback = cb
+      autoCallback = endAuto(cb)
     },
     moveAlongPath(path, cb) {
       var inOrderPath = [...path].reverse()

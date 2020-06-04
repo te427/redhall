@@ -1,18 +1,18 @@
-import { PHASES, PLAYER_MOVE_SELECT, PLAYER_TURN } from 'managers/combat/constants/phases'
+import { PHASES, PLAYER_MOVE } from 'managers/combat/constants/phases'
 
 import noOp from 'managers/combat/helpers/phases/noOp'
 
 export default {
   ...noOp,
   bf: null,
-  set(phase) {
-    this.end()
-    Object.keys(noOp).forEach(k => this[k] = PHASES[PLAYER_TURN][phase][k])
-    this.start()
+  set(phase, data = null) {
+    this.end(data)
+    Object.keys(noOp).forEach(k => this[k] = PHASES[phase][k])
+    this.start(data)
   },
   init(scene, bf) {
     this.bf = bf
     this.scene = scene
-    this.set(PLAYER_MOVE_SELECT)
+    this.set(PLAYER_MOVE)
   }
 }

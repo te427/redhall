@@ -97,3 +97,6 @@ export const E_SET_WEATHER = 'eventSetWeather'
 export const E_PAUSE_MUSIC = 'eventPauseeMusic'
 export const E_PLAY_MUSIC = 'eventPlayMusic'
 export const E_RESTART_MUSIC = 'eventRestartMusic'
+
+// camera events
+export const E_CAMERA_FOLLOW = 'eventCameraFollow'

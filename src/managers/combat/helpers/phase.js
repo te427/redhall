@@ -1,8 +1,10 @@
 import { PHASES, PLAYER_MOVE } from 'managers/combat/constants/phases'
 
 import noOp from 'managers/combat/helpers/phases/noOp'
+import handler from 'events/handler'
 
 export default {
+  ...handler,
   ...noOp,
   bf: null,
   set(phase, data = null) {

@@ -15,6 +15,11 @@ function startPath(path, cb) {
   if (path.length == 1) {
     endAuto(cb)()
   } else {
+    if (!moving) {
+      moving = true
+      sfx.move.play(SFX_MOVE)
+    } 
+
     var curr = path[0]
     var next = path[1]
     var dir = next.x == curr.x
@@ -62,7 +67,6 @@ function startAuto(dir, cb) {
   scene.physics.moveToObject(sprite, target, 32)
 
   sprite.play(animations.getAnimation(TYPE_ENEMY, WALK_DIR_TO_ANIMATION[dir]))
-  sfx.move.play(SFX_MOVE)
 }
 
 function endAuto(cb) {
@@ -82,6 +86,7 @@ var sprite
 var anims
 var sfx
 var auto
+var moving
 var to
 var autoCallback
 var health = ENEMY_HEALTH
@@ -114,6 +119,7 @@ function Enemy(manager, newScene, enemyData) {
       sfx.move.addMarker({
         name: SFX_MOVE,
         start: 0,
+        duration: 0.25,
         config: {
           volume: 0.1,
           loop: true
@@ -148,7 +154,8 @@ function Enemy(manager, newScene, enemyData) {
       try {
         sprite.anims.restart()
         sprite.play(animations.getAnimation(TYPE_ENEMY, ANIM_STAND))
-        //sfx.moving.once('looped', () => sfx.moving.stop())
+        sfx.move.once('looped', () => sfx.move.stop())
+        moving = false
       } catch (err) {
         console.error(err)
       }

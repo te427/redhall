@@ -6,6 +6,9 @@ enemies:
   - key: skeleton
     x: 10
     y: 8
+  - key: skeleton
+    x: 12
+    y: 7
 entrances:
   - name: spawn
     x: 12

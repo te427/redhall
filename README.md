@@ -17,10 +17,10 @@ navigate to [localhost:8085](http://localhost:8085) when the server is running.
 ## Todo List
 
 ### Bugs
-- Fix running direction not resumed when moving diagonally after collision
-  - we can do this by calling a function in the player manager continually on game update - this should "drive" the player,
-    with the player only concerned about the direction(s) it is facing and whether it is moving or not (a key is down and has
-    not been released)
+- enemies cannot detect each other when checking for pathfinding collisions
+- enemies sometimes do not respect collide blocks when pathfinding
+- selecting bad cursor positions when moving/attack freezes combat
+  - can we add an overall try/catch to phase that resets the phase it is in if it fails?
 - Pond of the Child has no map currently
 - spawning/removing items needs item properties
 
@@ -50,8 +50,12 @@ navigate to [localhost:8085](http://localhost:8085) when the server is running.
 ### Larger Items
 - make it an electron app
 - add world map
-- add a combat system
-- add enemies and simple AI
+- ~~add a combat system~~
+  - ~~add enemy pathfinding~~
+  - ~~add melee combat~~
+  - add spell combat
+  - add item combat
+- ~~add enemies and simple AI~~
 - add spells
 - create a crafting system
 - add a cutscene system

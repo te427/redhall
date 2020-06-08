@@ -1,5 +1,6 @@
 import { PLAYER_MOVING, PLAYER_ATTACK } from "managers/combat/constants/phases"
 import { PLAYER_SPEED } from "managers/combat/constants/stats"
+import { E_CAMERA_FOLLOW } from "events/types"
 
 import path from 'managers/combat/helpers/path'
 import sprites from 'managers/combat/helpers/sprites'
@@ -44,6 +45,8 @@ var cursorPos
 
 export default {
   start() {
+    this.emit(E_CAMERA_FOLLOW, this.bf.player.getSprite())
+
     console.log('starting move phase')
     cursorPos = this.bf.player.getPos()
 

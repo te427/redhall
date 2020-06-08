@@ -3,9 +3,9 @@ map: arena
 music: cliffs_of_hamaeron
 npcs: []
 enemies:
-  - key: skeleton
-    x: 10
-    y: 8
+  #- key: skeleton
+  #  x: 10
+  #  y: 8
   - key: skeleton
     x: 12
     y: 7

@@ -53,10 +53,21 @@ navigate to [localhost:8085](http://localhost:8085) when the server is running.
 - ~~add a combat system~~
   - ~~add enemy pathfinding~~
   - ~~add melee combat~~
+  - make combat start by enemy detection
+  - add win screen
+  - add a general battlefield select phase to go to move/attack/pass
+  - add battlefield descriptions
+  - add enemy conditions (sleep, poison, etc)
+  - add allies
   - add spell combat
+  - add ground effects (i.e. tiles that cause certain conditions) 
   - add item combat
+  - add DEATH
 - ~~add enemies and simple AI~~
-- add spells
+- add a more complex AI
+  - what can we do here? this is too deep...
+- add spells in general
+- create an XP/leveling system
 - create a crafting system
 - add a cutscene system
 - add a barter system

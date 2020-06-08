@@ -11,6 +11,14 @@ export default {
       index = 0
       this.set(PLAYER_MOVE)
     } else {
+      while(this.bf.enemies[index].isDead()) {
+        index++
+        if (index === this.bf.enemies.length) {
+          index = 0
+          this.set(PLAYER_MOVE)
+          return
+        }
+      }
       this.set(ENEMY_MOVING, this.bf.enemies[index++])
     }
   },

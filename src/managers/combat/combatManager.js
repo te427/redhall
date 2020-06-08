@@ -45,12 +45,14 @@ function setAllies() {
   // at some point we want to add multiple party members
 }
 
+// TODO add set NPCS to avoid collisions
+
 function setEnemies(newEnemies) {
   enemies = newEnemies
 }
 
 function start() {
-  path.setBattlefield(tileMap)
+  path.setBattlefield(tileMap, player, [], enemies)
 
   var bf = {
     width,

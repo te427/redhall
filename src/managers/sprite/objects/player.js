@@ -1,13 +1,17 @@
 import * as Phaser from 'phaser'
 
 import { TILE_SIZE } from 'constants/dimensions/game'
-import { DIR_DOWN, DIR_LEFT, DIR_RIGHT, DIR_UP } from 'managers/sprite/constants/sprites'
-import { PLAYER_KEY, PLAYER_SFX_FOOTSTEP_KEY } from 'constants/keys'
-import { VELOCITY, SFX_MOVING, DIR_TO_ANIMATION } from 'managers/sprite/constants/player'
-import { ANIM_WALK_DOWN, ANIM_WALK_UP, ANIM_WALK_LEFT, ANIM_WALK_RIGHT } from 'managers/sprite/constants/sprites'
-
-import { playerSFXKey } from 'helpers/keys'
+import { DIR_DOWN, DIR_LEFT, DIR_RIGHT, DIR_UP, TYPE_PLAYER, ANIM_STAND, ANIM_DIE, ANIM_HIT } from 'managers/sprite/constants/sprites'
+import { PLAYER_KEY, SFX_MOVE_KEY, SFX_ATTACK_KEY, SFX_HIT_KEY } from 'constants/keys'
+import { VELOCITY } from 'managers/sprite/constants/player'
+import { ANIM_WALK_DOWN, ANIM_WALK_UP, ANIM_WALK_LEFT, ANIM_WALK_RIGHT, WALK_DIR_TO_ANIMATION, ATTACK_DIR_TO_ANIMATION} from 'managers/sprite/constants/sprites'
 import { CHARACTER_SPRITE_DEPTH } from 'constants/depth'
+import { PLAYER_DAMAGE, PLAYER_HEALTH } from 'managers/combat/constants/stats'
+import { E_PLAYER_ATTACK } from 'events/types'
+import { SFX_MOVE, SFX_HIT } from '../constants/sfx'
+
+import { playerSpriteKey, playerSFXKey } from 'helpers/keys'
+import animations from 'managers/sprite/helpers/animations'
 
 function startPath(path, cb) {
   if (path.length == 1) {
@@ -59,8 +63,7 @@ function startAuto(dir, cb) {
   target.y = to.y
   scene.physics.moveToObject(sprite, target, 32)
 
-  sprite.play(DIR_TO_ANIMATION[dir])
-  sfx.moving.play(SFX_MOVING)
+  sprite.play(animations.getAnimation(TYPE_PLAYER, WALK_DIR_TO_ANIMATION[dir]))
 }
 
 function endAuto(cb) {
@@ -73,11 +76,13 @@ function endAuto(cb) {
 }
 
 var player
+var mgr
 var scene
 var xDir
 var yDir
 var sprite
 var anims
+var moving
 var sfx
 var dir
 var lastAnimation 
@@ -85,8 +90,10 @@ var lastDir
 var auto
 var to
 var autoCallback
+var health = PLAYER_HEALTH
 
-function Player (newScene, pos) {
+function Player (manager, newScene, pos) {
+  mgr = manager
   scene = newScene
 
   player = {
@@ -96,50 +103,26 @@ function Player (newScene, pos) {
       sprite.setOrigin(0, 0)
     }, 
     initAnims() {
-      anims = {}
+      anims = animations.initializeAnimations(scene, TYPE_PLAYER, PLAYER_KEY)
 
-      anims.walkDown = scene.anims.create({
-        key: ANIM_WALK_DOWN,
-        repeat: -1,
-        frameRate: 8,
-        frames: scene.anims.generateFrameNames(PLAYER_KEY, {start: 0, end: 3}) 
-      })
-
-      anims.walkUp = scene.anims.create({
-        key: ANIM_WALK_UP,
-        repeat: -1,
-        frameRate: 8,
-        frames: scene.anims.generateFrameNames(PLAYER_KEY, {start: 4, end: 7}) 
-      })
-
-      anims.walkLeft = scene.anims.create({
-        key: ANIM_WALK_LEFT,
-        repeat: -1,
-        frameRate: 8,
-        frames: scene.anims.generateFrameNames(PLAYER_KEY, {start: 8, end: 11}) 
-      })
-
-      anims.walkRight = scene.anims.create({
-        key: ANIM_WALK_RIGHT,
-        repeat: -1,
-        frameRate: 8,
-        frames: scene.anims.generateFrameNames(PLAYER_KEY, {start: 12, end: 15}) 
-      })
+      sprite.play(animations.getAnimation(TYPE_PLAYER, ANIM_STAND))
     },
     initSfx() {
       sfx = {}
 
-      sfx.moving = scene.sound.add(playerSFXKey(PLAYER_SFX_FOOTSTEP_KEY))
+      sfx.move = scene.sound.add(playerSFXKey(SFX_MOVE_KEY))
 
-      sfx.moving.addMarker({
-        name: SFX_MOVING,
+      sfx.move.addMarker({
+        name: SFX_MOVE,
         start: 0,
-        duration: 0.25,
         config: {
           volume: 0.1,
           loop: true
         }
       })
+
+      sfx.attack = scene.sound.add(playerSFXKey(SFX_ATTACK_KEY))
+      sfx.hit = scene.sound.add(playerSFXKey(SFX_HIT_KEY))
     },
     getInteraction() {
       var halfTile = TILE_SIZE / 2
@@ -188,25 +171,31 @@ function Player (newScene, pos) {
       yDir = null
     },
     drive() {
+      if (sprite.body.speed > 0) {
+        if (!moving) {
+          sfx.move.play(SFX_MOVE)
+        }
+        moving = true 
+      }
+
       if (!auto) {
         var up = yDir === DIR_UP
         var down = yDir === DIR_DOWN
         var left = xDir === DIR_LEFT
         var right = xDir === DIR_RIGHT
-
         sprite.setVelocityY(up ? -VELOCITY : down ? VELOCITY : 0)
         sprite.setVelocityX(left ? -VELOCITY : right ? VELOCITY : 0)
 
-        if (!yDir && !xDir) {
+        if (!yDir && !xDir && moving) {
           lastAnimation = null
           lastDir = null
-          sprite.anims.stop()
-          sfx.moving.stop()
-        } else if (lastAnimation != DIR_TO_ANIMATION[lastDir]){
-          lastAnimation = DIR_TO_ANIMATION[lastDir]
+          sprite.play(animations.getAnimation(PLAYER_KEY, ANIM_STAND))
+          sfx.move.stop()
+          moving = false
+        } else if (lastAnimation != WALK_DIR_TO_ANIMATION[lastDir]){
+          lastAnimation = WALK_DIR_TO_ANIMATION[lastDir]
           dir = lastDir
-          sprite.play(lastAnimation)
-          sfx.moving.play(SFX_MOVING)
+          sprite.play(animations.getAnimation(TYPE_PLAYER, lastAnimation))
         }
       } else if (sprite.body.speed > 0) {
         if (Phaser.Math.Distance.Between(sprite.x, sprite.y, to.x, to.y) < 4) {
@@ -219,7 +208,7 @@ function Player (newScene, pos) {
       try {
         sprite.anims.restart()
         sprite.anims.stop()
-        sfx.moving.once('looped', () => sfx.moving.stop())
+        sfx.move.once('looped', () => sfx.move.stop())
       } catch (err) {
         console.error(err)
       }
@@ -261,11 +250,54 @@ function Player (newScene, pos) {
 
       sprite.setPosition(x, y)
     },
+    adjacentTo(pos) {
+      var p = this.getPos()
+      if (pos.x === p.x) {
+        if (pos.y === p.y - 1) {
+          return DIR_UP
+        }
+        if (pos.y === p.y + 1) {
+          return DIR_DOWN
+        }
+      }
+      if (pos.y === p.y) {
+        if (pos.x === p.x - 1) {
+          return DIR_LEFT
+        }
+        if (pos.x === p.x + 1) {
+          return DIR_RIGHT
+        }
+      }
+      return null
+    },
+    getHealth() {
+      return health / PLAYER_HEALTH
+    },
     attack(pos, cb) {
-      // decide which direction to go and attack
-      console.log(`attacking ${pos}`)
-      // call cb on animation complete
-      cb()
+      var dir = this.adjacentTo(pos)
+
+      sprite.play(animations.getAnimation(TYPE_PLAYER, ATTACK_DIR_TO_ANIMATION[dir]))
+      sfx.attack.play()
+      sprite.once('animationcomplete', function(){
+        mgr.emit(E_PLAYER_ATTACK, { pos, damage: PLAYER_DAMAGE, cb})
+        sprite.play(animations.getAnimation(TYPE_PLAYER, ANIM_STAND))
+      })
+    },
+    hit(attack) {
+      console.log(`hit for ${attack.damage} damage`)
+      health -= attack.damage
+      console.log(`${health} health left`)
+      if (health <= 0) {
+        sprite.play(animations.getAnimation(TYPE_PLAYER, ANIM_DIE))
+      } else {
+        sprite.play(animations.getAnimation(TYPE_PLAYER, ANIM_HIT))
+      }
+      sfx.hit.play()
+      sprite.once('animationcomplete', function() {
+        sprite.play(animations.getAnimation(TYPE_PLAYER, ANIM_STAND))
+        // why don't we need this?
+        attack.cb()
+      })
     }
   }
 

@@ -66,7 +66,7 @@ function MusicManager() {
         // load music data to see what track is playing for a cell
         // and keep playing if its the same
         music.addMarker(musicMarker)
-        music.play()
+        //music.play()
       }
     }
 

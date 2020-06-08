@@ -1,6 +1,8 @@
- import { E_INTERACT, E_INIT_SPAWN, E_INIT_PLAYER, E_PLAYER_MOVE_LEFT_START, E_PLAYER_MOVE_LEFT_END, E_PLAYER_MOVE_RIGHT_START, E_PLAYER_MOVE_RIGHT_END, E_PLAYER_MOVE_UP_START, E_PLAYER_MOVE_UP_END, E_PLAYER_MOVE_DOWN_START, E_PLAYER_MOVE_DOWN_END, E_PLAYER_INTERACT_START, E_PLAYER_INTERACT_END, E_CHANGE_SCENE, E_OPEN_DIALOGUE } from 'events/types'
+ import { E_INTERACT, E_INIT_SPAWN, E_INIT_PLAYER, E_PLAYER_MOVE_LEFT_START, E_PLAYER_MOVE_LEFT_END, E_PLAYER_MOVE_RIGHT_START, E_PLAYER_MOVE_RIGHT_END, E_PLAYER_MOVE_UP_START, E_PLAYER_MOVE_UP_END, E_PLAYER_MOVE_DOWN_START, E_PLAYER_MOVE_DOWN_END, E_PLAYER_INTERACT_START, E_PLAYER_INTERACT_END, E_CHANGE_SCENE, E_OPEN_DIALOGUE, E_ATTACK, E_ENEMY_ATTACK } from 'events/types'
 import handler from 'events/handler'
 import Player from 'managers/sprite/objects/player'
+
+import sprites from 'managers/combat/helpers/sprites'
 
 function startPlayerMoveDown() {
   player.startMoveDown()
@@ -50,7 +52,19 @@ function haltSFXAndAnimations() {
   player.halt()
 }
 
+function attack(a) {
+  if (player.getPos().x === a.pos.x && player.getPos().y === a.pos.y) {
+    player.hit(a)
+    renderHealth()
+  }
+}
+
+function renderHealth() {
+  sprites.drawHealthBar(scene, player.getPos(), player.getHealth())
+}
+
 var manager
+var scene
 var player
 var spawn
 
@@ -58,8 +72,10 @@ function PlayerManager() {
   if (!manager) {
     manager = {
       ...handler,
-      init(scene) {
-        player = new Player(scene, spawn)
+      init(newScene) {
+        scene = newScene
+
+        player = new Player(manager, newScene, spawn)
 
         this.emit(E_INIT_PLAYER, player)
       },
@@ -82,6 +98,7 @@ function PlayerManager() {
       [E_INIT_SPAWN]: setSpawn,
       [E_CHANGE_SCENE]: haltSFXAndAnimations,
       [E_OPEN_DIALOGUE]: haltSFXAndAnimations,
+      [E_ENEMY_ATTACK]: attack,
       // on add to inventory, play pick animation
     })
   }

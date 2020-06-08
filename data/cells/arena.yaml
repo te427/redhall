@@ -9,4 +9,4 @@ enemies:
 entrances:
   - name: spawn
     x: 12
-    y: 16
+    y: 10

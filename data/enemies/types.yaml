@@ -1,6 +1,10 @@
 skeleton:
   name: Skeleton
   sprite: skeleton
+  sfx:
+    - attack
+    - hit
+    - move
   description: A lowly lich found commonly in barrows throughout Hamaeron.
   stats:
     health: 30

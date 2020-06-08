@@ -25,13 +25,21 @@ function shortestPath(from, to, speed) {
 
   var bf = []
 
-  // TODO: do this once on init. once it is done we can copy slices
+  // TODO: fix enemies not colliding with these
   for (var y = 0; y < height; y++) {
     bf[y] = []
     for (var x = 0; x < width; x++) {
       bf[y][x] = Object.assign({}, battlefield[y][x] ? DISABLED_CELL_VALUE : DEFAULT_CELL_VALUE)
     }
   }
+
+  //var playerPos = entities.player.getPos()
+  //bf[playerPos.y][playerPos.x] = DISABLED_CELL_VALUE
+
+  //var enemyPositions = entities.enemies.map(e => e.getPos())
+  //enemyPositions.forEach(p => bf[p.y][p.x] = (p.x === from.x && p.y === from.y
+  //    ? DEFAULT_CELL_VALUE
+  //    : DISABLED_CELL_VALUE))
 
   traverse(bf, from.x, from.y, 0, null)
 
@@ -90,6 +98,10 @@ function setDimensions(map) {
   height = map.height
 }
 
+function setEntities(player, npcs, enemies) {
+  entities = { player, npcs, enemies }
+}
+
 function setPossiblePaths(from, speed) {
   var leftBound = Math.max(from.x - speed, 0)
   var rightBound = Math.min(from.x + speed, width)
@@ -101,6 +113,7 @@ function setPossiblePaths(from, speed) {
   possibleHeight = lowerBound - upperBound
 
   var possible = []
+  var enemyPositions = entities.enemies.map(e => e.getPos())
 
   // TODO: combine with below for loop
   for (var y = 0; y < lowerBound - upperBound; y++) {
@@ -115,7 +128,7 @@ function setPossiblePaths(from, speed) {
   // mark non traversible positions in possible array
   for (var y = upperBound; y < lowerBound; y++) {
     for (var x = leftBound; x < rightBound; x++) {
-      if (battlefield[y][x]) {
+      if (battlefield[y][x] || enemyPositions.find(p => p.x === x && p.y === y)) {
         // mark as negative if untraversible
         possible[y - upperBound][x - leftBound] = Object.assign({}, DISABLED_CELL_VALUE)
       }
@@ -168,6 +181,7 @@ function getPossiblePath(to) {
 var battlefield 
 var width
 var height
+var entities 
 var possiblePaths
 var possibleOrigin
 var possibleBound
@@ -175,8 +189,9 @@ var possibleWidth
 var possibleHeight
 
 export default {
-  setBattlefield(map) {
+  setBattlefield(map, player, npcs, enemies) {
     setDimensions(map)
+    setEntities(player, npcs, enemies)
     transformAndSetBattlefield(map)
   },
   getShortestPath(from, to, speed) {

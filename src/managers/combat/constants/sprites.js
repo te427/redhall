@@ -12,3 +12,4 @@ export const MOVE_HIGHLIGHT = 10
 export const ATTACK_HIGHLIGHT = 11
 export const INVALID = 12
 export const VALID = 13
+export const HEALTH_BAR = 14

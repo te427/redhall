@@ -1,4 +1,6 @@
+import * as Phaser from 'phaser'
 import * as s from 'managers/combat/constants/sprites'
+
 import { TILE_SIZE } from 'constants/dimensions/game'
 import { COMBAT_SPRITE_DEPTH } from 'constants/depth'
 import { COMBAT_SPRITE_KEY } from 'constants/keys'
@@ -163,5 +165,27 @@ export default {
     cursor = scene.add.image(TILE_SIZE * pos.x, TILE_SIZE * pos.y, COMBAT_SPRITE_KEY,
         valid ? s.VALID : s.INVALID)
     cursor.setOrigin(0, 0)
+  },
+  drawHealthBar(scene, pos, healthPct) {
+    var yDiff = 4
+    var x = TILE_SIZE * pos.x
+    var y = (TILE_SIZE * (pos.y - 1)) + yDiff
+
+    var width = healthPct <= 0 ? 0 : Math.max(1, Math.floor(healthPct * 14))
+
+    var bar = scene.add.image(x, y, COMBAT_SPRITE_KEY, s.HEALTH_BAR) 
+    bar.setOrigin(0, 0)
+    bar.depth = COMBAT_SPRITE_DEPTH
+
+    var rect = new Phaser.Geom.Rectangle(x + 1, y + 6, width, 4);
+    var graphics = scene.add.graphics()
+    graphics.fillStyle(0xff0000) 
+    graphics.fillRectShape(rect)
+    graphics.depth = COMBAT_SPRITE_DEPTH
+
+    setTimeout(function() {
+      bar.destroy()
+      graphics.clear()
+    }, 1500)
   }
 }

@@ -24,7 +24,13 @@ export const FILE_ASSET_SPRITES_PLAYER = f.path(p.SPRITE_PATH, f.png('player'))
 export const FILE_ASSET_SPRITES_INGREDIENTS = f.path(p.SPRITE_PATH, f.png('ingredients'))
 export const FILE_ASSET_SPRITES_COMBAT = f.path(p.SPRITE_PATH, f.png('combat'))
 
-export const FILE_ASSET_SFX_PLAYER_FOOTSTEP = f.path(p.PLAYER_SFX_PATH, f.wav('footstep'))
+export const FILE_ASSET_SFX_PLAYER_MOVE = f.path(p.PLAYER_SFX_PATH, f.wav('move'))
+export const FILE_ASSET_SFX_PLAYER_ATTACK = f.path(p.PLAYER_SFX_PATH, f.wav('attack'))
+export const FILE_ASSET_SFX_PLAYER_HIT = f.path(p.PLAYER_SFX_PATH, f.wav('hit'))
+
+export const FILE_ASSET_SFX_ENEMY_MOVE = f.path(p.ENEMY_SFX_PATH, f.wav('move'))
+export const FILE_ASSET_SFX_ENEMY_ATTACK = f.path(p.ENEMY_SFX_PATH, f.wav('attack'))
+export const FILE_ASSET_SFX_ENEMY_HIT = f.path(p.ENEMY_SFX_PATH, f.wav('hit'))
 
 export const FILE_ASSET_FONTS_PRESS_START_16_MAP = f.path(p.FONT_PATH, f.fnt('press_start_16'))
 export const FILE_ASSET_FONTS_PRESS_START_16_IMG = f.path(p.FONT_PATH, f.png('press_start_16'))

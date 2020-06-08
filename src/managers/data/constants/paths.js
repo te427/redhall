@@ -9,6 +9,7 @@ export const MUSIC_PATH = ASSET_PATH + 'music/'
 export const SFX_PATH = ASSET_PATH + 'sfx/'
 export const NPC_SFX_PATH = SFX_PATH + 'npc/'
 export const PLAYER_SFX_PATH = SFX_PATH + 'player/'
+export const ENEMY_SFX_PATH = SFX_PATH + 'enemy/'
 
 export const SPRITE_PATH = ASSET_PATH + 'sprites/'
 export const NPC_SPRITE_PATH = SPRITE_PATH + 'npcs/'

@@ -1,4 +1,4 @@
-import { PLAYER_MOVE, PLAYER_ATTACKING, ENEMY_QUEUE } from "managers/combat/constants/phases"
+import { PLAYER_ATTACKING, ENEMY_QUEUE } from "managers/combat/constants/phases"
 
 import attack from 'managers/combat/helpers/attack'
 import sprites from 'managers/combat/helpers/sprites'

@@ -26,7 +26,9 @@ export const ITEM_LAYER_KEY = 'Tile Layer 2'
 export const MENU_LAYER_KEY = 'Tile Layer 3'
 export const WEATHER_LAYER_KEY = 'Tile Layer 4'
 
-export const PLAYER_SFX_FOOTSTEP_KEY = 'footstep'
+export const SFX_MOVE_KEY = 'move'
+export const SFX_ATTACK_KEY = 'attack'
+export const SFX_HIT_KEY = 'hit'
 
 export const TITLE_FONT_KEY = 'title_font'
 export const MENU_FONT_KEY = 'menu_font'

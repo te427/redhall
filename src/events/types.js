@@ -61,6 +61,8 @@ export const E_COMBAT_LEFT = 'eventCombatLeft'
 export const E_COMBAT_RIGHT = 'eventCombatRight'
 export const E_COMBAT_UP = 'eventCombatUp'
 export const E_COMBAT_DOWN = 'eventCombatDown'
+export const E_PLAYER_ATTACK = 'eventPlayerAttack'
+export const E_ENEMY_ATTACK = 'eventEnemyAttack'
 
 // dialogue events
 export const E_OPEN_DIALOGUE = 'eventOpenDialogue'

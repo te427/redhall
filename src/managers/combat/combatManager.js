@@ -4,6 +4,7 @@ import handler from "events/handler"
 import path from 'managers/combat/helpers/path'
 import phase from 'managers/combat/helpers/phase'
 import sprites from 'managers/combat/helpers/sprites'
+import notify from "notifications/notify"
 
 function select() {
   phase.select()
@@ -52,6 +53,8 @@ function setEnemies(newEnemies) {
 }
 
 function start() {
+  manager.notify('Entering combat!')
+
   path.setBattlefield(tileMap, player, [], enemies)
 
   var bf = {
@@ -69,6 +72,7 @@ function start() {
 
 function end() {
   sprites.reset()
+  manager.notify('Combat complete!')
 }
 
 function init(newScene) {
@@ -104,6 +108,7 @@ var enemies
 function CombatManager() {
   if (!manager) {
     manager = {
+      ...notify,
       ...handler,
       init,
       start,

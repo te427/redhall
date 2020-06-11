@@ -18,6 +18,7 @@ function hide() {
 function notify(notification) {
   panel.setVisible(true)
   text = scene.add.bitmapText(NOTIFICATION_X, NOTIFICATION_Y, MENU_FONT_KEY, notification)
+
   setTimeout(hide, NOTIFICATION_TIMEOUT)
 }
 

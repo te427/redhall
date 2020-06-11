@@ -1,5 +1,7 @@
  import { E_INTERACT, E_INIT_SPAWN, E_INIT_PLAYER, E_PLAYER_MOVE_LEFT_START, E_PLAYER_MOVE_LEFT_END, E_PLAYER_MOVE_RIGHT_START, E_PLAYER_MOVE_RIGHT_END, E_PLAYER_MOVE_UP_START, E_PLAYER_MOVE_UP_END, E_PLAYER_MOVE_DOWN_START, E_PLAYER_MOVE_DOWN_END, E_PLAYER_INTERACT_START, E_PLAYER_INTERACT_END, E_CHANGE_SCENE, E_OPEN_DIALOGUE, E_ATTACK, E_ENEMY_ATTACK } from 'events/types'
 import handler from 'events/handler'
+import notify from 'notifications/notify'
+
 import Player from 'managers/sprite/objects/player'
 
 import sprites from 'managers/combat/helpers/sprites'
@@ -56,6 +58,7 @@ function attack(a) {
   if (player.getPos().x === a.pos.x && player.getPos().y === a.pos.y) {
     player.hit(a)
     renderHealth()
+    manager.notify(`${player.getName()} hit for ${a.damage} HP!`)
   }
 }
 
@@ -71,6 +74,7 @@ var spawn
 function PlayerManager() {
   if (!manager) {
     manager = {
+      ...notify,
       ...handler,
       init(newScene) {
         scene = newScene

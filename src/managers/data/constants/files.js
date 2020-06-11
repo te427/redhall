@@ -3,6 +3,7 @@ import * as f from 'helpers/files'
 
 export const FILE_DATA_MAP_MENU_DIALOGUE = f.path(p.MENU_MAP_PATH, f.json('dialogue'))
 export const FILE_DATA_MAP_MENU_INVENTORY = f.path(p.MENU_MAP_PATH, f.json('inventory'))
+export const FILE_DATA_MAP_MENU_NOTIFICATION = f.path(p.MENU_MAP_PATH, f.json('notification'))
 
 export const FILE_DATA_MAP_WEATHER = f.path(p.WEATHER_MAP_PATH, f.json('weather'))
 

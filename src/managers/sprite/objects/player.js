@@ -3,7 +3,7 @@ import * as Phaser from 'phaser'
 import { TILE_SIZE } from 'constants/dimensions/game'
 import { DIR_DOWN, DIR_LEFT, DIR_RIGHT, DIR_UP, TYPE_PLAYER, ANIM_STAND, ANIM_DIE, ANIM_HIT } from 'managers/sprite/constants/sprites'
 import { PLAYER_KEY, SFX_MOVE_KEY, SFX_ATTACK_KEY, SFX_HIT_KEY } from 'constants/keys'
-import { VELOCITY } from 'managers/sprite/constants/player'
+import { VELOCITY, PLAYER_NAME } from 'managers/sprite/constants/player'
 import { ANIM_WALK_DOWN, ANIM_WALK_UP, ANIM_WALK_LEFT, ANIM_WALK_RIGHT, WALK_DIR_TO_ANIMATION, ATTACK_DIR_TO_ANIMATION} from 'managers/sprite/constants/sprites'
 import { CHARACTER_SPRITE_DEPTH } from 'constants/depth'
 import { PLAYER_DAMAGE, PLAYER_HEALTH } from 'managers/combat/constants/stats'
@@ -132,6 +132,9 @@ function Player (manager, newScene, pos) {
       const y = sprite.y + halfTile + (dir === DIR_DOWN ? threeQuarterTile: dir === DIR_UP ? -threeQuarterTile: 0)
 
       return { x, y }
+    },
+    getName() {
+      return PLAYER_NAME
     },
     getSprite() {
       return sprite

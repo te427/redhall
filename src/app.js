@@ -22,6 +22,7 @@ import GameScene from 'scenes/game'
 import LoadingScene from 'scenes/loading'
 import WeatherScene from 'scenes/weather'
 import CombatScene from 'scenes/combat'
+import UiScene from 'scenes/ui'
 
 import CameraManager from 'managers/game/cameraManager'
 import CellManager from 'managers/cell/cellManager'
@@ -38,6 +39,7 @@ import ItemManager from 'managers/cell/itemManager'
 import KeyManager from 'managers/game/keyManager'
 import LoadManager from 'managers/data/loadManager'
 import MusicManager from 'managers/sound/musicManager'
+import NotificationManager from 'managers/ui/notificationManager'
 import NPCManager from 'managers/sprite/npcManager'
 import PlayerManager from 'managers/sprite/playerManager'
 import SceneManager from 'managers/game/sceneManager'
@@ -75,8 +77,8 @@ function initConfig() {
       GameScene,
       WeatherScene, 
       // DayNightScene,
-      // UiScene,
       CombatScene,
+      UiScene,
       DialogueScene,
       InventoryScene
       // MenuScene,
@@ -103,6 +105,7 @@ function initManagers(game) {
     loading: LoadManager(),
     menus: null, // TODO
     music: MusicManager(),
+    notifications: NotificationManager(),
     npcs: NPCManager(),
     player: PlayerManager(),
     scene: SceneManager(),

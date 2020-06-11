@@ -28,6 +28,7 @@ navigate to [localhost:8085](http://localhost:8085) when the server is running.
 - clean up dialogue manager into common, finer tuned methods
 - add notifications to the UI (i.e. on item pickup)
 - add sfx to picking items
+- add interiors
 - add music state to track if tracks should change or continue
 - fix inventory item count offset when greater than 1 digit
 - create an interrupt dialogue box (linear dialogue box w no options other than proceed/end)

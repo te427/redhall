@@ -21,10 +21,12 @@ module.exports = {
     extensions: ['.js' ],
     alias: {
       constants: path.resolve(__dirname, 'src/constants/'),
-      events: path.resolve  (__dirname, 'src/events/'),
+      events: path.resolve  (__dirname, 'src/mixins/events/'),
       helpers: path.resolve  (__dirname, 'src/helpers/'),
       managers: path.resolve(__dirname, 'src/managers/'),
-      scenes: path.resolve(__dirname, 'src/scenes/')
+      notifications: path.resolve  (__dirname, 'src/mixins/notifications/'),
+      scenes: path.resolve(__dirname, 'src/scenes/'),
+      state: path.resolve  (__dirname, 'src/mixins/state/'),
     }
   },
   output: {

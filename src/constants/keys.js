@@ -14,6 +14,7 @@ export const INVENTORY_KEY = 'inventory'
 export const SFX_KEY = 'sfx'
 export const SPRITE_KEY = 'sprite'
 export const WEATHER_KEY = 'weather'
+export const NOTIFICATION_KEY = 'notification'
 
 export const WEATHER_TILE_KEY = 'weather'
 

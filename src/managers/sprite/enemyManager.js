@@ -4,6 +4,8 @@ import handler from "events/handler"
 import Enemy from "managers/sprite/objects/enemy"
 import { TILE_SIZE } from "constants/dimensions/game"
 
+import notify from "notifications/notify"
+
 import sprites from 'managers/combat/helpers/sprites'
 
 function setEnemies(cell) {
@@ -27,6 +29,10 @@ function attack(a) {
   if (target && !target.isDead()) {
     target.hit(a)
     renderHealth(target)
+    manager.notify(`${target.getName()} hit for ${a.damage} HP!`)
+    if (target.isDead()) {
+      manager.notify(`${target.getName()} has fallen!`)
+    }
   } else {
     a.cb()
   }
@@ -47,6 +53,7 @@ var healthBars
 function EnemyManager() {
   if (!manager) {
     manager = {
+      ...notify,
       ...handler,
       init(newScene) {
         scene = newScene

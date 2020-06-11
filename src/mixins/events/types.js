@@ -100,3 +100,6 @@ export const E_RESTART_MUSIC = 'eventRestartMusic'
 
 // camera events
 export const E_CAMERA_FOLLOW = 'eventCameraFollow'
+
+// notification events
+export const E_NOTIFY = 'eventNotify'

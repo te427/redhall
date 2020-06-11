@@ -129,6 +129,9 @@ function Enemy(manager, newScene, enemyData) {
       sfx.attack = scene.sound.add(enemySFXKey(data, SFX_ATTACK_KEY))
       sfx.hit = scene.sound.add(enemySFXKey(data, SFX_HIT_KEY))
     },
+    getName() {
+      return data.name
+    },
     getSprite() {
       return sprite
     },

@@ -209,6 +209,10 @@ function Player (manager, newScene, pos) {
     },
     halt() {
       try {
+        xDir = null
+        yDir = null
+        sprite.setVelocity(0, 0)
+        moving = false
         sprite.anims.restart()
         sprite.anims.stop()
         sfx.move.once('looped', () => sfx.move.stop())

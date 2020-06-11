@@ -53,8 +53,6 @@ function setEnemies(newEnemies) {
 }
 
 function start() {
-  manager.notify('Entering combat!')
-
   path.setBattlefield(tileMap, player, [], enemies)
 
   var bf = {

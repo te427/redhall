@@ -6,6 +6,7 @@ import { INVENTORY_KEY, MENU_LAYER_KEY, MENU_TILE_KEY, TITLE_FONT_KEY, INGREDIEN
 import { E_ADD_TO_INVENTORY, E_NAV_DOWN, E_NAV_UP, E_NAV_LEFT, E_NAV_RIGHT } from "events/types"
 
 import handler from "events/handler"
+import notify from "notifications/notify"
 
 function drawTypeSelectionBox(thickness, color) {
   typeGraphics.clear()
@@ -141,6 +142,8 @@ function addToInventory(item) {
 
     inventory[type][name] = { count: 1, item }
   }
+
+  manager.notify(`Added ${name} to inventory!`)
 }
 
 function navDown() {
@@ -244,6 +247,7 @@ var counts = []
 function InventoryManager() {
   if (!manager) {
     manager = {
+      ...notify,
       ...handler,
       init(newScene) {
         scene = newScene

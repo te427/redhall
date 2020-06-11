@@ -7,6 +7,7 @@ import { TILE_SIZE } from "constants/dimensions/game"
 import notify from "notifications/notify"
 
 import sprites from 'managers/combat/helpers/sprites'
+import { PLAYER_NAME } from "./constants/player"
 
 function setEnemies(cell) {
   data = cell.enemies
@@ -31,7 +32,7 @@ function attack(a) {
     renderHealth(target)
     manager.notify(`${target.getName()} hit for ${a.damage} HP!`)
     if (target.isDead()) {
-      manager.notify(`${target.getName()} has fallen!`)
+      manager.notify(`${target.getName()} has been defeated!`)
     }
   } else {
     a.cb()
@@ -48,7 +49,6 @@ var data
 var enemies
 var player
 var inCombat
-var healthBars
 
 function EnemyManager() {
   if (!manager) {
@@ -57,22 +57,28 @@ function EnemyManager() {
       ...handler,
       init(newScene) {
         scene = newScene
-        if (data) {
-          enemies = data.map(e => (new Enemy(manager, newScene, e)))
-
-          this.emit(E_INIT_ENEMIES, enemies)
-        }
+        enemies = data ? data.map(e => (new Enemy(manager, newScene, e))) : []
+        
+        this.emit(E_INIT_ENEMIES, enemies)
       },
       scan() {
         if (!inCombat && enemies) {
           var playerSprite = player.getSprite()
-          enemies.map(e => e.getSprite()).forEach(function(enemy) {
+          enemies.forEach(function(e) {
+            if (e.isDead()) return
+
+            var enemy = e.getSprite()
+
             var x = Math.abs(enemy.x - playerSprite.x)
             var y = Math.abs(enemy.y - playerSprite.y)
 
             // make a disableCombat command?
-            if (x < 3 * TILE_SIZE && y < 3 * TILE_SIZE) {
-              console.log('starting combat')
+            if (x < 3 * TILE_SIZE && y < 3 * TILE_SIZE ) {
+              manager.notify([
+                `${e.getName()} has spotted ${PLAYER_NAME}!`,
+                'Prepare to fight!'
+              ])
+              manager.emit(E_START_COMBAT)
             }
           })
         }

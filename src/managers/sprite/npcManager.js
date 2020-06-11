@@ -23,7 +23,7 @@ function NPCManager() {
     manager = {
       ...handler,
       init(scene) {
-        npcs = npcs.map(c => (new NPC(scene, c)))
+        npcs = npcs ? npcs.map(c => (new NPC(scene, c))) : []
 
         this.emit(E_INIT_NPCS, npcs)
       }

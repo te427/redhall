@@ -23,11 +23,11 @@ function notify(notification) {
 }
 
 function enqueue(notification) {
+  queue = queue.concat(notification)
+
   if (!showing) {
     showing = true
-    notify(notification)
-  } else {
-    queue.push(notification)
+    notify(queue.shift())
   }
 }
 
